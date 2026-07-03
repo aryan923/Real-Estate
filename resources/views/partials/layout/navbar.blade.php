@@ -1,5 +1,5 @@
 <nav class="flex items-center justify-between rounded-xl border border-white/20 bg-white/8 px-4 py-3.5 text-white backdrop-blur-sm sm:px-5 lg:px-7">
-    <a href="#" class="flex items-center gap-3">
+    <a href="{{ route('home') }}" class="flex items-center gap-3">
         <span class="inline-flex h-11 w-11 items-center justify-center rounded-md border border-white/30 bg-gradient-to-br from-[#2a8def] to-[#0f2f54] text-sm font-extrabold text-white">RS</span>
         <span class="text-[1.45rem] font-extrabold tracking-[0.01em] sm:text-[1.6rem]">RealScape</span>
     </a>
@@ -11,7 +11,8 @@
     </button>
 
     <div id="menu-panel" class="hidden items-center gap-7 lg:flex">
-        <a href="#latest" class="text-[15px] font-bold text-white/95 hover:text-white">Home</a>
+        <a href="{{ route('home') }}" class="text-[15px] font-bold text-white/95 hover:text-white">Home</a>
+        <a href="{{ route('properties') }}" class="text-[15px] font-semibold text-white/95 hover:text-white">Properties</a>
         <a href="#category" class="text-[15px] font-semibold text-white/95 hover:text-white">Demos</a>
         <a href="#latest" class="text-[15px] font-semibold text-white/95 hover:text-white">Lists</a>
         <a href="#agents" class="text-[15px] font-semibold text-white/95 hover:text-white">Property</a>
