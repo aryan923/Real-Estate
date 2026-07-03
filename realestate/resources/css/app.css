@@ -1,0 +1,106 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Fraunces', ui-serif, Georgia, serif;
+    --color-ink-900: #0f2743;
+    --color-ink-700: #244d72;
+    --color-sky-100: #eaf5ff;
+    --color-sky-200: #d4e9ff;
+    --color-sky-500: #2394ff;
+    --color-sky-700: #0f6ac5;
+    --color-sand-100: #f4f0e9;
+    --color-sand-300: #e8dcc9;
+    --color-lime-500: #62c370;
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: var(--font-sans);
+        @apply bg-slate-50 text-slate-700;
+        letter-spacing: -0.01em;
+        font-size: 16px;
+        line-height: 1.65;
+    }
+}
+
+@layer utilities {
+    .hero-overlay {
+        background: linear-gradient(110deg, rgb(11 33 54 / 88%), rgb(16 74 123 / 58%));
+    }
+
+    .glass-panel {
+        background: rgb(255 255 255 / 92%);
+        backdrop-filter: blur(8px);
+    }
+
+    .section-shell {
+        @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+    }
+
+    .heading-display {
+        font-family: var(--font-sans);
+        letter-spacing: -0.018em;
+        font-weight: 800;
+        line-height: 1.12;
+    }
+
+    .section-title {
+        @apply text-[1.9rem] font-extrabold text-[#1e2c45] sm:text-[2.2rem];
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+    }
+
+    .section-copy {
+        @apply text-[15.5px] leading-7 text-[#5f6f8c] sm:text-base;
+    }
+
+    .mesh-bg {
+        background-image:
+            radial-gradient(circle at 15% 20%, rgb(35 148 255 / 22%), transparent 45%),
+            radial-gradient(circle at 85% 10%, rgb(98 195 112 / 20%), transparent 35%),
+            linear-gradient(180deg, #f9fcff 0%, #eef5fc 100%);
+    }
+
+    .stagger-in {
+        animation: rise-in 0.7s ease forwards;
+        opacity: 0;
+    }
+
+    .delay-1 {
+        animation-delay: 0.1s;
+    }
+
+    .delay-2 {
+        animation-delay: 0.2s;
+    }
+
+    .delay-3 {
+        animation-delay: 0.3s;
+    }
+
+    .delay-4 {
+        animation-delay: 0.4s;
+    }
+}
+
+@keyframes rise-in {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
