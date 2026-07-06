@@ -169,15 +169,15 @@
         <div class="properties-listing-layout">
             <aside class="space-y-5 properties-sidebar">
                 @foreach ($sidebarSections as $section)
-                    <div class="rounded bg-[#ececec] p-5">
-                        <button type="button" class="properties-accordion-toggle flex w-full items-center justify-between gap-4 text-left" aria-expanded="{{ $loop->first ? 'true' : 'false' }}">
+                    <details class="group rounded bg-[#ececec] p-5" open>
+                        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-left [&::-webkit-details-marker]:hidden">
                             <h3 class="text-[22px] font-semibold tracking-[-0.02em] text-[#1f2a44]">{{ $section['title'] }}</h3>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="properties-accordion-icon h-5 w-5 shrink-0 text-slate-500 transition-transform {{ $loop->first ? 'rotate-180' : '' }}" viewBox="0 0 20 20" fill="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0 text-slate-500 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.12l3.71-3.9a.75.75 0 111.08 1.04l-4.25 4.47a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
                             </svg>
-                        </button>
+                        </summary>
 
-                        <div class="properties-accordion-panel {{ $loop->first ? '' : 'hidden' }}">
+                        <div>
                         <ul class="mt-4 divide-y divide-slate-300/70 text-sm">
                             @foreach ($section['items'] as $item)
                                 <li class="flex items-center justify-between py-3 text-slate-700">
@@ -187,7 +187,7 @@
                             @endforeach
                         </ul>
                         </div>
-                    </div>
+                    </details>
                 @endforeach
             </aside>
 
@@ -255,11 +255,11 @@
                         </div>
 
                         <div class="p-4 property-listing-content">
-                            <h3 class="text-[24px] font-semibold leading-tight tracking-[-0.02em] text-[#1f2a44]"><a href="{{ route('property-detail') }}" class="hover:text-[#1e73be]">{{ $property['title'] }}</a></h3>
-                            <p class="mt-1 text-[24px] font-bold leading-none text-[#1e73be]">{{ $property['priceText'] }}</p>
-                            <p class="mt-3 text-[15px] leading-7 text-slate-600">{{ $property['description'] }}</p>
+                            <h3 class="property-card-title"><a href="{{ route('property-detail') }}" class="hover:text-[#1e73be]">{{ $property['title'] }}</a></h3>
+                            <p class="property-card-price mt-1">{{ $property['priceText'] }}</p>
+                            <p class="property-card-copy mt-3">{{ $property['description'] }}</p>
 
-                            <div class="mt-4 flex items-center gap-4 border-b border-slate-200 pb-3 text-sm text-slate-500">
+                            <div class="property-card-meta mt-4 flex items-center gap-4 border-b border-slate-200 pb-3">
                                 <span class="inline-flex items-center gap-1.5">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M4 7a3 3 0 013-3h10a3 3 0 013 3v9h1a1 1 0 110 2H3a1 1 0 110-2h1V7zm2 9h12V7a1 1 0 00-1-1H7a1 1 0 00-1 1v9z"/></svg>
                                     {{ $property['metaBeds'] }}
@@ -277,7 +277,7 @@
                             <div class="mt-3 flex items-center justify-between">
                                 <div class="flex items-center gap-2.5">
                                     <img src="{{ $property['agentAvatar'] }}" alt="{{ $property['agent'] }}" class="h-7 w-7 rounded-full object-cover">
-                                    <span class="text-sm font-medium text-slate-700">{{ $property['agent'] }}</span>
+                                    <span class="property-card-agent">{{ $property['agent'] }}</span>
                                 </div>
                                 <div class="flex items-center gap-1.5 text-slate-400">
                                     <button type="button" class="inline-flex h-7 w-7 items-center justify-center rounded border border-slate-200 hover:text-slate-600" aria-label="Share">

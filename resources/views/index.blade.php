@@ -12,7 +12,9 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="bg-[#f3f7fc] text-slate-700">
-        <header class="relative isolate overflow-visible bg-[#0f355e]">
+        @include('partials.layout.sticky-header')
+
+        <header class="relative isolate overflow-visible bg-[#0f355e]" data-sticky-trigger>
             <img src="{{ asset('images/hero-home.webp') }}" alt="Hero home" class="absolute inset-0 h-full w-full object-cover" onerror="this.style.display='none'">
             <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(12,46,78,0.74)_0%,rgba(11,47,79,0.84)_52%,rgba(9,39,66,0.9)_100%)]"></div>
 
@@ -49,13 +51,11 @@
 
                     <div id="menu-panel" class="hidden items-center gap-7 lg:flex">
                         <a href="{{ route('home') }}" class="text-[15px] font-bold text-white/95 hover:text-white">Home</a>
+                        <a href="{{ route('about-us') }}" class="text-[15px] font-semibold text-white/95 hover:text-white">About Us</a>
                         <a href="{{ route('properties') }}" class="text-[15px] font-semibold text-white/95 hover:text-white">Properties</a>
-                        <a href="#category" class="text-[15px] font-semibold text-white/95 hover:text-white">Demos</a>
-                        <a href="#latest" class="text-[15px] font-semibold text-white/95 hover:text-white">Lists</a>
-                        <a href="#agents" class="text-[15px] font-semibold text-white/95 hover:text-white">Property</a>
-                        <a href="#testimonials" class="text-[15px] font-semibold text-white/95 hover:text-white">Pages</a>
-                        <span class="hidden items-center gap-2 border-l border-white/20 pl-6 text-[14px] font-semibold xl:inline-flex">☎ 800-555-6789</span>
-                        <a href="#contact" class="rounded-lg bg-[#0f6fcb] px-5 py-2.5 text-[14px] font-bold text-white shadow-[0_10px_24px_rgba(15,111,203,0.35)] transition hover:bg-[#0c5eac]">Add Listing</a>
+                        <a href="{{ route('agents') }}" class="text-[15px] font-semibold text-white/95 hover:text-white">Agent</a>
+                        <a href="{{ route('blog') }}" class="text-[15px] font-semibold text-white/95 hover:text-white">Blog</a>
+                        <a href="{{ route('contact-us') }}" class="text-[15px] font-semibold text-white/95 hover:text-white">Contact Us</a>
                     </div>
                 </nav>
 
@@ -213,10 +213,10 @@
                                     <span class="rounded bg-blue-500 px-2 py-1">Video</span>
                                 </div>
                             </div>
-                            <h3 class="mt-4 text-lg font-semibold text-slate-900">Luxury House in Greenville</h3>
-                            <p class="mt-1 text-sm font-semibold text-blue-600">$660,000</p>
-                            <p class="mt-2 text-sm leading-6 text-slate-500">This property is neatly assigned and is just high on a hilltop overlooking the Morning Rose Valley.</p>
-                            <p class="mt-3 text-sm text-slate-400">Greenville, New York</p>
+                            <h3 class="property-card-title mt-4">Luxury House in Greenville</h3>
+                            <p class="property-card-price mt-1">$660,000</p>
+                            <p class="property-card-copy mt-2">This property is neatly assigned and is just high on a hilltop overlooking the Morning Rose Valley.</p>
+                            <p class="property-card-meta mt-3">Greenville, New York</p>
                         </div>
                     </article>
 
@@ -230,10 +230,10 @@
                                     <span class="rounded bg-blue-500 px-2 py-1">Home</span>
                                 </div>
                             </div>
-                            <h3 class="mt-4 text-lg font-semibold text-slate-900">Modern Condo for Sale</h3>
-                            <p class="mt-1 text-sm font-semibold text-blue-600">$150,000</p>
-                            <p class="mt-2 text-sm leading-6 text-slate-500">Beautiful, updated, grand loft condo apartment in the beautiful city of New York.</p>
-                            <p class="mt-3 text-sm text-slate-400">Manhattan, New York</p>
+                            <h3 class="property-card-title mt-4">Modern Condo for Sale</h3>
+                            <p class="property-card-price mt-1">$150,000</p>
+                            <p class="property-card-copy mt-2">Beautiful, updated, grand loft condo apartment in the beautiful city of New York.</p>
+                            <p class="property-card-meta mt-3">Manhattan, New York</p>
                         </div>
                     </article>
 
@@ -247,10 +247,10 @@
                                     <span class="rounded bg-blue-500 px-2 py-1">Video</span>
                                 </div>
                             </div>
-                            <h3 class="mt-4 text-lg font-semibold text-slate-900">Apartment with Subunits</h3>
-                            <p class="mt-1 text-sm font-semibold text-blue-600">$999 / month</p>
-                            <p class="mt-2 text-sm leading-6 text-slate-500">Streamlined international corporations are an additional option to increase sales in the area.</p>
-                            <p class="mt-3 text-sm text-slate-400">Bayonne, Jersey City</p>
+                            <h3 class="property-card-title mt-4">Apartment with Subunits</h3>
+                            <p class="property-card-price mt-1">$999 / month</p>
+                            <p class="property-card-copy mt-2">Streamlined international corporations are an additional option to increase sales in the area.</p>
+                            <p class="property-card-meta mt-3">Bayonne, Jersey City</p>
                         </div>
                     </article>
 
@@ -264,10 +264,10 @@
                                     <span class="rounded bg-blue-500 px-2 py-1">Rent</span>
                                 </div>
                             </div>
-                            <h3 class="mt-4 text-lg font-semibold text-slate-900">Three Room Apartment</h3>
-                            <p class="mt-1 text-sm font-semibold text-blue-600">$550,000</p>
-                            <p class="mt-2 text-sm leading-6 text-slate-500">Beautiful, huge 1 family home in heart of Westbury, nicely placed with modern details.</p>
-                            <p class="mt-3 text-sm text-slate-400">Westbury, New York</p>
+                            <h3 class="property-card-title mt-4">Three Room Apartment</h3>
+                            <p class="property-card-price mt-1">$550,000</p>
+                            <p class="property-card-copy mt-2">Beautiful, huge 1 family home in heart of Westbury, nicely placed with modern details.</p>
+                            <p class="property-card-meta mt-3">Westbury, New York</p>
                         </div>
                     </article>
 
@@ -281,10 +281,10 @@
                                     <span class="rounded bg-blue-500 px-2 py-1">Video</span>
                                 </div>
                             </div>
-                            <h3 class="mt-4 text-lg font-semibold text-slate-900">Suburb Home for Sale</h3>
-                            <p class="mt-1 text-sm font-semibold text-blue-600">$1,000,000</p>
-                            <p class="mt-2 text-sm leading-6 text-slate-500">Beautiful, 1900ft, newly built 3000 sq ft building that could be used as a great investment.</p>
-                            <p class="mt-3 text-sm text-slate-400">Long Island, New York</p>
+                            <h3 class="property-card-title mt-4">Suburb Home for Sale</h3>
+                            <p class="property-card-price mt-1">$1,000,000</p>
+                            <p class="property-card-copy mt-2">Beautiful, 1900ft, newly built 3000 sq ft building that could be used as a great investment.</p>
+                            <p class="property-card-meta mt-3">Long Island, New York</p>
                         </div>
                     </article>
 
@@ -298,10 +298,10 @@
                                     <span class="rounded bg-blue-500 px-2 py-1">Video</span>
                                 </div>
                             </div>
-                            <h3 class="mt-4 text-lg font-semibold text-slate-900">Gorgeous Home for Sale in Jersey</h3>
-                            <p class="mt-1 text-sm font-semibold text-blue-600">$770,000</p>
-                            <p class="mt-2 text-sm leading-6 text-slate-500">This property is neatly assigned and sits high on a hilltop overlooking the Morning Rose Valley.</p>
-                            <p class="mt-3 text-sm text-slate-400">Jersey City, New Jersey</p>
+                            <h3 class="property-card-title mt-4">Gorgeous Home for Sale in Jersey</h3>
+                            <p class="property-card-price mt-1">$770,000</p>
+                            <p class="property-card-copy mt-2">This property is neatly assigned and sits high on a hilltop overlooking the Morning Rose Valley.</p>
+                            <p class="property-card-meta mt-3">Jersey City, New Jersey</p>
                         </div>
                     </article>
                 </div>

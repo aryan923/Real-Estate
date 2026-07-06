@@ -1,4 +1,6 @@
-<div class="relative z-20 border-b border-white/20 bg-[#0c355b]/35">
+@php($solidHeader = $solidHeader ?? false)
+
+<div class="relative z-20 border-b {{ $solidHeader ? 'border-[#b8c7d6] bg-[#7f95ab]' : 'border-white/20 bg-[#0c355b]/35' }}">
     <div class="section-shell hidden h-10 items-center justify-between text-[11px] font-semibold uppercase tracking-[0.05em] text-white/90 lg:flex">
         <div class="flex items-stretch border-l border-r border-white/18">
             <span class="inline-flex h-10 w-10 items-center justify-center border-r border-white/18">f</span>

@@ -6,7 +6,7 @@
     </div>
 </header>
 
-<section class="relative bg-[#f3f5f7]">
+<section class="relative bg-[#f3f5f7]" data-sticky-trigger>
     <div class="relative h-[300px] overflow-hidden border-t border-slate-200 sm:h-[360px]">
         <iframe
             title="Properties map"

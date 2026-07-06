@@ -160,16 +160,36 @@ $(function () {
 	if ($propertiesAccordionToggles.length) {
 		$propertiesAccordionToggles.on('click', function () {
 			const $toggle = $(this);
-			const $section = $toggle.closest('div.rounded');
-			const $panel = $section.find('.properties-accordion-panel').first();
+			const $panel = $toggle.next('.properties-accordion-panel');
 			const $icon = $toggle.find('.properties-accordion-icon');
+
+			if (!$panel.length) {
+				return;
+			}
+
 			const isOpen = !$panel.hasClass('hidden');
 
-			$propertiesAccordionToggles.each(function () {
+			$panel.toggleClass('hidden', isOpen);
+			$toggle.attr('aria-expanded', isOpen ? 'false' : 'true');
+			$icon.toggleClass('rotate-180', !isOpen);
+		});
+	}
+
+	const $propertyInfoAccordionToggles = $('[data-property-accordion-toggle]');
+
+	if ($propertyInfoAccordionToggles.length) {
+		$propertyInfoAccordionToggles.on('click', function () {
+			const $toggle = $(this);
+			const panelId = $toggle.attr('aria-controls');
+			const $panel = panelId ? $(`#${panelId}`) : $();
+			const $icon = $toggle.find('.property-info-accordion-icon');
+			const isOpen = !$panel.hasClass('hidden');
+
+			$propertyInfoAccordionToggles.each(function () {
 				const $otherToggle = $(this);
-				const $otherSection = $otherToggle.closest('div.rounded');
-				const $otherPanel = $otherSection.find('.properties-accordion-panel').first();
-				const $otherIcon = $otherToggle.find('.properties-accordion-icon');
+				const otherPanelId = $otherToggle.attr('aria-controls');
+				const $otherPanel = otherPanelId ? $(`#${otherPanelId}`) : $();
+				const $otherIcon = $otherToggle.find('.property-info-accordion-icon');
 
 				$otherPanel.addClass('hidden');
 				$otherToggle.attr('aria-expanded', 'false');
@@ -184,8 +204,66 @@ $(function () {
 		});
 	}
 
+	const $stickyHeader = $('[data-sticky-header]');
+	const $stickyTrigger = $('[data-sticky-trigger]').first();
+
+	if ($stickyHeader.length && $stickyTrigger.length) {
+		const syncStickyHeader = function () {
+			const triggerBottom = $stickyTrigger.offset().top + $stickyTrigger.outerHeight();
+			const isVisible = $(window).scrollTop() > triggerBottom;
+			$stickyHeader.toggleClass('is-visible', isVisible);
+		};
+
+		$(window).on('scroll resize', syncStickyHeader);
+		syncStickyHeader();
+	}
+
 	const $mapIntentTabs = $('[data-map-intent-tab]');
 	const $mapForms = $('[data-map-form]');
+	const $aboutFaq = $('[data-about-faq]');
+
+	if ($aboutFaq.length) {
+		const $aboutFaqItems = $aboutFaq.find('[data-about-faq-item]');
+		const $aboutFaqSummaries = $aboutFaqItems.children('summary');
+
+		$aboutFaqSummaries.on('click', function (event) {
+			event.preventDefault();
+			const $item = $(this).parent('[data-about-faq-item]');
+			const shouldOpen = !$item.prop('open');
+
+			$aboutFaqItems.prop('open', false);
+			$item.prop('open', shouldOpen);
+		});
+	}
+
+	const $sidebarTabs = $('[data-sidebar-tab]');
+	const $sidebarPanels = $('[data-sidebar-panel]');
+
+	const setSidebarPanel = function (panel) {
+		if (!$sidebarTabs.length || !$sidebarPanels.length) {
+			return;
+		}
+
+		const safePanel = panel === 'tour' ? 'tour' : 'request';
+		$sidebarPanels.addClass('hidden');
+		$sidebarPanels.filter(`[data-sidebar-panel="${safePanel}"]`).removeClass('hidden');
+
+		$sidebarTabs.each(function () {
+			const $tab = $(this);
+			const isActive = $tab.data('sidebarTab') === safePanel;
+			$tab.toggleClass('border-b-2 border-[#1e73be] text-[#1f2a44]', isActive);
+			$tab.toggleClass('text-slate-500', !isActive);
+			$tab.attr('aria-pressed', isActive ? 'true' : 'false');
+		});
+	};
+
+	if ($sidebarTabs.length && $sidebarPanels.length) {
+		$sidebarTabs.on('click', function () {
+			setSidebarPanel($(this).data('sidebarTab'));
+		});
+
+		setSidebarPanel($sidebarTabs.filter('[aria-pressed="true"]').data('sidebarTab') || 'request');
+	}
 
 	const setMapIntent = function (intent) {
 		if (!$mapIntentTabs.length || !$mapForms.length) {
@@ -216,6 +294,52 @@ $(function () {
 	const $propertyThumbs = $('.property-thumb');
 	const $propertyPrev = $('#property-prev');
 	const $propertyNext = $('#property-next');
+	const $agentListingsSection = $('[data-agent-listings-section]');
+
+	if ($agentListingsSection.length) {
+		const $agentListingTabs = $agentListingsSection.find('[data-agent-listings-tab]');
+		const $agentListingCards = $agentListingsSection.find('[data-agent-listing-card]');
+		const $agentLoadMore = $agentListingsSection.find('[data-agent-load-more]');
+		const batchSize = 3;
+		let activeCategory = 'all';
+		let visibleCount = batchSize;
+
+		const syncAgentListings = function () {
+			const $filteredCards = $agentListingCards.filter(function () {
+				const category = String($(this).data('listingCategory'));
+				return activeCategory === 'all' || category === activeCategory;
+			});
+
+			$agentListingCards.addClass('hidden');
+			$filteredCards.each(function (index) {
+				$(this).toggleClass('hidden', index >= visibleCount);
+			});
+
+			if ($agentLoadMore.length) {
+				$agentLoadMore.toggleClass('hidden', $filteredCards.length <= visibleCount);
+			}
+
+			$agentListingTabs.each(function () {
+				const $tab = $(this);
+				const isActive = String($tab.data('agentListingsTab')) === activeCategory;
+				$tab.toggleClass('bg-[#1e73be] text-white', isActive);
+				$tab.toggleClass('bg-transparent text-[#1f2a44] hover:bg-[#e9eef4]', !isActive);
+			});
+		};
+
+		$agentListingTabs.on('click', function () {
+			activeCategory = String($(this).data('agentListingsTab') || 'all');
+			visibleCount = batchSize;
+			syncAgentListings();
+		});
+
+		$agentLoadMore.on('click', function () {
+			visibleCount += batchSize;
+			syncAgentListings();
+		});
+
+		syncAgentListings();
+	}
 
 	if ($mainPropertyImage.length && $propertyThumbs.length) {
 		let activeIndex = $propertyThumbs.index($propertyThumbs.filter('.is-active'));

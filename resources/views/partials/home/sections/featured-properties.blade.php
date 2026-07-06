@@ -19,14 +19,14 @@
                         <img src="https://images.unsplash.com/photo-1545167622-3a6ac756afa4?auto=format&fit=crop&w=120&q=80" alt="Agent" class="absolute bottom-3 left-3 h-12 w-12 rounded-full border-2 border-white object-cover shadow-sm">
                     </div>
                     <div class="flex flex-col p-6">
-                        <h3 class="text-xl font-semibold tracking-[-0.012em] text-[#1f2a44] sm:text-2xl">Villa on Washington Avenue</h3>
-                        <p class="mt-3 text-3xl font-semibold text-blue-600">$150,000</p>
-                        <p class="mt-4 text-[15px] leading-7 text-[#5f6f8c] sm:text-base">Beautiful, updated, ground level co-op apartment in the desirable Bay area with premium features.</p>
+                        <h3 class="property-card-title">Villa on Washington Avenue</h3>
+                        <p class="property-card-price mt-3">$150,000</p>
+                        <p class="property-card-copy mt-4">Beautiful, updated, ground level co-op apartment in the desirable Bay area with premium features.</p>
                         <div class="mt-5 flex gap-2">
                             <span class="rounded border border-slate-200 px-3 py-2 text-slate-400">⇄</span>
                             <span class="rounded border border-slate-200 px-3 py-2 text-blue-600">♥</span>
                         </div>
-                        <div class="mt-auto border-t border-slate-200 pt-5 text-sm text-slate-500">
+                        <div class="property-card-meta mt-auto border-t border-slate-200 pt-5">
                             <div class="flex items-center gap-5">
                                 <span>5</span>
                                 <span>3</span>
@@ -47,14 +47,14 @@
                         <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80" alt="Agent" class="absolute bottom-3 left-3 h-12 w-12 rounded-full border-2 border-white object-cover shadow-sm">
                     </div>
                     <div class="flex flex-col p-6">
-                        <h3 class="text-xl font-semibold tracking-[-0.012em] text-[#1f2a44] sm:text-2xl">Luxury villa in Rego Park</h3>
-                        <p class="mt-3 text-3xl font-semibold text-blue-600">$420,000</p>
-                        <p class="mt-4 text-[15px] leading-7 text-[#5f6f8c] sm:text-base">Just steps away from QM2 express bus to Manhattan and local buses; close to parks and schools.</p>
+                        <h3 class="property-card-title">Luxury villa in Rego Park</h3>
+                        <p class="property-card-price mt-3">$420,000</p>
+                        <p class="property-card-copy mt-4">Just steps away from QM2 express bus to Manhattan and local buses; close to parks and schools.</p>
                         <div class="mt-5 flex gap-2">
                             <span class="rounded border border-slate-200 px-3 py-2 text-slate-400">⇄</span>
                             <span class="rounded border border-slate-200 px-3 py-2 text-slate-400">♡</span>
                         </div>
-                        <div class="mt-auto border-t border-slate-200 pt-5 text-sm text-slate-500">
+                        <div class="property-card-meta mt-auto border-t border-slate-200 pt-5">
                             <div class="flex items-center gap-5">
                                 <span>3</span>
                                 <span>2</span>

@@ -11,9 +11,9 @@
                 <span class="rounded bg-blue-500 px-2 py-1">{{ $badgeTwo }}</span>
             </div>
         </div>
-        <h3 class="mt-4 text-[24px] font-semibold leading-tight tracking-[-0.02em] text-[#1f2a44]"><a href="{{ route('property-detail') }}" class="hover:text-[#1e73be]">{{ $title }}</a></h3>
-        <p class="mt-1 text-[24px] font-bold leading-none text-[#1e73be]">{{ $priceText }}</p>
-        <p class="mt-3 text-[15px] leading-7 text-slate-600">{{ $description }}</p>
-        <p class="mt-3 text-sm text-slate-400">{{ $location }}</p>
+        <h3 class="property-card-title mt-4"><a href="{{ route('property-detail') }}" class="hover:text-[#1e73be]">{{ $title }}</a></h3>
+        <p class="property-card-price mt-1">{{ $priceText }}</p>
+        <p class="property-card-copy mt-3">{{ $description }}</p>
+        <p class="property-card-meta mt-3">{{ $location }}</p>
     </div>
 </article>

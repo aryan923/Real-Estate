@@ -13,6 +13,7 @@
         @stack('styles')
     </head>
     <body class="bg-[#f3f7fc] text-slate-700">
+        @include('partials.layout.sticky-header')
         @yield('content')
         @stack('scripts')
     </body>

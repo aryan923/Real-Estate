@@ -55,7 +55,7 @@
     }
 
     .section-title {
-        @apply text-[1.9rem] font-extrabold text-[#1e2c45] sm:text-[2.2rem];
+        @apply text-[1.4rem] font-extrabold text-[#1e2c45] sm:text-[1.6rem];
         letter-spacing: -0.02em;
         line-height: 1.2;
     }
@@ -112,6 +112,60 @@
     .properties-view-btn.is-active {
         border-color: #1e73be;
         color: #1e73be;
+    }
+
+    .property-card-title {
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        color: #1f2a44;
+    }
+
+    .property-card-price {
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 1;
+        color: #1e73be;
+    }
+
+    .property-card-copy {
+        font-size: 14px;
+        line-height: 1.75;
+        color: #475569;
+    }
+
+    .property-card-meta {
+        font-size: 14px;
+        color: #64748b;
+    }
+
+    .property-card-agent {
+        font-size: 14px;
+        font-weight: 600;
+        color: #334155;
+    }
+
+    .sticky-site-header {
+        transform: translateY(-120%);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.24s ease, opacity 0.24s ease;
+    }
+
+    .sticky-site-header.is-visible {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
     }
 
     .properties-cards-grid.is-list-view {
