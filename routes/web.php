@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
@@ -20,7 +21,6 @@ $tailAdminPages = [
     'profile',
     'sidebar',
     'signin',
-    'signup',
     'videos',
 ];
 
@@ -227,18 +227,51 @@ Route::get('/property-detail', function () {
 
 Route::redirect('/admin', '/admin/dashboard')->name('admin');
 
+Route::get('/login', fn () => redirect()->route('admin.login'))->name('login');
+
 Route::prefix('admin')->name('admin.')->group(function () use ($tailAdminPages) {
-    Route::view('/dashboard', 'admin.tailadmin.index')->name('dashboard');
-    Route::view('/login', 'admin.tailadmin.signin')->name('login');
-    Route::view('/signup', 'admin.tailadmin.signup')->name('signup');
-    Route::view('/forgot-password', 'admin.tailadmin.forgot-password')->name('forgot-password');
-    Route::view('/404', 'admin.tailadmin.404')->name('not-found');
+     Route::get('/login', function () {
+         if (Auth::check()) {
+             return redirect()->route('admin.dashboard');
+         }
 
-    Route::get('/{page}', function (string $page) use ($tailAdminPages) {
-        if (in_array($page, $tailAdminPages, true)) {
-            return view("admin.tailadmin.{$page}");
-        }
+         return view('admin.tailadmin.signin');
+     })->name('login');
 
-        return response()->view('admin.tailadmin.404', [], 404);
-    })->where('page', '[A-Za-z0-9\-]+')->name('page');
-});
+     Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login.submit');
+     Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
+ 
+     Route::get('/forgot-password', function () {
+         if (Auth::check()) {
+             return redirect()->route('admin.dashboard');
+         }
+
+         return view('admin.tailadmin.forgot-password');
+     })->name('forgot-password');
+     Route::post('/forgot-password', [\App\Http\Controllers\AuthController::class, 'sendResetOtpEmail'])->name('password.email');
+     Route::get('/reset-password', function () {
+         if (Auth::check()) {
+             return redirect()->route('admin.dashboard');
+         }
+
+         return view('admin.tailadmin.reset-password', [
+             'email' => request()->query('email'),
+         ]);
+     })->name('password.reset');
+     Route::post('/reset-password', [\App\Http\Controllers\AuthController::class, 'resetWithOtp'])->name('password.update');
+ 
+     Route::get('/signup', fn () => redirect()->route('admin.login'))->name('signup');
+ 
+     Route::middleware('auth')->group(function () use ($tailAdminPages) {
+         Route::view('/dashboard', 'admin.tailadmin.index')->name('dashboard');
+         Route::view('/404', 'admin.tailadmin.404')->name('not-found');
+ 
+         Route::get('/{page}', function (string $page) use ($tailAdminPages) {
+             if (in_array($page, $tailAdminPages, true)) {
+                 return view("admin.tailadmin.{$page}");
+             }
+ 
+             return response()->view('admin.tailadmin.404', [], 404);
+         })->where('page', '[A-Za-z0-9\-]+')->name('page');
+     });
+ });
