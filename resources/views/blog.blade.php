@@ -4,9 +4,10 @@
 
 @section('content')
     @php
-        $allPosts = [
+        $allPosts = $allPosts ?? [
             [
                 'title' => 'Manhattan Apartments',
+                'slug' => 'manhattan-apartments',
                 'excerpt' => 'In Manhattan, uptown means north (more precisely north-northeast, which is the direction the island and its street grid are oriented) and downtown means south.',
                 'category' => 'City Living',
                 'date' => 'May 27, 2014',
@@ -15,6 +16,7 @@
             ],
             [
                 'title' => 'Why Live in New York',
+                'slug' => 'why-live-in-new-york',
                 'excerpt' => 'In contrast with New York City urban atmosphere, the vast majority of the state is dominated by farms, forests, rivers, mountains and lakes.',
                 'category' => 'Neighborhood',
                 'date' => 'May 27, 2014',
@@ -23,6 +25,7 @@
             ],
             [
                 'title' => 'What Luxury Renters Are Prioritizing This Year',
+                'slug' => 'what-luxury-renters-are-prioritizing-this-year',
                 'excerpt' => 'From wellness-driven layouts to energy-smart systems, learn which features are driving premium lease decisions.',
                 'category' => 'Market Trends',
                 'date' => 'June 18, 2026',
@@ -31,6 +34,7 @@
             ],
             [
                 'title' => 'Renovation ROI: Which Upgrades Actually Increase Value',
+                'slug' => 'renovation-roi-which-upgrades-actually-increase-value',
                 'excerpt' => 'Not every improvement adds equal return. Here is where homeowners are seeing the strongest resale gains right now.',
                 'category' => 'Home Value',
                 'date' => 'June 10, 2026',
@@ -39,6 +43,7 @@
             ],
             [
                 'title' => 'How to Evaluate a Neighborhood Like a Local Expert',
+                'slug' => 'how-to-evaluate-a-neighborhood-like-a-local-expert',
                 'excerpt' => 'A field-tested framework for comparing commute access, long-term growth indicators, and quality-of-life signals.',
                 'category' => 'Buying Guide',
                 'date' => 'June 1, 2026',
@@ -47,6 +52,7 @@
             ],
             [
                 'title' => 'Rental Demand Snapshot: Where Investors Are Looking',
+                'slug' => 'rental-demand-snapshot-where-investors-are-looking',
                 'excerpt' => 'A quick look at rental demand shifts and the property types drawing the most interest from experienced investors.',
                 'category' => 'Investing',
                 'date' => 'May 24, 2026',
@@ -105,11 +111,13 @@
                                 </div>
 
                                 <div class="px-2 pb-2 pt-5 sm:px-3">
-                                    <h2 class="text-[20px] font-semibold leading-[1.25] tracking-[-0.02em] text-[#242b34]">{{ $post['title'] }}</h2>
+                                    <h2 class="text-[20px] font-semibold leading-[1.25] tracking-[-0.02em] text-[#242b34]">
+                                        <a href="{{ route('blog-detail', $post['slug']) }}" class="transition hover:text-[#0f5faf]">{{ $post['title'] }}</a>
+                                    </h2>
                                     <p class="mt-2 text-[14px] font-medium leading-none text-[#5f7690]">{{ $post['date'] }}</p>
                                     <p class="mt-4 line-clamp-3 text-[14px] leading-[1.7] text-[#4f6277]">{{ $post['excerpt'] }}</p>
 
-                                    <a href="{{ route('contact-us') }}" class="mt-6 inline-flex items-center gap-2 text-[14px] font-semibold leading-none text-[#1f252b] transition hover:text-[#0f5faf]">
+                                    <a href="{{ route('blog-detail', $post['slug']) }}" class="mt-6 inline-flex items-center gap-2 text-[14px] font-semibold leading-none text-[#1f252b] transition hover:text-[#0f5faf]">
                                         Continue reading
                                         <span aria-hidden="true">›</span>
                                     </a>
@@ -141,7 +149,7 @@
                                 <article class="flex items-start gap-3">
                                     <img src="{{ $post['image'] }}" alt="{{ $post['title'] }}" class="h-16 w-20 rounded-[4px] object-cover">
                                     <div class="min-w-0 flex-1">
-                                        <p class="line-clamp-2 text-[14px] font-semibold leading-5 text-[#242b34]">{{ $post['title'] }}</p>
+                                        <p class="line-clamp-2 text-[14px] font-semibold leading-5 text-[#242b34]"><a href="{{ route('blog-detail', $post['slug']) }}" class="transition hover:text-[#0f5faf]">{{ $post['title'] }}</a></p>
                                         <p class="mt-1 text-[14px] text-[#5f7690]">{{ $post['date'] }}</p>
                                     </div>
                                 </article>
@@ -154,8 +162,10 @@
                         <div class="mt-4 space-y-5">
                             @foreach ($featuredPosts as $post)
                                 <article>
-                                    <img src="{{ $post['image'] }}" alt="{{ $post['title'] }}" class="h-40 w-full rounded-[4px] object-cover">
-                                    <p class="mt-3 text-[14px] font-semibold leading-6 text-[#242b34]">{{ $post['title'] }}</p>
+                                    <a href="{{ route('blog-detail', $post['slug']) }}" class="block overflow-hidden rounded-[4px]">
+                                        <img src="{{ $post['image'] }}" alt="{{ $post['title'] }}" class="h-40 w-full object-cover transition duration-300 hover:scale-[1.02]">
+                                    </a>
+                                    <p class="mt-3 text-[14px] font-semibold leading-6 text-[#242b34]"><a href="{{ route('blog-detail', $post['slug']) }}" class="transition hover:text-[#0f5faf]">{{ $post['title'] }}</a></p>
                                     <p class="mt-1 text-[14px] text-[#5f7690]">{{ $post['date'] }}</p>
                                 </article>
                             @endforeach
