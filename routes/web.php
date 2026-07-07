@@ -3,6 +3,27 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
+$tailAdminPages = [
+    '404',
+    'alerts',
+    'avatars',
+    'badge',
+    'bar-chart',
+    'basic-tables',
+    'blank',
+    'buttons',
+    'calendar',
+    'form-elements',
+    'images',
+    'index',
+    'line-chart',
+    'profile',
+    'sidebar',
+    'signin',
+    'signup',
+    'videos',
+];
+
 $blogPosts = [
     [
         'title' => 'Manhattan Apartments',
@@ -203,3 +224,21 @@ Route::get('/agents/{slug}', function (string $slug) {
 Route::get('/property-detail', function () {
     return view('property-detail');
 })->name('property-detail');
+
+Route::redirect('/admin', '/admin/dashboard')->name('admin');
+
+Route::prefix('admin')->name('admin.')->group(function () use ($tailAdminPages) {
+    Route::view('/dashboard', 'admin.tailadmin.index')->name('dashboard');
+    Route::view('/login', 'admin.tailadmin.signin')->name('login');
+    Route::view('/signup', 'admin.tailadmin.signup')->name('signup');
+    Route::view('/forgot-password', 'admin.tailadmin.forgot-password')->name('forgot-password');
+    Route::view('/404', 'admin.tailadmin.404')->name('not-found');
+
+    Route::get('/{page}', function (string $page) use ($tailAdminPages) {
+        if (in_array($page, $tailAdminPages, true)) {
+            return view("admin.tailadmin.{$page}");
+        }
+
+        return response()->view('admin.tailadmin.404', [], 404);
+    })->where('page', '[A-Za-z0-9\-]+')->name('page');
+});
