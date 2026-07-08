@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Classes\ImageuploadHelper;
+use App\Http\Controllers\Controller;
+use App\Models\Setting;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
+
+class SettingController extends Controller
+{
+    public function edit(): View
+    {
+        return view('admin.pages.general-setting', [
+            'settings' => Setting::allAsArray(),
+        ]);
+    }
+
+    public function update(): RedirectResponse
+    {
+        $validated = request()->validate([
+            'site_name' => ['nullable', 'string', 'max:255'],
+            'site_logo' => ['nullable', 'image', 'max:2048'],
+            'site_fav' => ['nullable', 'image', 'max:1024'],
+            'smtp_host' => ['nullable', 'string', 'max:255'],
+            'smtp_port' => ['nullable', 'integer', 'min:1', 'max:65535'],
+            'smtp_encryption' => ['nullable', 'string', 'max:20'],
+            'smtp_username' => ['nullable', 'string', 'max:255'],
+            'smtp_password' => ['nullable', 'string', 'max:255'],
+            'smtp_from_address' => ['nullable', 'email', 'max:255'],
+        ]);
+
+        if (request()->hasFile('site_logo')) {
+            $validated['site_logo'] = ImageuploadHelper::upload(request()->file('site_logo'), 'settings/logo');
+        }
+
+        if (request()->hasFile('site_fav')) {
+            $validated['site_fav'] = ImageuploadHelper::upload(request()->file('site_fav'), 'settings/favicon');
+        }
+
+        foreach ($validated as $key => $value) {
+            Setting::query()->updateOrCreate(
+                ['key' => $key],
+                ['value' => $value]
+            );
+        }
+
+        return back()->with('status', 'Settings updated successfully.');
+    }
+}

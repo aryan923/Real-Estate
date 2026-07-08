@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\RolePermissionController;
+use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\UserManagementController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -235,7 +238,7 @@ Route::prefix('admin')->name('admin.')->group(function () use ($tailAdminPages) 
              return redirect()->route('admin.dashboard');
          }
 
-         return view('admin.tailadmin.signin');
+         return view('admin.pages.signin');
      })->name('login');
 
      Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login.submit');
@@ -246,7 +249,7 @@ Route::prefix('admin')->name('admin.')->group(function () use ($tailAdminPages) 
              return redirect()->route('admin.dashboard');
          }
 
-         return view('admin.tailadmin.forgot-password');
+         return view('admin.pages.forgot-password');
      })->name('forgot-password');
      Route::post('/forgot-password', [\App\Http\Controllers\AuthController::class, 'sendResetOtpEmail'])->name('password.email');
      Route::get('/reset-password', function () {
@@ -254,7 +257,7 @@ Route::prefix('admin')->name('admin.')->group(function () use ($tailAdminPages) 
              return redirect()->route('admin.dashboard');
          }
 
-         return view('admin.tailadmin.reset-password', [
+         return view('admin.pages.reset-password', [
              'email' => request()->query('email'),
          ]);
      })->name('password.reset');
@@ -263,15 +266,34 @@ Route::prefix('admin')->name('admin.')->group(function () use ($tailAdminPages) 
      Route::get('/signup', fn () => redirect()->route('admin.login'))->name('signup');
  
      Route::middleware('auth')->group(function () use ($tailAdminPages) {
-         Route::view('/dashboard', 'admin.tailadmin.index')->name('dashboard');
-         Route::view('/404', 'admin.tailadmin.404')->name('not-found');
+         Route::view('/dashboard', 'admin.pages.dashboard')->name('dashboard');
+         Route::view('/404', 'admin.pages.404')->name('not-found');
+
+         Route::get('/general-setting', [\App\Http\Controllers\Admin\SettingController::class, 'edit'])->name('general-setting');
+         Route::post('/general-setting', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('general-setting.update');
+         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
+         Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+         Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
+         Route::get('/user-management', [UserManagementController::class, 'index'])->name('user-management');
+         Route::get('/user-management/data', [UserManagementController::class, 'data'])->name('user-management.data');
+         Route::get('/user-management/create', [UserManagementController::class, 'create'])->name('user-management.create');
+         Route::post('/user-management', [UserManagementController::class, 'store'])->name('user-management.store');
+         Route::get('/user-management/{user}/edit', [UserManagementController::class, 'edit'])->name('user-management.edit');
+         Route::put('/user-management/{user}', [UserManagementController::class, 'update'])->name('user-management.update');
+         Route::delete('/user-management/{user}', [UserManagementController::class, 'destroy'])->name('user-management.destroy');
+         Route::get('/roles-permissions', [RolePermissionController::class, 'index'])->name('roles-permissions');
+         Route::get('/roles-permissions/create', [RolePermissionController::class, 'create'])->name('roles-permissions.create');
+         Route::post('/roles-permissions', [RolePermissionController::class, 'store'])->name('roles-permissions.store');
+         Route::get('/roles-permissions/{role}/edit', [RolePermissionController::class, 'edit'])->name('roles-permissions.edit');
+         Route::put('/roles-permissions/{role}', [RolePermissionController::class, 'update'])->name('roles-permissions.update');
+         Route::delete('/roles-permissions/{role}', [RolePermissionController::class, 'destroy'])->name('roles-permissions.destroy');
  
          Route::get('/{page}', function (string $page) use ($tailAdminPages) {
-             if (in_array($page, $tailAdminPages, true)) {
-                 return view("admin.tailadmin.{$page}");
+             if (in_array($page, $tailAdminPages, true) && view()->exists("admin.pages.{$page}")) {
+                 return view("admin.pages.{$page}");
              }
  
-             return response()->view('admin.tailadmin.404', [], 404);
+             return response()->view('admin.pages.404', [], 404);
          })->where('page', '[A-Za-z0-9\-]+')->name('page');
      });
  });
