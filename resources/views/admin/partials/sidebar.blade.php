@@ -149,6 +149,17 @@
               class="menu-item group"
               :class="(selected === 'Categories' || page === 'categories') ? 'menu-item-active' : 'menu-item-inactive'"
             >
+              <svg
+                :class="(selected === 'Categories' || page === 'categories') ? 'menu-item-icon-active' : 'menu-item-icon-inactive'"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M4 5C4 3.89543 4.89543 3 6 3H10L12 5H18C19.1046 5 20 5.89543 20 7V19C20 20.1046 19.1046 21 18 21H6C4.89543 21 4 20.1046 4 19V5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4 7H20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
               <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Categories</span>
             </a>
           </li>
@@ -159,6 +170,16 @@
               class="menu-item group"
               :class="(selected === 'Features' || page === 'features') ? 'menu-item-active' : 'menu-item-inactive'"
             >
+              <svg
+                :class="(selected === 'Features' || page === 'features') ? 'menu-item-icon-active' : 'menu-item-icon-inactive'"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M12 17.25L7.053 20.69L8.276 14.31L4 10.18L10.449 9.47L12 3.25L13.551 9.47L20 10.18L15.724 14.31L16.947 20.69L12 17.25Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
               <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Features</span>
             </a>
           </li>
