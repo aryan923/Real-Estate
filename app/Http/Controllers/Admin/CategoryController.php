@@ -8,6 +8,7 @@ use App\Models\Category;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Yajra\DataTables\Facades\DataTables;
@@ -149,7 +150,7 @@ class CategoryController extends Controller
 
     private function deleteImage(?string $path): void
     {
-        if (! $path || str_starts_with($path, ['http://', 'https://', '/'])) {
+        if (! $path || Str::startsWith($path, ['http://', 'https://', '/'])) {
             return;
         }
 
