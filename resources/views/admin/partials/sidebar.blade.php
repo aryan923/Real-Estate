@@ -58,6 +58,30 @@
 
           <li>
             <a
+              href="{{ route('admin.page', ['page' => 'properties']) }}"
+              @click="selected = 'Properties'"
+              class="menu-item group"
+              :class="(selected === 'Properties' || page === 'properties') ? 'menu-item-active' : 'menu-item-inactive'"
+            >
+              <svg
+                :class="(selected === 'Properties' || page === 'properties') ? 'menu-item-icon-active' : 'menu-item-icon-inactive'"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M4 5C4 3.89543 4.89543 3 6 3H18C19.1046 3 20 3.89543 20 5V19C20 20.1046 19.1046 21 18 21H6C4.89543 21 4 20.1046 4 19V5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 9H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M9 13H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M9 17H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Properties</span>
+            </a>
+          </li>
+
+          <li>
+            <a
               href="{{ route('admin.user-management') }}"
               @click="selected = 'User Management'"
               class="menu-item group"

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\FeatureController;
+use App\Http\Controllers\Admin\PropertyController;
 use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\UserManagementController;
@@ -27,6 +28,7 @@ $tailAdminPages = [
     'sidebar',
     'signin',
     'videos',
+    'properties',
 ];
 
 $blogPosts = [
@@ -295,6 +297,20 @@ Route::prefix('admin')->name('admin.')->group(function () use ($tailAdminPages) 
                  'update' => 'features.update',
                  'destroy' => 'features.destroy',
              ]);
+         Route::get('/properties/data', [PropertyController::class, 'data'])->name('properties.data');
+         Route::get('/states/by-country/{country}', [PropertyController::class, 'statesByCountry'])->name('states.by-country');
+         Route::get('/cities/by-state/{state}', [PropertyController::class, 'citiesByState'])->name('cities.by-state');
+         Route::resource('/properties', PropertyController::class)
+             ->except(['show'])
+             ->names([
+                 'index' => 'properties',
+                 'create' => 'properties.create',
+                 'store' => 'properties.store',
+                 'edit' => 'properties.edit',
+                 'update' => 'properties.update',
+                 'destroy' => 'properties.destroy',
+             ]);
+
          Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
          Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
          Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
