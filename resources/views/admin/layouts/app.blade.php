@@ -53,6 +53,116 @@
     </div>
     <!-- ===== Page Wrapper End ===== -->
 
+    <div id="confirmation-modal" class="hidden fixed inset-0 z-[9999] flex min-h-screen items-center justify-center overflow-y-auto bg-slate-950/75 p-4 backdrop-blur-sm">
+      <div class="w-full max-w-xl overflow-hidden rounded-[28px] border border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-700 dark:bg-slate-900">
+        <h2 id="confirmation-modal-title" class="text-xl font-semibold text-slate-900 dark:text-white">Confirm action</h2>
+        <p id="confirmation-modal-message" class="mt-3 text-sm text-slate-500 dark:text-slate-300">Are you sure you want to continue?</p>
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-end">
+          <button id="confirmation-modal-cancel" type="button" class="inline-flex justify-center rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800">Cancel</button>
+          <button id="confirmation-modal-confirm" type="button" class="inline-flex justify-center rounded-lg bg-brand-500 px-4 py-3 text-sm font-semibold text-white transition hover:bg-brand-600">Continue</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const modal = document.getElementById('confirmation-modal');
+        const modalTitle = document.getElementById('confirmation-modal-title');
+        const modalMessage = document.getElementById('confirmation-modal-message');
+        const confirmButton = document.getElementById('confirmation-modal-confirm');
+        const cancelButton = document.getElementById('confirmation-modal-cancel');
+        let activeForm = null;
+
+        function closeModal() {
+          if (!modal) return;
+          modal.classList.add('hidden');
+          activeForm = null;
+        }
+
+        function openModal(title, message) {
+          if (!modal) return;
+          modalTitle.textContent = title;
+          modalMessage.textContent = message;
+          modal.classList.remove('hidden');
+          modal.scrollTop = 0;
+        }
+
+        cancelButton?.addEventListener('click', function () {
+          closeModal();
+        });
+
+        modal?.addEventListener('click', function (event) {
+          if (event.target === modal) {
+            closeModal();
+          }
+        });
+
+        confirmButton?.addEventListener('click', function () {
+          if (!activeForm) {
+            return;
+          }
+
+          activeForm.dataset.confirmed = 'true';
+          closeModal();
+          activeForm.submit();
+        });
+
+        document.addEventListener('submit', function (event) {
+          const form = event.target.closest('form[data-confirm]');
+          if (!form) {
+            return;
+          }
+
+          if (form.dataset.confirmed === 'true') {
+            return;
+          }
+
+          event.preventDefault();
+          const title = form.dataset.confirmTitle || 'Please confirm';
+          const message = form.dataset.confirm || 'Are you sure you want to continue?';
+          const confirmText = form.dataset.confirmButtonText || 'Continue';
+          const cancelText = form.dataset.confirmCancelText || 'Cancel';
+
+          if (window.Swal) {
+            window.Swal.fire({
+              title: title,
+              text: message,
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonText: confirmText,
+              cancelButtonText: cancelText,
+              reverseButtons: true,
+              customClass: {
+                popup: 'rounded-[28px] border border-slate-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900',
+                confirmButton: 'bg-brand-500 hover:bg-brand-600 text-white px-4 py-2 rounded-lg',
+                cancelButton: 'border border-slate-200 text-slate-700 bg-white px-4 py-2 rounded-lg hover:bg-slate-50',
+              },
+            }).then(function (result) {
+              if (result.isConfirmed) {
+                form.dataset.confirmed = 'true';
+                form.submit();
+              }
+            });
+            return;
+          }
+
+          if (modal) {
+            openModal(title, message);
+            confirmButton.textContent = confirmText;
+            cancelButton.textContent = cancelText;
+            activeForm = form;
+            return;
+          }
+
+          if (window.confirm(message)) {
+            form.dataset.confirmed = 'true';
+            form.submit();
+          }
+        });
+      });
+    </script>
+
     <script defer src="{{ asset('vendor/tailadmin/bundle.js') }}"></script>
     @stack('scripts')
   </body>

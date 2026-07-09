@@ -53,10 +53,6 @@
                     <button type="button" id="property-next" class="absolute right-2 top-1/2 inline-flex h-12 w-8 -translate-y-1/2 items-center justify-center rounded bg-black/45 text-white hover:bg-black/60">›</button>
                     <span class="absolute right-3 top-3 rounded bg-[#1e73be] px-4 py-1.5 text-sm font-semibold text-white">Active</span>
 
-                    <div class="absolute left-3 top-3 flex gap-2">
-                        <button type="button" class="inline-flex h-8 w-8 items-center justify-center rounded bg-[#1e73be] text-white">🖼</button>
-                        <button type="button" class="inline-flex h-8 w-8 items-center justify-center rounded bg-white text-slate-700">📍</button>
-                    </div>
                 </div>
 
                 <div id="property-thumbs" class="grid max-h-[460px] gap-1 overflow-y-auto rounded-lg border border-slate-300 bg-white p-1">
@@ -117,7 +113,7 @@
                             </svg>
                         </button>
 
-                        <div id="property-details-panel" class="property-info-accordion-panel hidden">
+                        <div id="property-details-panel" class="property-info-accordion-panel">
                             <div class="mt-6 grid gap-x-8 gap-y-3 md:grid-cols-2 lg:grid-cols-3 text-[15px]">
                                 <p><span class="font-semibold text-slate-900">Property Id:</span> <span class="text-slate-600">111</span></p>
                                 <p><span class="font-semibold text-slate-900">Price:</span> <span class="text-slate-600">$1,000,000</span></p>
@@ -219,7 +215,7 @@
                         </details>
                     </article>
 
-                    <article class="rounded-xl bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
+                    {{-- <article class="rounded-xl bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
                         <details class="group" open>
                             <summary class="flex cursor-pointer list-none items-center justify-between gap-4 [&::-webkit-details-marker]:hidden">
                                 <h2 class="section-title">Virtual Tour</h2>
@@ -247,7 +243,7 @@
                                 </a>
                             </div>
                         </details>
-                    </article>
+                    </article> --}}
 
                     <article class="rounded-xl bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
                         <details class="group" open>
@@ -270,7 +266,7 @@
                         </details>
                     </article>
 
-                    <article class="rounded-xl bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
+                    {{-- <article class="rounded-xl bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
                         <details class="group" open>
                             <summary class="flex cursor-pointer list-none items-center justify-between gap-4 [&::-webkit-details-marker]:hidden">
                                 <h2 class="section-title">Walkscore</h2>
@@ -334,9 +330,9 @@
                                 </div>
                             </div>
                         </details>
-                    </article>
+                    </article> --}}
 
-                    <article class="rounded-xl bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
+                    {{-- <article class="rounded-xl bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
                         <details class="group" open>
                             <summary class="flex cursor-pointer list-none items-center justify-between gap-4 [&::-webkit-details-marker]:hidden">
                                 <h2 class="section-title">Calculator</h2>
@@ -427,7 +423,7 @@
                                 </div>
                             </div>
                         </details>
-                    </article>
+                    </article> --}}
 
                     <article class="rounded-xl bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
                         <details class="group" open>
@@ -466,7 +462,7 @@
                         </details>
                     </article>
 
-                    <article class="rounded-xl bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
+                    {{-- <article class="rounded-xl bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
                         <details class="group" open>
                             <summary class="flex cursor-pointer list-none items-center justify-between gap-4 [&::-webkit-details-marker]:hidden">
                                 <h2 class="section-title">Statistics</h2>
@@ -545,9 +541,9 @@
                                 </svg>
                             </div>
                         </details>
-                    </article>
+                    </article> --}}
 
-                    <article class="rounded-xl bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
+                    {{-- <article class="rounded-xl bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
                         <details class="group" open>
                             <summary class="flex cursor-pointer list-none items-center justify-between gap-4 [&::-webkit-details-marker]:hidden">
                                 <h2 class="section-title">Schedule a tour</h2>
@@ -622,7 +618,7 @@
                                 </div>
                             </div>
                         </details>
-                    </article>
+                    </article> --}}
 
                     <article class="rounded-xl bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
                         <h2 class="section-title">Property Reviews</h2>
@@ -717,7 +713,7 @@
                     </section>
                 </div>
 
-                <aside class="lg:sticky lg:top-6">
+                <aside class="sticky self-start" style="top:3.5rem;">
                     <div class="rounded-xl bg-white shadow-[0_10px_30px_rgba(15,23,42,0.08)]">
                         <div class="grid grid-cols-2 border-b border-slate-200 text-center text-[15px] font-semibold" data-sidebar-tabs>
                             <button type="button" class="border-b-2 border-[#1e73be] px-4 py-3 text-[#1f2a44]" data-sidebar-tab="request" aria-pressed="true">Request Info</button>

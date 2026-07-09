@@ -22,7 +22,7 @@
   <div class="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
     <nav
       x-data="{ selected: $persist('Dashboard') }"
-      x-init="selected = window.location.pathname.includes('/admin/user-management') ? 'User Management' : window.location.pathname.includes('/admin/roles-permissions') ? 'Roles & Permissions' : window.location.pathname.includes('/admin/general-setting') ? 'General Setting' : 'Dashboard'"
+      x-init="selected = window.location.pathname.includes('/admin/user-management') ? 'User Management' : window.location.pathname.includes('/admin/roles-permissions') ? 'Roles & Permissions' : window.location.pathname.includes('/admin/general-setting') ? 'General Setting' : window.location.pathname.includes('/admin/categories') ? 'Categories' : window.location.pathname.includes('/admin/features') ? 'Features' : 'Dashboard'"
     >
       <div>
         <h3 class="mb-4 text-xs uppercase leading-[20px] text-gray-400">
@@ -131,6 +131,35 @@
                 />
               </svg>
               <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">General Setting</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="mb-4 text-xs uppercase leading-[20px] text-gray-400">
+          <span class="menu-group-title" :class="sidebarToggle ? 'lg:hidden' : ''">MASTER</span>
+        </h3>
+
+        <ul class="mb-6 flex flex-col gap-4">
+          <li>
+            <a
+              href="{{ route('admin.categories') }}"
+              @click="selected = 'Categories'"
+              class="menu-item group"
+              :class="(selected === 'Categories' || page === 'categories') ? 'menu-item-active' : 'menu-item-inactive'"
+            >
+              <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Categories</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="{{ route('admin.features') }}"
+              @click="selected = 'Features'"
+              class="menu-item group"
+              :class="(selected === 'Features' || page === 'features') ? 'menu-item-active' : 'menu-item-inactive'"
+            >
+              <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Features</span>
             </a>
           </li>
         </ul>

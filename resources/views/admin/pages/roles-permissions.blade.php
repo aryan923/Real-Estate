@@ -91,7 +91,7 @@
                         >
                           Edit
                         </a>
-                        <form method="POST" action="{{ route('admin.roles-permissions.destroy', $role) }}" onsubmit="return confirm('Delete this role?');">
+                        <form method="POST" action="{{ route('admin.roles-permissions.destroy', $role) }}" data-confirm="Delete this role?">
                           @csrf
                           @method('DELETE')
                           <button

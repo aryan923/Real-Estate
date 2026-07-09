@@ -7,7 +7,7 @@
   </a>
 
   @if (auth()->id() !== $user->id)
-    <form method="POST" action="{{ route('admin.user-management.destroy', $user) }}" onsubmit="return confirm('Delete this user?');">
+    <form method="POST" action="{{ route('admin.user-management.destroy', $user) }}" data-confirm="Delete this user?">
       @csrf
       @method('DELETE')
       <button

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\UserManagementController;
@@ -271,6 +272,18 @@ Route::prefix('admin')->name('admin.')->group(function () use ($tailAdminPages) 
 
          Route::get('/general-setting', [\App\Http\Controllers\Admin\SettingController::class, 'edit'])->name('general-setting');
          Route::post('/general-setting', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('general-setting.update');
+         Route::get('/categories/data', [CategoryController::class, 'data'])->name('categories.data');
+         Route::resource('/categories', CategoryController::class)
+             ->except(['show'])
+             ->names([
+                 'index' => 'categories',
+                 'create' => 'categories.create',
+                 'store' => 'categories.store',
+                 'edit' => 'categories.edit',
+                 'update' => 'categories.update',
+                 'destroy' => 'categories.destroy',
+             ]);
+         Route::view('/features', 'admin.pages.features')->name('features');
          Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
          Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
          Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
