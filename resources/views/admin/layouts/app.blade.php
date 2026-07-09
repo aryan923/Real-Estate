@@ -164,6 +164,28 @@
     </script>
 
     <script defer src="{{ asset('vendor/tailadmin/bundle.js') }}"></script>
+    @if (session('status') || session('success') || session('error') || session('warning'))
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const message = @json(session('status') ?? session('success') ?? session('error') ?? session('warning'));
+          const icon = @json(session('error') ? 'error' : (session('warning') ? 'warning' : 'success'));
+          const title = @json(session('error') ? 'Error' : (session('warning') ? 'Warning' : 'Success'));
+
+          if (message && window.Swal) {
+            window.Swal.fire({
+              title: title,
+              text: message,
+              icon: icon,
+              confirmButtonText: 'OK',
+              customClass: {
+                popup: 'rounded-[28px] border border-slate-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900',
+                confirmButton: 'bg-brand-500 hover:bg-brand-600 text-white px-4 py-2 rounded-lg',
+              },
+            });
+          }
+        });
+      </script>
+    @endif
     @stack('scripts')
   </body>
 </html>

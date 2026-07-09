@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\FeatureController;
 use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\UserManagementController;
@@ -283,7 +284,17 @@ Route::prefix('admin')->name('admin.')->group(function () use ($tailAdminPages) 
                  'update' => 'categories.update',
                  'destroy' => 'categories.destroy',
              ]);
-         Route::view('/features', 'admin.pages.features')->name('features');
+         Route::get('/features/data', [FeatureController::class, 'data'])->name('features.data');
+         Route::resource('/features', FeatureController::class)
+             ->except(['show'])
+             ->names([
+                 'index' => 'features',
+                 'create' => 'features.create',
+                 'store' => 'features.store',
+                 'edit' => 'features.edit',
+                 'update' => 'features.update',
+                 'destroy' => 'features.destroy',
+             ]);
          Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
          Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
          Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');

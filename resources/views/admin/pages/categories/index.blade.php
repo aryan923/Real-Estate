@@ -23,12 +23,6 @@
           </div>
         </div>
 
-        @if (session('status'))
-          <div class="rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm text-emerald-700 dark:border-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-300">
-            {{ session('status') }}
-          </div>
-        @endif
-
         <section class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
           <div class="mb-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div class="text-sm text-gray-500 dark:text-gray-400">Use table search and filters to find categories by parent and status.</div>
