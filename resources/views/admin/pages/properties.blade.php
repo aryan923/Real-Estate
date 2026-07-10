@@ -31,9 +31,9 @@
                 <label for="properties-type-filter" class="text-sm font-medium text-gray-600 dark:text-gray-300">Category</label>
                 <select id="properties-type-filter" class="h-10 rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-700 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200">
                   <option value="all">All</option>
-                  <option value="Residential">Residential</option>
-                  <option value="Commercial">Commercial</option>
-                  <option value="Industrial">Industrial</option>
+                  @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                  @endforeach
                 </select>
               </div>
               <div class="flex items-center gap-2">
@@ -43,6 +43,7 @@
                   <option value="active">Active</option>
                   <option value="pending">Pending</option>
                   <option value="sold">Sold</option>
+                  <option value="draft">Draft</option>
                 </select>
               </div>
             </div>
@@ -53,6 +54,7 @@
               <thead>
                 <tr class="border-b border-gray-100 bg-gray-50 dark:border-gray-800 dark:bg-gray-900/40">
                   <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Title</th>
+                  <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Image</th>
                   <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Category</th>
                   <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Location</th>
                   <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Price</th>
@@ -60,37 +62,7 @@
                   <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Actions</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr class="border-b border-gray-100 dark:border-gray-800">
-                  <td class="px-5 py-4 text-sm text-gray-700 dark:text-gray-300">Suburb Home for Sale</td>
-                  <td class="px-5 py-4 text-sm text-gray-700 dark:text-gray-300">Industrial</td>
-                  <td class="px-5 py-4 text-sm text-gray-700 dark:text-gray-300">Jersey City, NJ</td>
-                  <td class="px-5 py-4 text-sm text-gray-700 dark:text-gray-300">$1,000,000</td>
-                  <td class="px-5 py-4 text-sm text-green-600 dark:text-green-400">Active</td>
-                  <td class="px-5 py-4 text-sm text-gray-700 dark:text-gray-300">
-                    <div class="flex flex-wrap gap-2">
-                      <a href="{{ route('admin.properties.edit', ['property' => 1]) }}" class="rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs font-semibold text-gray-700 transition hover:bg-gray-50">Edit</a>
-                      <a href="#" class="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-700 transition hover:bg-red-100">Delete</a>
-                    </div>
-                  </td>
-                </tr>
-                <tr class="border-b border-gray-100 dark:border-gray-800">
-                  <td class="px-5 py-4 text-sm text-gray-700 dark:text-gray-300">Luxury Villa Downtown</td>
-                  <td class="px-5 py-4 text-sm text-gray-700 dark:text-gray-300">Luxury</td>
-                  <td class="px-5 py-4 text-sm text-gray-700 dark:text-gray-300">Manhattan, NY</td>
-                  <td class="px-5 py-4 text-sm text-gray-700 dark:text-gray-300">$2,450,000</td>
-                  <td class="px-5 py-4 text-sm text-amber-600 dark:text-amber-400">Pending</td>
-                  <td class="px-5 py-4 text-sm text-gray-700 dark:text-gray-300">
-                    <div class="flex flex-wrap gap-2">
-                      <a href="{{ route('admin.properties.edit', ['property' => 2]) }}" class="rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs font-semibold text-gray-700 transition hover:bg-gray-50">Edit</a>
-                      <a href="#" class="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-700 transition hover:bg-red-100">Delete</a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="6" class="px-5 py-4 text-sm text-gray-500 dark:text-gray-400">No more records available.</td>
-                </tr>
-              </tbody>
+              <tbody></tbody>
             </table>
           </div>
         </section>
@@ -108,38 +80,39 @@
         return;
       }
 
+      const categoryFilter = window.jQuery('#properties-type-filter');
+      const statusFilter = window.jQuery('#properties-status-filter');
+
       const table = window.jQuery('#properties-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+          url: '{{ route('admin.properties.data') }}',
+          data: function (d) {
+            d.category_filter = categoryFilter.val();
+            d.status_filter = statusFilter.val();
+          }
+        },
+        columns: [
+          { data: 'title', name: 'title' },
+          { data: 'image', name: 'image', orderable: false, searchable: false },
+          { data: 'category', name: 'category', orderable: false, searchable: false },
+          { data: 'location', name: 'location', orderable: false, searchable: false },
+          { data: 'price', name: 'price' },
+          { data: 'status', name: 'status' },
+          { data: 'action', name: 'action', orderable: false, searchable: false },
+        ],
         pageLength: 10,
         lengthMenu: [[5, 10, 20, 50, -1], [5, 10, 20, 50, 'All']],
         order: [[0, 'asc']],
       });
 
-      const categoryFilter = window.jQuery('#properties-type-filter');
-      const statusFilter = window.jQuery('#properties-status-filter');
-
-      window.jQuery.fn.dataTable.ext.search.push(function (settings, data) {
-        const categoryValue = categoryFilter.val();
-        const statusValue = statusFilter.val();
-        const category = data[1] || '';
-        const status = data[4] || '';
-
-        if (categoryValue !== 'all' && category !== categoryValue) {
-          return false;
-        }
-
-        if (statusValue !== 'all' && status.toLowerCase() !== statusValue) {
-          return false;
-        }
-
-        return true;
-      });
-
       categoryFilter.on('change', function () {
-        table.draw();
+        table.ajax.reload();
       });
 
       statusFilter.on('change', function () {
-        table.draw();
+        table.ajax.reload();
       });
     });
   </script>

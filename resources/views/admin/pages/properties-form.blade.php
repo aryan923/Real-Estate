@@ -6,8 +6,23 @@
 @section('content')
     @include('admin.partials.admin-header')
 
-    <main>
-        <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
+    @php
+        $property = $property ?? new \App\Models\Property();
+        $existingPrimaryImage = null;
+        $existingGalleryImages = collect();
+        $existingVideoUrl = null;
+        $existingPdfUrl = null;
+
+        if ($mode === 'edit' && isset($property)) {
+            $existingPrimaryImage = $property->images?->firstWhere('is_primary', true);
+            $existingGalleryImages = $property->images?->where('is_primary', false) ?? collect();
+            $existingVideoUrl = $property->video_url ?? null;
+            $existingPdfUrl = $property->floor_plan_url ?? null;
+        }
+    @endphp
+
+    <main class="pb-2 md:pb-3">
+        <div class="p-4 pb-2 mx-auto max-w-(--breakpoint-2xl) md:px-6 md:pt-6 md:pb-3">
             <div class="grid grid-cols-1 gap-4 md:gap-6">
                 <div class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
                     <div class="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
@@ -25,12 +40,31 @@
                 </div>
 
                 <section class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
-                    <form method="POST" class="property-form"
+                    <form method="POST" class="property-form" enctype="multipart/form-data"
                         action="{{ $mode === 'edit' ? route('admin.properties.update', $property) : route('admin.properties.store') }}">
                         @csrf
                         @if ($mode === 'edit')
                             @method('PUT')
                         @endif
+
+                        @if ($errors->any())
+                            <div class="rounded-2xl border border-red-200 bg-red-50 p-4 mb-6 text-sm text-red-700">
+                                <div class="font-semibold mb-2">Please fix the following errors:</div>
+                                <ul class="list-disc list-inside space-y-1">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        @if (session('transaction_error'))
+                            <div class="rounded-2xl border border-red-200 bg-red-50 p-4 mb-6 text-sm text-red-700">
+                                <div class="font-semibold mb-2">Transaction failed:</div>
+                                <p>{{ session('transaction_error') }}</p>
+                            </div>
+                        @endif
+
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">
@@ -39,23 +73,29 @@
                                 <input type="text" name="title" value="{{ old('title', $property['title'] ?? '') }}"
                                     class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10" />
                             </div>
-
                             <div>
-                                <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">
-                                    State
-                                </label>
-                                <select id="state_id" name="state_id"
-                                    class="state-select w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10"
-                                    {{ $states->isEmpty() ? 'disabled' : '' }}>
-                                    <option value="">Select state</option>
-                                    @foreach ($states as $state)
-                                        <option value="{{ $state->id }}"
-                                            {{ (int) old('state_id', $property->state_id ?? '') === $state->id ? 'selected' : '' }}>
-                                            {{ $state->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Primary
+                                    image</label>
+                                <input type="file" name="primary_image_file" id="primary_image_file" accept="image/*"
+                                    class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition file:border-0 file:bg-brand-100 file:px-3 file:py-2 file:text-brand-700 file:font-semibold focus:border-brand-500 focus:ring-brand-500/10" />
+                                @php
+                                    $primaryImage = null;
+                                    $galleryImages = collect();
+                                    if ($mode === 'edit' && isset($property)) {
+                                        $primaryImage = $property->images?->firstWhere('is_primary', true);
+                                        $galleryImages = $property->images?->where('is_primary', false) ?? collect();
+                                    }
+                                @endphp
+                                <div id="primaryImagePreview" class="mt-3 grid grid-cols-2 gap-3">
+                                    @if ($primaryImage)
+                                        <div class="image-preview-card">
+                                            <img src="{{ \App\Classes\ImageuploadHelper::getUploadedFileUrl($primaryImage->path) }}" alt="Primary image" />
+                                            <button type="button" onclick="document.querySelector('#primary_image_file').value=''; document.querySelector('#primaryImagePreview').innerHTML='';">&times;</button>
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
+
                         </div>
                         <div class="grid grid-cols-2 gap-4 mt-6">
                             <div>
@@ -79,6 +119,45 @@
                             <div>
                                 <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Price</label>
                                 <input type="text" name="price" value="{{ old('price', $property['price'] ?? '') }}"
+                                    class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10" />
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 mt-6">
+                            <div>
+                                <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Slug</label>
+                                <input type="text" name="slug" value="{{ old('slug', $property['slug'] ?? '') }}"
+                                    placeholder="beautiful-villa-dubai"
+                                    class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10" />
+                            </div>
+                            <div>
+                                <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Price
+                                    info</label>
+                                <input type="text" name="price_info"
+                                    value="{{ old('price_info', $property['price_info'] ?? '') }}"
+                                    placeholder="Negotiable / Includes maintenance"
+                                    class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10" />
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 mt-6">
+                            <div>
+                                <label
+                                    class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Featured</label>
+                                <div class="rounded-lg border border-gray-200 bg-white px-4 py-3">
+                                    <input type="hidden" name="featured" value="0" />
+                                    <label class="inline-flex items-center gap-2 text-sm text-gray-700">
+                                        <input type="checkbox" name="featured" value="1"
+                                            class="h-4 w-4 rounded border-gray-300"
+                                            {{ old('featured', $property['featured'] ?? false) ? 'checked' : '' }} />
+                                        Mark as featured property
+                                    </label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Rooms</label>
+                                <input type="number" name="rooms" min="0"
+                                    value="{{ old('rooms', $property['rooms'] ?? '') }}"
                                     class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10" />
                             </div>
                         </div>
@@ -199,6 +278,58 @@
                             </div>
                         </div>
 
+                        <div class="grid grid-cols-2 gap-4 mt-6">
+                            <div>
+                                <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Garage
+                                    size</label>
+                                <input type="text" name="garage_size"
+                                    value="{{ old('garage_size', $property['garage_size'] ?? '') }}"
+                                    placeholder="220 sq ft"
+                                    class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10" />
+                            </div>
+                            <div>
+                                <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Year
+                                    built</label>
+                                <input type="number" name="year_built" min="1800" max="2100"
+                                    value="{{ old('year_built', $property['year_built'] ?? '') }}"
+                                    class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10" />
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 mt-6">
+                            <div>
+                                <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Exterior
+                                    material</label>
+                                <input type="text" name="exterior_material"
+                                    value="{{ old('exterior_material', $property['exterior_material'] ?? '') }}"
+                                    class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10" />
+                            </div>
+                            <div>
+                                <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Structure
+                                    type</label>
+                                <input type="text" name="structure_type"
+                                    value="{{ old('structure_type', $property['structure_type'] ?? '') }}"
+                                    class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10" />
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 mt-6">
+                            <div>
+                                <label
+                                    class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Floors</label>
+                                <input type="number" name="floors" min="0"
+                                    value="{{ old('floors', $property['floors'] ?? '') }}"
+                                    class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10" />
+                            </div>
+                            <div>
+                                <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Address
+                                    line</label>
+                                <input type="text" name="address_line"
+                                    value="{{ old('address_line', $property['address_line'] ?? '') }}"
+                                    class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10" />
+                            </div>
+                        </div>
+
                         <div class="grid grid-cols-1 gap-4 mt-6">
                             <div>
                                 @php
@@ -225,7 +356,8 @@
                                                 class="rounded-2xl border border-slate-200 bg-white p-3 dark:border-slate-700 dark:bg-slate-900">
                                                 <label
                                                     class="feature-parent flex items-center gap-3 text-sm font-semibold text-slate-900 dark:text-slate-100">
-                                                    <input type="checkbox" name="feature_id[]" value="{{ $feature->id }}"
+                                                    <input type="checkbox" name="feature_id[]"
+                                                        value="{{ $feature->id }}"
                                                         class="feature-parent-checkbox h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500"
                                                         data-feature-id="{{ $feature->id }}"
                                                         {{ in_array($feature->id, $selectedFeatures) ? 'checked' : '' }} />
@@ -316,9 +448,10 @@
                                     class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10" />
                             </div>
                             <div>
-                                <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Area /
-                                    Neighborhood</label>
-                                <input type="text" name="area" value="{{ old('area', $property['area'] ?? '') }}"
+                                <label
+                                    class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Locality</label>
+                                <input type="text" name="locality"
+                                    value="{{ old('locality', $property['locality'] ?? '') }}"
                                     class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10" />
                             </div>
                         </div>
@@ -338,6 +471,22 @@
                                 </select>
                             </div>
                             <div>
+                                <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">
+                                    State
+                                </label>
+                                <select id="state_id" name="state_id"
+                                    class="state-select w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10"
+                                    {{ $states->isEmpty() ? 'disabled' : '' }}>
+                                    <option value="">Select state</option>
+                                    @foreach ($states as $state)
+                                        <option value="{{ $state->id }}"
+                                            {{ (int) old('state_id', $property->state_id ?? '') === $state->id ? 'selected' : '' }}>
+                                            {{ $state->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div>
                                 <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">City</label>
                                 <select id="city_id" name="city_id"
                                     class="city-select w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10"
@@ -350,14 +499,15 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-4 mt-6">
                             <div>
                                 <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Zip</label>
                                 <input type="text" name="zip" value="{{ old('zip', $property['zip'] ?? '') }}"
                                     class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10" />
                             </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 mt-6">
+
                             <div>
                                 <label
                                     class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Latitude</label>
@@ -366,9 +516,6 @@
                                     placeholder="40.7282"
                                     class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10" />
                             </div>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-4 mt-6">
                             <div>
                                 <label
                                     class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Longitude</label>
@@ -377,12 +524,80 @@
                                     placeholder="-74.0776"
                                     class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10" />
                             </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 mt-6">
+
+
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-4 mt-6">
                             <div>
-                                <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Primary image
-                                    URL</label>
-                                <input type="text" name="primary_image"
-                                    value="{{ old('primary_image', $property['primary_image'] ?? '') }}"
-                                    class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10" />
+                                <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Gallery
+                                    images</label>
+                                <input type="file" name="gallery_images[]" id="gallery_images" accept="image/*"
+                                    multiple
+                                    class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition file:border-0 file:bg-brand-100 file:px-3 file:py-2 file:text-brand-700 file:font-semibold focus:border-brand-500 focus:ring-brand-500/10" />
+                                <div id="galleryImageContainer" class="mt-3 grid grid-cols-1 gap-3">
+                                    <div id="galleryImagePreview" class="grid grid-cols-1 gap-3">
+                                        @if ($galleryImages->isNotEmpty())
+                                            @foreach ($galleryImages as $galleryImage)
+                                                <div class="image-preview-card" data-gallery-id="{{ $galleryImage->id }}">
+                                                    <img src="{{ \App\Classes\ImageuploadHelper::getUploadedFileUrl($galleryImage->path) }}" alt="Gallery image" />
+                                                    <button type="button" class="gallery-remove-btn" data-gallery-id="{{ $galleryImage->id }}">&times;</button>
+                                                </div>
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                    <div id="galleryNewImagePreview" class="grid grid-cols-1 gap-3"></div>
+                                </div>
+                                <div id="removedGalleryInputs"></div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 mt-6">
+                            <div>
+                                <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Video
+                                    upload</label>
+                                <input type="file" name="video_file" id="video_file"
+                                    accept="video/mp4,video/quicktime,video/x-msvideo,video/x-matroska,video/webm"
+                                    class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition file:border-0 file:bg-brand-100 file:px-3 file:py-2 file:text-brand-700 file:font-semibold focus:border-brand-500 focus:ring-brand-500/10" />
+                                <p class="mt-2 text-xs text-gray-500">Large file uploads show progress while submitting.</p>
+                                @if ($existingVideoUrl)
+                                    <div class="mt-3 rounded-2xl border border-gray-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-950">
+                                        <div class="mb-2 text-sm font-semibold text-slate-900 dark:text-slate-100">Uploaded video</div>
+                                        <video controls class="w-full max-h-52 rounded-xl bg-black">
+                                            <source src="{{ \App\Classes\ImageuploadHelper::getUploadedFileUrl($existingVideoUrl) }}" type="video/mp4" />
+                                            Your browser does not support the video tag.
+                                        </video>
+                                        <p class="mt-2 text-xs text-slate-500">Choose a new file to replace the current video.</p>
+                                    </div>
+                                @endif
+                                <div id="selectedVideoPreview" class="mt-3"></div>
+                                <div id="videoUploadProgress" class="mt-3 hidden">
+                                    <div class="h-2 w-full overflow-hidden rounded-full bg-gray-200">
+                                        <div id="videoUploadProgressBar"
+                                            class="h-full w-0 rounded-full bg-brand-500 transition-all"></div>
+                                    </div>
+                                    <p id="videoUploadProgressText" class="mt-1 text-xs text-gray-600">0%</p>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Floor plan
+                                    (PDF)</label>
+                                <input type="file" name="floor_plan_file" id="floor_plan_file"
+                                    accept="application/pdf"
+                                    class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition file:border-0 file:bg-brand-100 file:px-3 file:py-2 file:text-brand-700 file:font-semibold focus:border-brand-500 focus:ring-brand-500/10" />
+                                <div id="selectedPdfPreview" class="mt-3"></div>
+                                @if ($existingPdfUrl)
+                                    <div class="mt-3 rounded-2xl border border-gray-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-950">
+                                        <div class="mb-2 text-sm font-semibold text-slate-900 dark:text-slate-100">Uploaded floor plan</div>
+                                        <a href="{{ \App\Classes\ImageuploadHelper::getUploadedFileUrl($existingPdfUrl) }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">
+                                            View PDF
+                                        </a>
+                                        <p class="mt-2 text-xs text-slate-500">Choose a new PDF to replace the current floor plan.</p>
+                                    </div>
+                                @endif
                             </div>
                         </div>
 
@@ -391,23 +606,6 @@
                                 class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Description</label>
                             <textarea name="description" rows="5"
                                 class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10">{{ old('description', $property['description'] ?? '') }}</textarea>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-4 mt-6">
-                            <div>
-                                <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Gallery image
-                                    1</label>
-                                <input type="text" name="gallery_image_1"
-                                    value="{{ old('gallery_image_1', $property['gallery_image_1'] ?? '') }}"
-                                    class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10" />
-                            </div>
-                            <div>
-                                <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Gallery image
-                                    2</label>
-                                <input type="text" name="gallery_image_2"
-                                    value="{{ old('gallery_image_2', $property['gallery_image_2'] ?? '') }}"
-                                    class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10" />
-                            </div>
                         </div>
 
                         <div class="grid grid-cols-2 gap-4 mt-6">
@@ -496,6 +694,54 @@
             font-size: 0.95rem;
         }
 
+        .image-preview-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            width: 180px;
+            height: 140px;
+            min-width: 180px;
+            min-height: 140px;
+        }
+
+        .image-preview-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        #galleryImagePreview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.75rem;
+        }
+
+        #primaryImagePreview {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+        }
+
+        .image-preview-card button {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(15, 23, 42, 0.8);
+            border: none;
+            color: #fff;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 9999px;
+            cursor: pointer;
+        }
+
+        .image-preview-card button:hover {
+            background: rgba(15, 23, 42, 1);
+        }
+
         /* Fallback layout: keep regular rows at two columns even if utility classes are overridden */
         .property-form>.grid.grid-cols-2.gap-4,
         .property-form>.grid.grid-cols-2.gap-4.mt-6 {
@@ -512,10 +758,15 @@
             const dropdownButton = document.querySelector('.category-dropdown-button');
             const dropdownPanel = document.querySelector('.category-dropdown-panel');
             const categoryLabel = document.querySelector('.category-dropdown-label');
+            const propertyForm = document.querySelector('form.property-form');
             const parents = document.querySelectorAll('.category-parent-checkbox');
             const children = document.querySelectorAll('.category-child-checkbox');
             const featureParents = document.querySelectorAll('.feature-parent-checkbox');
             const featureChildren = document.querySelectorAll('.feature-child-checkbox');
+            const videoInput = document.querySelector('#video_file');
+            const progressContainer = document.querySelector('#videoUploadProgress');
+            const progressBar = document.querySelector('#videoUploadProgressBar');
+            const progressText = document.querySelector('#videoUploadProgressText');
             const countrySelect = document.querySelector('#country_id');
             const stateSelect = document.querySelector('#state_id');
             const citySelect = document.querySelector('#city_id');
@@ -688,6 +939,257 @@
                     parent.checked = true;
                 }
             });
+
+            const createPreviewCard = (src, onRemove) => {
+                const card = document.createElement('div');
+                card.className = 'image-preview-card';
+
+                const img = document.createElement('img');
+                img.src = src;
+                card.appendChild(img);
+
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.innerHTML = '&times;';
+                btn.addEventListener('click', onRemove);
+                card.appendChild(btn);
+
+                return card;
+            };
+
+            const primaryInput = document.querySelector('#primary_image_file');
+            const galleryInput = document.querySelector('#gallery_images');
+            const galleryImageContainer = document.querySelector('#galleryImageContainer');
+            const primaryPreview = document.querySelector('#primaryImagePreview');
+            const galleryExistingPreview = document.querySelector('#galleryImagePreview');
+            const galleryNewPreview = document.querySelector('#galleryNewImagePreview');
+            const removedGalleryInputs = document.querySelector('#removedGalleryInputs');
+            const selectedVideoPreview = document.querySelector('#selectedVideoPreview');
+            const selectedPdfPreview = document.querySelector('#selectedPdfPreview');
+
+            const renderPrimaryPreview = file => {
+                primaryPreview.innerHTML = '';
+                if (!file) return;
+                const url = URL.createObjectURL(file);
+                const card = createPreviewCard(url, () => {
+                    primaryInput.value = '';
+                    primaryPreview.innerHTML = '';
+                    URL.revokeObjectURL(url);
+                });
+                primaryPreview.appendChild(card);
+            };
+
+            const renderGalleryPreviews = files => {
+                if (!galleryNewPreview) {
+                    return;
+                }
+                galleryNewPreview.innerHTML = '';
+                Array.from(files).forEach((file, index) => {
+                    const url = URL.createObjectURL(file);
+                    const card = createPreviewCard(url, () => {
+                        const dataTransfer = new DataTransfer();
+                        Array.from(galleryInput.files)
+                            .filter((_, fileIndex) => fileIndex !== index)
+                            .forEach(file => dataTransfer.items.add(file));
+                        galleryInput.files = dataTransfer.files;
+                        renderGalleryPreviews(galleryInput.files);
+                        URL.revokeObjectURL(url);
+                    });
+                    galleryNewPreview.appendChild(card);
+                });
+            };
+
+            const addRemovedGalleryInput = galleryId => {
+                if (!removedGalleryInputs.querySelector(`[name="removed_gallery_ids[]"][value="${galleryId}"]`)) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'removed_gallery_ids[]';
+                    input.value = galleryId;
+                    removedGalleryInputs.appendChild(input);
+                }
+            };
+
+            const removeExistingGalleryImage = id => {
+                const card = galleryExistingPreview.querySelector(`.image-preview-card[data-gallery-id="${id}"]`);
+                if (!card) {
+                    return;
+                }
+
+                card.remove();
+                addRemovedGalleryInput(id);
+
+                if (galleryExistingPreview && galleryExistingPreview.children.length === 0 && galleryNewPreview && galleryNewPreview.children.length === 0) {
+                    galleryImageContainer.classList.remove('grid-cols-2');
+                }
+            };
+
+            const renderVideoPreview = file => {
+                if (!selectedVideoPreview) return;
+                selectedVideoPreview.innerHTML = '';
+                if (!file) return;
+
+                const url = URL.createObjectURL(file);
+                const wrapper = document.createElement('div');
+                wrapper.className = 'mt-3 rounded-2xl border border-gray-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-950';
+
+                const label = document.createElement('div');
+                label.className = 'mb-2 text-sm font-semibold text-slate-900 dark:text-slate-100';
+                label.textContent = 'Selected video';
+                wrapper.appendChild(label);
+
+                const video = document.createElement('video');
+                video.controls = true;
+                video.className = 'w-full max-h-52 rounded-xl bg-black';
+                const source = document.createElement('source');
+                source.src = url;
+                source.type = file.type || 'video/mp4';
+                video.appendChild(source);
+                wrapper.appendChild(video);
+
+                selectedVideoPreview.appendChild(wrapper);
+            };
+
+            const renderPdfPreview = file => {
+                if (!selectedPdfPreview) return;
+                selectedPdfPreview.innerHTML = '';
+                if (!file) return;
+
+                const url = URL.createObjectURL(file);
+                const wrapper = document.createElement('div');
+                wrapper.className = 'mt-3 rounded-2xl border border-gray-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-950';
+
+                const label = document.createElement('div');
+                label.className = 'mb-2 text-sm font-semibold text-slate-900 dark:text-slate-100';
+                label.textContent = 'Selected PDF';
+                wrapper.appendChild(label);
+
+                const link = document.createElement('a');
+                link.href = url;
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                link.className = 'inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200';
+                link.textContent = file.name || 'View selected PDF';
+                wrapper.appendChild(link);
+
+                selectedPdfPreview.appendChild(wrapper);
+            };
+
+            if (primaryInput) {
+                primaryInput.addEventListener('change', function() {
+                    if (this.files && this.files[0]) {
+                        renderPrimaryPreview(this.files[0]);
+                    } else {
+                        primaryPreview.innerHTML = '';
+                    }
+                });
+            }
+
+            if (galleryInput) {
+                galleryInput.addEventListener('change', function() {
+                    renderGalleryPreviews(this.files);
+                });
+            }
+
+            if (galleryExistingPreview) {
+                galleryExistingPreview.addEventListener('click', function(event) {
+                    const removeBtn = event.target.closest('.gallery-remove-btn');
+                    if (!removeBtn) return;
+
+                    const galleryId = removeBtn.dataset.galleryId;
+                    if (galleryId) {
+                        removeExistingGalleryImage(galleryId);
+                    }
+                });
+            }
+
+            if (galleryNewPreview) {
+                galleryNewPreview.addEventListener('click', function(event) {
+                    const removeBtn = event.target.closest('button');
+                    if (!removeBtn) return;
+
+                    const card = removeBtn.closest('.image-preview-card');
+                    if (!card) return;
+
+                    const index = Array.from(galleryNewPreview.children).indexOf(card);
+                    const dataTransfer = new DataTransfer();
+                    Array.from(galleryInput.files)
+                        .filter((_, fileIndex) => fileIndex !== index)
+                        .forEach(file => dataTransfer.items.add(file));
+
+                    galleryInput.files = dataTransfer.files;
+                    renderGalleryPreviews(galleryInput.files);
+                });
+            }
+
+            if (videoInput) {
+                videoInput.addEventListener('change', function() {
+                    renderVideoPreview(this.files && this.files[0] ? this.files[0] : null);
+                });
+            }
+
+            const pdfInput = document.querySelector('#floor_plan_file');
+            if (pdfInput) {
+                pdfInput.addEventListener('change', function() {
+                    renderPdfPreview(this.files && this.files[0] ? this.files[0] : null);
+                });
+            }
+
+            if (propertyForm && videoInput) {
+                propertyForm.addEventListener('submit', function(event) {
+                    if (!videoInput.files || videoInput.files.length === 0) {
+                        return;
+                    }
+
+                    event.preventDefault();
+
+                    const submitButton = propertyForm.querySelector(
+                        'button[type="submit"], button:not([type])');
+                    if (submitButton) {
+                        submitButton.disabled = true;
+                    }
+
+                    progressContainer.classList.remove('hidden');
+                    progressBar.style.width = '0%';
+                    progressText.textContent = '0%';
+
+                    const xhr = new XMLHttpRequest();
+                    const formData = new FormData(propertyForm);
+
+                    xhr.open('POST', propertyForm.action, true);
+                    xhr.upload.onprogress = function(uploadEvent) {
+                        if (!uploadEvent.lengthComputable) {
+                            return;
+                        }
+
+                        const percent = Math.round((uploadEvent.loaded / uploadEvent.total) * 100);
+                        progressBar.style.width = `${percent}%`;
+                        progressText.textContent = `${percent}%`;
+                    };
+
+                    xhr.onload = function() {
+                        if (xhr.status >= 200 && xhr.status < 400) {
+                            window.location.href = xhr.responseURL ||
+                            '{{ route('admin.properties') }}';
+                            return;
+                        }
+
+                        progressText.textContent = 'Upload failed. Submitting normally...';
+                        if (submitButton) {
+                            submitButton.disabled = false;
+                        }
+                        propertyForm.submit();
+                    };
+
+                    xhr.onerror = function() {
+                        progressText.textContent = 'Upload failed. Check your connection and retry.';
+                        if (submitButton) {
+                            submitButton.disabled = false;
+                        }
+                    };
+
+                    xhr.send(formData);
+                });
+            }
 
             refreshSelectionLabel();
         });
