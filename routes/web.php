@@ -6,6 +6,10 @@ use App\Http\Controllers\Admin\PropertyController;
 use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\UserManagementController;
+use App\Models\Category;
+use App\Models\Property;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -118,12 +122,179 @@ $blogPosts = [
     ],
 ];
 
+$frontendPropertyRelations = ['images', 'category', 'categories.parent', 'features', 'city', 'state', 'country'];
+
 Route::get('/', function () {
     return view('index');
 })->name('home');
 
-Route::get('/properties', function () {
-    return view('properties');
+Route::get('/properties', function (Request $request) use ($frontendPropertyRelations) {
+    $filters = [
+        'q' => trim((string) $request->query('q', '')),
+        'type' => strtolower(trim((string) $request->query('type', ''))),
+        'category' => (int) $request->query('category', 0),
+        'state' => (int) $request->query('state', 0),
+        'city' => (int) $request->query('city', 0),
+        'area' => trim((string) $request->query('area', '')),
+        'min_price' => is_numeric($request->query('min_price')) ? (float) $request->query('min_price') : null,
+        'max_price' => is_numeric($request->query('max_price')) ? (float) $request->query('max_price') : null,
+        'beds' => is_numeric($request->query('beds')) ? (int) $request->query('beds') : null,
+        'baths' => is_numeric($request->query('baths')) ? (int) $request->query('baths') : null,
+        'sort' => trim((string) $request->query('sort', 'newest')),
+    ];
+
+    $hasUserFilters = collect($filters)
+        ->except(['sort'])
+        ->contains(function ($value) {
+            return $value !== null && $value !== '' && $value !== 0;
+        });
+
+    $propertiesQuery = Property::query()
+        ->with($frontendPropertyRelations)
+        ->where('status', 'active');
+
+    if ($filters['q'] !== '') {
+        $searchTerm = $filters['q'];
+        $propertiesQuery->where(function ($query) use ($searchTerm) {
+            $query->where('title', 'like', "%{$searchTerm}%")
+                ->orWhere('description', 'like', "%{$searchTerm}%")
+                ->orWhere('locality', 'like', "%{$searchTerm}%")
+                ->orWhereHas('city', function ($cityQuery) use ($searchTerm) {
+                    $cityQuery->where('name', 'like', "%{$searchTerm}%");
+                })
+                ->orWhereHas('state', function ($stateQuery) use ($searchTerm) {
+                    $stateQuery->where('name', 'like', "%{$searchTerm}%");
+                });
+        });
+    }
+
+    if ($filters['type'] !== '') {
+        $propertiesQuery->whereRaw('LOWER(property_purpose) = ?', [$filters['type']]);
+    }
+
+    if ($filters['category'] > 0) {
+        $propertiesQuery->whereHas('categories', function ($query) use ($filters) {
+            $query->where('categories.id', $filters['category']);
+        });
+    }
+
+    if ($filters['state'] > 0) {
+        $propertiesQuery->where('state_id', $filters['state']);
+    }
+
+    if ($filters['city'] > 0) {
+        $propertiesQuery->where('city_id', $filters['city']);
+    }
+
+    if ($filters['area'] !== '') {
+        $propertiesQuery->where('locality', $filters['area']);
+    }
+
+    if ($filters['min_price'] !== null) {
+        $propertiesQuery->whereRaw('CAST(REPLACE(price, ",", "") AS DECIMAL(15,2)) >= ?', [$filters['min_price']]);
+    }
+
+    if ($filters['max_price'] !== null) {
+        $propertiesQuery->whereRaw('CAST(REPLACE(price, ",", "") AS DECIMAL(15,2)) <= ?', [$filters['max_price']]);
+    }
+
+    if ($filters['beds'] !== null) {
+        $propertiesQuery->where('bedrooms', '>=', $filters['beds']);
+    }
+
+    if ($filters['baths'] !== null) {
+        $propertiesQuery->where('bathrooms', '>=', $filters['baths']);
+    }
+
+    switch ($filters['sort']) {
+        case 'price_asc':
+            $propertiesQuery->orderByRaw('CAST(REPLACE(price, ",", "") AS DECIMAL(15,2)) asc');
+            break;
+        case 'price_desc':
+            $propertiesQuery->orderByRaw('CAST(REPLACE(price, ",", "") AS DECIMAL(15,2)) desc');
+            break;
+        case 'featured':
+            $propertiesQuery->orderByDesc('featured')->latest('id');
+            break;
+        default:
+            $propertiesQuery->latest('id');
+            break;
+    }
+
+    $properties = $propertiesQuery
+        ->paginate(6)
+        ->withQueryString();
+
+    if (!$hasUserFilters && $properties->isEmpty()) {
+        $properties = Property::query()
+            ->with($frontendPropertyRelations)
+            ->latest('id')
+            ->paginate(6)
+            ->withQueryString();
+    }
+
+    $typeOptions = Property::query()
+        ->where('status', 'active')
+        ->whereNotNull('property_purpose')
+        ->where('property_purpose', '!=', '')
+        ->selectRaw('LOWER(property_purpose) as value, MIN(property_purpose) as label, COUNT(*) as aggregate')
+        ->groupBy('value')
+        ->orderBy('label')
+        ->get();
+
+    $categoryOptions = Category::query()
+        ->where('status', true)
+        ->withCount([
+            'properties as active_properties_count' => function ($query) {
+                $query->where('status', 'active');
+            },
+        ])
+        ->get()
+        ->filter(function ($category) {
+            return $category->active_properties_count > 0;
+        })
+        ->sortBy('name')
+        ->values();
+
+    $stateOptions = DB::table('properties')
+        ->join('states', 'states.id', '=', 'properties.state_id')
+        ->where('properties.status', 'active')
+        ->whereNull('properties.deleted_at')
+        ->select('states.id', 'states.name', DB::raw('COUNT(*) as aggregate'))
+        ->groupBy('states.id', 'states.name')
+        ->orderBy('states.name')
+        ->get();
+
+    $cityOptions = DB::table('properties')
+        ->join('cities', 'cities.id', '=', 'properties.city_id')
+        ->where('properties.status', 'active')
+        ->whereNull('properties.deleted_at')
+        ->select('cities.id', 'cities.name', DB::raw('COUNT(*) as aggregate'))
+        ->groupBy('cities.id', 'cities.name')
+        ->orderBy('cities.name')
+        ->get();
+
+    $areaOptions = DB::table('properties')
+        ->where('status', 'active')
+        ->whereNull('deleted_at')
+        ->whereNotNull('locality')
+        ->where('locality', '!=', '')
+        ->select('locality as name', DB::raw('COUNT(*) as aggregate'))
+        ->groupBy('locality')
+        ->orderBy('locality')
+        ->get();
+
+    return view('properties', [
+        'properties' => $properties,
+        'filters' => $filters,
+        'filterOptions' => [
+            'types' => $typeOptions,
+            'categories' => $categoryOptions,
+            'states' => $stateOptions,
+            'cities' => $cityOptions,
+            'areas' => $areaOptions,
+        ],
+    ]);
 })->name('properties');
 
 Route::get('/about-us', function () {
@@ -228,8 +399,15 @@ Route::get('/agents/{slug}', function (string $slug) {
     return view('agent-detail', ['agent' => $agent]);
 })->name('agent-detail');
 
-Route::get('/property-detail', function () {
-    return view('property-detail');
+Route::get('/property-detail/{slug}', function (string $slug) use ($frontendPropertyRelations) {
+    $property = Property::query()
+        ->with($frontendPropertyRelations)
+        ->where('slug', $slug)
+        ->firstOrFail();
+
+    return view('property-detail', [
+        'property' => $property,
+    ]);
 })->name('property-detail');
 
 Route::redirect('/admin', '/admin/dashboard')->name('admin');

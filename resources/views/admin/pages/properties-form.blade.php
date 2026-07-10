@@ -713,10 +713,12 @@
             display: block;
         }
 
-        #galleryImagePreview {
+        #galleryImagePreview,
+        #galleryNewImagePreview {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(180px, 180px));
             gap: 0.75rem;
+            align-items: start;
         }
 
         #primaryImagePreview {

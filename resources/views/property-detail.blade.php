@@ -3,6 +3,40 @@
 @section('title', 'Property Detail')
 
 @section('content')
+    @php
+        $primaryImage = $property->images?->firstWhere('is_primary', true) ?? $property->images?->first();
+        $galleryImages = $property->images?->sortBy('sort_order')->values() ?? collect();
+        $fallbackImage = 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80';
+        $mainImageUrl = $primaryImage
+            ? \App\Classes\ImageuploadHelper::getUploadedFileUrl($primaryImage->path)
+            : $fallbackImage;
+        $thumbnailImages = $galleryImages->isNotEmpty() ? $galleryImages : collect([(object) ['path' => $primaryImage?->path ?? null]]);
+        $location = trim(implode(', ', array_filter([
+            $property->address_line,
+            $property->locality,
+            $property->city?->name,
+            $property->state?->name,
+            $property->country?->name,
+        ]))) ?: 'Location not set';
+        $mapSrc = $property->map_latitude && $property->map_longitude
+            ? 'https://www.google.com/maps?q=' . $property->map_latitude . ',' . $property->map_longitude . '&z=13&output=embed'
+            : 'https://www.google.com/maps?q=' . rawurlencode($location) . '&z=13&output=embed';
+        $priceText = $property->price ?: 'Contact for price';
+        $priceInfo = $property->price_info ?: null;
+        $propertyType = $property->property_purpose ? \Illuminate\Support\Str::title($property->property_purpose) : 'Property';
+        $selectedFeatures = $property->features?->loadMissing('parent')->values() ?? collect();
+        $groupedFeatures = $selectedFeatures->groupBy(function ($feature) {
+            return $feature->parent_id ?: $feature->id;
+        });
+        $featureNames = $property->features?->pluck('name')->filter()->values() ?? collect();
+        $propertyCategories = $property->categories ?? collect();
+        $categoryGroups = $propertyCategories->groupBy(function ($category) {
+            return $category->parent?->name ?: $category->name;
+        });
+        $videoUrl = filled($property->video_url) ? \App\Classes\ImageuploadHelper::getUploadedFileUrl($property->video_url) : null;
+        $floorPlanUrl = filled($property->floor_plan_url) ? \App\Classes\ImageuploadHelper::getUploadedFileUrl($property->floor_plan_url) : null;
+    @endphp
+
     <header class="relative isolate overflow-visible bg-[#0f355e]" data-sticky-trigger>
         @include('partials.layout.topbar')
 
@@ -16,27 +50,29 @@
             <div class="flex flex-wrap items-center gap-2 text-[13px] font-medium text-slate-500">
                 <a href="{{ route('home') }}" class="hover:text-[#1e73be]">Home</a>
                 <span>›</span>
-                <a href="#" class="hover:text-[#1e73be]">Industrial</a>
+                <a href="{{ route('properties') }}" class="hover:text-[#1e73be]">Properties</a>
                 <span>›</span>
-                <span class="text-[#1e73be]">Suburb Home for Sale</span>
+                <span class="text-[#1e73be]">{{ $property->title }}</span>
             </div>
 
             <div class="mt-4 flex flex-wrap items-start justify-between gap-6">
                 <div>
                     <div class="flex items-center gap-2">
-                        <span class="rounded bg-[#2f7ecc] px-2.5 py-1 text-xs font-semibold text-white">Invest</span>
-                        <span class="rounded bg-[#2f7ecc] px-2.5 py-1 text-xs font-semibold text-white">Industrial</span>
+                        <span class="rounded bg-[#2f7ecc] px-2.5 py-1 text-xs font-semibold text-white">{{ $propertyType }}</span>
+                        @if ($property->featured)
+                            <span class="rounded bg-[#2f7ecc] px-2.5 py-1 text-xs font-semibold text-white">Featured</span>
+                        @endif
                     </div>
-                    <h1 class="mt-3 text-[42px] font-extrabold leading-[1.08] tracking-[-0.02em] text-[#1f2a44]">Suburb Home for Sale</h1>
+                    <h1 class="mt-3 text-[42px] font-extrabold leading-[1.08] tracking-[-0.02em] text-[#1f2a44]">{{ $property->title }}</h1>
                     <p class="mt-2 inline-flex items-center gap-1.5 text-[15px] text-slate-600">
                         <span>📍</span>
-                        Lincoln Street, Jersey City, The Heights
+                        {{ $location }}
                     </p>
                 </div>
 
                 <div class="text-right">
-                    <p class="text-[18px] font-semibold leading-none text-[#1e73be]">$1,200 <span class="text-[13px]">/ sq ft</span></p>
-                    <p class="mt-2 text-[36px] font-extrabold leading-none text-[#0f6fcb]">$1,000,000</p>
+                    <p class="text-[18px] font-semibold leading-none text-[#1e73be]">{{ $priceInfo ?: $priceText }}</p>
+                    <p class="mt-2 text-[36px] font-extrabold leading-none text-[#0f6fcb]">{{ $priceText }}</p>
                     <div class="mt-4 flex flex-wrap justify-end gap-2">
                         <button type="button" class="inline-flex items-center gap-1.5 rounded bg-white px-3 py-2 text-[13px] font-semibold text-slate-700 shadow-sm hover:bg-slate-50">↗ Share</button>
                         <button type="button" class="inline-flex items-center gap-1.5 rounded bg-white px-3 py-2 text-[13px] font-semibold text-slate-700 shadow-sm hover:bg-slate-50">♡ Favorite</button>
@@ -47,7 +83,7 @@
 
             <div class="mt-5 grid gap-3 lg:grid-cols-[minmax(0,1fr)_118px]">
                 <div class="relative overflow-hidden rounded-lg border border-slate-300 bg-white">
-                    <img id="property-main-image" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80" alt="Property main view" class="h-[460px] w-full object-cover">
+                    <img id="property-main-image" src="{{ $mainImageUrl }}" alt="{{ $property->title }}" class="h-[460px] w-full object-cover">
 
                     <button type="button" id="property-prev" class="absolute left-2 top-1/2 inline-flex h-12 w-8 -translate-y-1/2 items-center justify-center rounded bg-black/45 text-white hover:bg-black/60">‹</button>
                     <button type="button" id="property-next" class="absolute right-2 top-1/2 inline-flex h-12 w-8 -translate-y-1/2 items-center justify-center rounded bg-black/45 text-white hover:bg-black/60">›</button>
@@ -56,12 +92,12 @@
                 </div>
 
                 <div id="property-thumbs" class="grid max-h-[460px] gap-1 overflow-y-auto rounded-lg border border-slate-300 bg-white p-1">
-                    <button type="button" class="property-thumb is-active overflow-hidden rounded border-2 border-[#1e73be]" data-image="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=300&q=80" alt="thumb 1" class="h-16 w-full object-cover"></button>
-                    <button type="button" class="property-thumb overflow-hidden rounded border-2 border-transparent" data-image="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=300&q=80" alt="thumb 2" class="h-16 w-full object-cover"></button>
-                    <button type="button" class="property-thumb overflow-hidden rounded border-2 border-transparent" data-image="https://images.unsplash.com/photo-1600210492486-724fe5c67fb3?auto=format&fit=crop&w=1600&q=80"><img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb3?auto=format&fit=crop&w=300&q=80" alt="thumb 3" class="h-16 w-full object-cover"></button>
-                    <button type="button" class="property-thumb overflow-hidden rounded border-2 border-transparent" data-image="https://images.unsplash.com/photo-1600607687644-c7171b42498f?auto=format&fit=crop&w=1600&q=80"><img src="https://images.unsplash.com/photo-1600607687644-c7171b42498f?auto=format&fit=crop&w=300&q=80" alt="thumb 4" class="h-16 w-full object-cover"></button>
-                    <button type="button" class="property-thumb overflow-hidden rounded border-2 border-transparent" data-image="https://images.unsplash.com/photo-1600121848594-d8644e57abab?auto=format&fit=crop&w=1600&q=80"><img src="https://images.unsplash.com/photo-1600121848594-d8644e57abab?auto=format&fit=crop&w=300&q=80" alt="thumb 5" class="h-16 w-full object-cover"></button>
-                    <button type="button" class="property-thumb overflow-hidden rounded border-2 border-transparent" data-image="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=1600&q=80"><img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=300&q=80" alt="thumb 6" class="h-16 w-full object-cover"></button>
+                    @foreach ($thumbnailImages as $index => $image)
+                        @php
+                            $thumbUrl = $image->path ? \App\Classes\ImageuploadHelper::getUploadedFileUrl($image->path) : $fallbackImage;
+                        @endphp
+                        <button type="button" class="property-thumb overflow-hidden rounded border-2 {{ $index === 0 ? 'is-active border-[#1e73be]' : 'border-transparent' }}" data-image="{{ $thumbUrl }}"><img src="{{ $thumbUrl }}" alt="thumb {{ $index + 1 }}" class="h-16 w-full object-cover"></button>
+                    @endforeach
                 </div>
             </div>
 
@@ -70,12 +106,7 @@
                     <article class="rounded-xl bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
                         <h2 class="section-title">Description</h2>
                         <div class="mt-4 space-y-4 text-[15px] leading-7 text-slate-600">
-                            <p>
-                                Mineral Reserves: 2008 core drilling and testing (on just 60 of the 1,100 acres) proved 30-60 million tons of high-grade calcium carbonate. Other reports show high-grade calcium carbonate throughout remainder of the property. Geological reports available.
-                            </p>
-                            <p>
-                                Transportation: Railroad access within 16-18 miles. Rail company may extend existing line to site. Roads: Paved, county-maintained two lane road runs from Blythe to the entrance of the property. Paved roads up to quarry then good gravel roads throughout site. Water: By well (four miles from Colorado River)
-                            </p>
+                            <p>{{ $property->description ?: 'No description provided for this property yet.' }}</p>
                         </div>
                     </article>
 
@@ -89,16 +120,16 @@
 
                         <div id="property-address-panel" class="property-info-accordion-panel">
                             <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 text-[15px]">
-                                <p><span class="font-semibold text-slate-900">Address:</span> <span class="text-slate-600">Lincoln Street</span></p>
-                                <p><span class="font-semibold text-slate-900">City:</span> <span class="text-slate-600">Jersey City</span></p>
-                                <p><span class="font-semibold text-slate-900">Area:</span> <span class="text-slate-600">The Heights</span></p>
-                                <p><span class="font-semibold text-slate-900">State/County:</span> <span class="text-slate-600">New Jersey State</span></p>
-                                <p><span class="font-semibold text-slate-900">Zip:</span> <span class="text-slate-600">5874145</span></p>
-                                <p><span class="font-semibold text-slate-900">Country:</span> <span class="text-slate-600">United States</span></p>
+                                <p><span class="font-semibold text-slate-900">Address:</span> <span class="text-slate-600">{{ $property->address_line ?: 'N/A' }}</span></p>
+                                <p><span class="font-semibold text-slate-900">City:</span> <span class="text-slate-600">{{ $property->city?->name ?: 'N/A' }}</span></p>
+                                <p><span class="font-semibold text-slate-900">Area:</span> <span class="text-slate-600">{{ $property->locality ?: 'N/A' }}</span></p>
+                                <p><span class="font-semibold text-slate-900">State/County:</span> <span class="text-slate-600">{{ $property->state?->name ?: 'N/A' }}</span></p>
+                                <p><span class="font-semibold text-slate-900">Zip:</span> <span class="text-slate-600">{{ $property->zip ?: 'N/A' }}</span></p>
+                                <p><span class="font-semibold text-slate-900">Country:</span> <span class="text-slate-600">{{ $property->country?->name ?: 'N/A' }}</span></p>
                             </div>
 
                             <div class="mt-5">
-                                <a href="https://google.com/maps?q=Lincoln+Street+Jersey+City" target="_blank" rel="noopener" class="inline-flex items-center rounded bg-[#67c47c] px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-[#56b36b]">
+                                <a href="https://google.com/maps?q={{ urlencode($location) }}" target="_blank" rel="noopener" class="inline-flex items-center rounded bg-[#67c47c] px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-[#56b36b]">
                                     Open In Google Maps
                                 </a>
                             </div>
@@ -115,21 +146,56 @@
 
                         <div id="property-details-panel" class="property-info-accordion-panel">
                             <div class="mt-6 grid gap-x-8 gap-y-3 md:grid-cols-2 lg:grid-cols-3 text-[15px]">
-                                <p><span class="font-semibold text-slate-900">Property Id:</span> <span class="text-slate-600">111</span></p>
-                                <p><span class="font-semibold text-slate-900">Price:</span> <span class="text-slate-600">$1,000,000</span></p>
-                                <p><span class="font-semibold text-slate-900">Price Info:</span> <span class="text-slate-600">$1,200 / sq ft</span></p>
-                                <p><span class="font-semibold text-slate-900">Property Size:</span> <span class="text-slate-600">2,900 ft²</span></p>
-                                <p><span class="font-semibold text-slate-900">Property Lot Size:</span> <span class="text-slate-600">3,500 ac</span></p>
-                                <p><span class="font-semibold text-slate-900">Rooms:</span> <span class="text-slate-600">3</span></p>
-                                <p><span class="font-semibold text-slate-900">Bedrooms:</span> <span class="text-slate-600">5</span></p>
-                                <p><span class="font-semibold text-slate-900">Bathrooms:</span> <span class="text-slate-600">5</span></p>
-                                <p><span class="font-semibold text-slate-900">Year Built:</span> <span class="text-slate-600">1920</span></p>
-                                <p><span class="font-semibold text-slate-900">Garage Size:</span> <span class="text-slate-600">200 cars</span></p>
-                                <p><span class="font-semibold text-slate-900">Available from:</span> <span class="text-slate-600">2016-05-27</span></p>
-                                <p><span class="font-semibold text-slate-900">Exterior Material:</span> <span class="text-slate-600">cement</span></p>
-                                <p><span class="font-semibold text-slate-900">Structure Type:</span> <span class="text-slate-600">Brick</span></p>
-                                <p><span class="font-semibold text-slate-900">Floors No:</span> <span class="text-slate-600">4</span></p>
+                                <p><span class="font-semibold text-slate-900">Property Id:</span> <span class="text-slate-600">{{ $property->id }}</span></p>
+                                <p><span class="font-semibold text-slate-900">Price:</span> <span class="text-slate-600">{{ $priceText }}</span></p>
+                                <p><span class="font-semibold text-slate-900">Price Info:</span> <span class="text-slate-600">{{ $priceInfo ?: 'N/A' }}</span></p>
+                                <p><span class="font-semibold text-slate-900">Property Size:</span> <span class="text-slate-600">{{ $property->size ?: 'N/A' }}</span></p>
+                                <p><span class="font-semibold text-slate-900">Rooms:</span> <span class="text-slate-600">{{ $property->rooms ?: 'N/A' }}</span></p>
+                                <p><span class="font-semibold text-slate-900">Bedrooms:</span> <span class="text-slate-600">{{ $property->bedrooms ?: 'N/A' }}</span></p>
+                                <p><span class="font-semibold text-slate-900">Bathrooms:</span> <span class="text-slate-600">{{ $property->bathrooms ?: 'N/A' }}</span></p>
+                                <p><span class="font-semibold text-slate-900">Year Built:</span> <span class="text-slate-600">{{ $property->year_built ?: 'N/A' }}</span></p>
+                                <p><span class="font-semibold text-slate-900">Garage Size:</span> <span class="text-slate-600">{{ $property->garage_size ?: 'N/A' }}</span></p>
+                                <p><span class="font-semibold text-slate-900">Available from:</span> <span class="text-slate-600">{{ optional($property->available_from)->format('Y-m-d') ?: 'N/A' }}</span></p>
+                                <p><span class="font-semibold text-slate-900">Exterior Material:</span> <span class="text-slate-600">{{ $property->exterior_material ?: 'N/A' }}</span></p>
+                                <p><span class="font-semibold text-slate-900">Structure Type:</span> <span class="text-slate-600">{{ $property->structure_type ?: 'N/A' }}</span></p>
+                                <p><span class="font-semibold text-slate-900">Floors No:</span> <span class="text-slate-600">{{ $property->floors ?: 'N/A' }}</span></p>
                             </div>
+
+                            @if ($categoryGroups->isNotEmpty())
+                                <div class="mt-5 overflow-hidden rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white">
+                                    <div class="flex items-center justify-between border-b border-slate-200 bg-white/80 px-4 py-3 backdrop-blur">
+                                        <p class="text-sm font-semibold uppercase tracking-[0.08em] text-slate-700">Categories</p>
+                                        <span class="inline-flex items-center rounded-full border border-[#1e73be]/25 bg-[#1e73be]/10 px-2.5 py-1 text-xs font-semibold text-[#1e73be]">
+                                            {{ $categoryGroups->count() }} groups
+                                        </span>
+                                    </div>
+
+                                    <div class="grid gap-3 p-4 sm:grid-cols-2">
+                                        @foreach ($categoryGroups as $group)
+                                            @php
+                                                $parentCategory = $group->firstWhere('parent_id', null);
+                                                $childCategories = $group->filter(fn ($category) => $category->parent_id)->values();
+                                                $groupTitle = $parentCategory?->name ?: $group->first()->parent?->name ?: $group->first()->name;
+                                            @endphp
+                                            <div class="rounded-xl border border-slate-200 bg-white p-3.5 shadow-[0_6px_18px_rgba(15,23,42,0.05)]">
+                                                <p class="text-[15px] font-semibold text-slate-900">{{ $groupTitle }}</p>
+
+                                                @if ($childCategories->isNotEmpty())
+                                                    <div class="mt-3 flex flex-wrap gap-2">
+                                                        @foreach ($childCategories as $child)
+                                                            <span class="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[13px] font-medium text-slate-700">
+                                                                {{ $child->name }}
+                                                            </span>
+                                                        @endforeach
+                                                    </div>
+                                                @else
+                                                    <p class="mt-2 text-[13px] text-slate-500">No child categories.</p>
+                                                @endif
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     </article>
 
@@ -173,21 +239,52 @@
                             </summary>
 
                             <div class="mt-5 space-y-5 text-[15px] text-slate-600">
-                                @foreach ($featureSections as $featureSection)
-                                    <div>
-                                        <h3 class="text-base font-semibold text-slate-900">{{ $featureSection['title'] }}</h3>
-                                        <ul class="mt-3 grid gap-x-6 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
-                                            @foreach ($featureSection['items'] as $feature)
-                                                <li class="inline-flex items-center gap-2.5">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0 text-[#1e73be]" viewBox="0 0 20 20" fill="currentColor">
-                                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.78-9.72a.75.75 0 00-1.06-1.06L9.25 10.69 7.78 9.22a.75.75 0 00-1.06 1.06l2 2a.75.75 0 001.06 0l4-4z" clip-rule="evenodd" />
-                                                    </svg>
-                                                    <span>{{ $feature }}</span>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endforeach
+                                @if ($selectedFeatures->isNotEmpty())
+                                    @foreach ($groupedFeatures as $featureGroup)
+                                        @php
+                                            $parentFeature = $featureGroup->firstWhere('parent_id', null) ?? $featureGroup->first()?->parent;
+                                            $groupTitle = $parentFeature?->name ?? 'Features';
+                                            $groupItems = $featureGroup->filter(function ($feature) use ($parentFeature) {
+                                                return !$parentFeature || $feature->id !== $parentFeature->id;
+                                            })->values();
+                                        @endphp
+                                        <div>
+                                            <h3 class="text-base font-semibold text-slate-900">{{ $groupTitle }}</h3>
+                                            <ul class="mt-3 grid gap-x-6 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
+                                                @if ($groupItems->isNotEmpty())
+                                                    @foreach ($groupItems as $feature)
+                                                        <li class="inline-flex items-center gap-2.5">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0 text-[#1e73be]" viewBox="0 0 20 20" fill="currentColor">
+                                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.78-9.72a.75.75 0 00-1.06-1.06L9.25 10.69 7.78 9.22a.75.75 0 00-1.06 1.06l2 2a.75.75 0 001.06 0l4-4z" clip-rule="evenodd" />
+                                                            </svg>
+                                                            <span>{{ $feature->name }}</span>
+                                                        </li>
+                                                    @endforeach
+                                                @else
+                                                    <li class="inline-flex items-center gap-2.5 text-slate-500">
+                                                        No child features selected.
+                                                    </li>
+                                                @endif
+                                            </ul>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    @foreach ($featureSections as $featureSection)
+                                        <div>
+                                            <h3 class="text-base font-semibold text-slate-900">{{ $featureSection['title'] }}</h3>
+                                            <ul class="mt-3 grid gap-x-6 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
+                                                @foreach ($featureSection['items'] as $feature)
+                                                    <li class="inline-flex items-center gap-2.5">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0 text-[#1e73be]" viewBox="0 0 20 20" fill="currentColor">
+                                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.78-9.72a.75.75 0 00-1.06-1.06L9.25 10.69 7.78 9.22a.75.75 0 00-1.06 1.06l2 2a.75.75 0 001.06 0l4-4z" clip-rule="evenodd" />
+                                                        </svg>
+                                                        <span>{{ $feature }}</span>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endforeach
+                                @endif
                             </div>
                         </details>
                     </article>
@@ -202,15 +299,15 @@
                             </summary>
 
                             <div class="mt-5">
-                                <a href="https://www.youtube.com/watch?v=y6fY5Qh8g5Q" target="_blank" rel="noopener" class="group/video relative block overflow-hidden rounded-lg">
-                                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80" alt="Property video preview" class="h-[320px] w-full object-cover transition duration-300 group-hover/video:scale-[1.02]">
-                                    <span class="pointer-events-none absolute inset-0 bg-slate-900/15"></span>
-                                    <span class="absolute left-1/2 top-1/2 inline-flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white/80 bg-white/30 text-white backdrop-blur-sm">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M8 5v14l11-7L8 5z" />
-                                        </svg>
-                                    </span>
-                                </a>
+                                @if ($videoUrl)
+                                    <video controls class="h-[320px] w-full rounded-lg bg-black object-cover">
+                                        <source src="{{ $videoUrl }}">
+                                    </video>
+                                @else
+                                    <div class="rounded-lg border border-dashed border-slate-300 bg-slate-50 p-6 text-center text-slate-500">
+                                        No video uploaded for this property.
+                                    </div>
+                                @endif
                             </div>
                         </details>
                     </article>
@@ -257,7 +354,7 @@
                             <div class="mt-5 overflow-hidden rounded-lg border border-slate-200">
                                 <iframe
                                     title="Property location map"
-                                    src="https://www.google.com/maps?q=40.7282,-74.0776&z=13&output=embed"
+                                    src="{{ $mapSrc }}"
                                     class="h-[340px] w-full"
                                     loading="lazy"
                                     referrerpolicy="no-referrer-when-downgrade"
@@ -436,27 +533,24 @@
 
                             <div class="mt-5">
                                 <div class="rounded border border-slate-200 bg-[#f8f9fb] px-3 py-2 text-[14px] text-slate-600 sm:grid sm:grid-cols-[minmax(0,1fr)_auto_auto_auto_auto] sm:items-center sm:gap-6">
-                                    <span class="font-semibold text-slate-800">Floor Plan A</span>
-                                    <span><span class="font-semibold text-slate-700">Price:</span> $1,500</span>
-                                    <span><span class="font-semibold text-slate-700">Baths:</span> 3</span>
-                                    <span><span class="font-semibold text-slate-700">Rooms:</span> 3</span>
-                                    <span><span class="font-semibold text-slate-700">Size:</span> 150 ft<sup>2</sup></span>
+                                    <span class="font-semibold text-slate-800">Floor Plan</span>
+                                    <span><span class="font-semibold text-slate-700">Price:</span> {{ $priceText }}</span>
+                                    <span><span class="font-semibold text-slate-700">Baths:</span> {{ $property->bathrooms ?: 'N/A' }}</span>
+                                    <span><span class="font-semibold text-slate-700">Rooms:</span> {{ $property->rooms ?: 'N/A' }}</span>
+                                    <span><span class="font-semibold text-slate-700">Size:</span> {{ $property->size ?: 'N/A' }}</span>
                                 </div>
 
                                 <div class="px-1 pb-1 pt-4">
-                                    <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1400&q=80" alt="Floor Plan A" class="mx-auto w-full max-w-[640px] rounded-lg object-cover">
-
-                                    <p class="mt-4 text-[15px] leading-7 text-slate-600">
-                                        Inside this enchanting home, the great room enjoys a fireplace and views of the rear patio. The secluded master suite at the front of the home delights in tons of natural light, a sitting room with a fireplace, and a private lanai. Three upper-level bedrooms share an optional bonus room, perfect for a home gym, playroom, or studio. Click the home to see the layout!
-                                    </p>
-                                </div>
-
-                                <div class="mt-3 rounded border border-slate-200 bg-[#f8f9fb] px-3 py-2 text-[14px] text-slate-600 sm:grid sm:grid-cols-[minmax(0,1fr)_auto_auto_auto_auto] sm:items-center sm:gap-6">
-                                    <span class="font-semibold text-slate-800">Floor Plan B</span>
-                                    <span><span class="font-semibold text-slate-700">Price:</span> $2,500</span>
-                                    <span><span class="font-semibold text-slate-700">Baths:</span> 3</span>
-                                    <span><span class="font-semibold text-slate-700">Rooms:</span> 3</span>
-                                    <span><span class="font-semibold text-slate-700">Size:</span> 200 ft<sup>2</sup></span>
+                                    @if ($floorPlanUrl)
+                                        <div class="mx-auto w-full max-w-[840px] overflow-hidden rounded-lg border border-slate-200 bg-white" style="height: 980px;">
+                                            <iframe src="{{ $floorPlanUrl }}" class="h-full w-full" title="Floor plan"></iframe>
+                                        </div>
+                                        <p class="mt-4 text-[15px] leading-7 text-slate-600">View or download the uploaded floor plan above.</p>
+                                    @else
+                                        <div class="rounded-lg border border-dashed border-slate-300 bg-slate-50 p-6 text-center text-slate-500">
+                                            No floor plan uploaded for this property.
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </details>

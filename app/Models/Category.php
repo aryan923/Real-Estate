@@ -31,4 +31,9 @@ class Category extends Model
     {
         return $this->hasMany(Category::class, 'parent_id');
     }
+
+    public function properties()
+    {
+        return $this->belongsToMany(Property::class, 'property_categories');
+    }
 }
