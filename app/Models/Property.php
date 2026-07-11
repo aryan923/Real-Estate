@@ -53,11 +53,6 @@ class Property extends Model
         'map_longitude' => 'decimal:7',
     ];
 
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
-
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'property_categories');

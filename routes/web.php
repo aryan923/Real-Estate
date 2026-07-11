@@ -122,7 +122,7 @@ $blogPosts = [
     ],
 ];
 
-$frontendPropertyRelations = ['images', 'category', 'categories.parent', 'features', 'city', 'state', 'country'];
+$frontendPropertyRelations = ['images', 'categories', 'categories.parent', 'features', 'city', 'state', 'country'];
 
 Route::get('/', function () {
     return view('index');
@@ -140,18 +140,25 @@ Route::get('/properties', function (Request $request) use ($frontendPropertyRela
         'max_price' => is_numeric($request->query('max_price')) ? (float) $request->query('max_price') : null,
         'beds' => is_numeric($request->query('beds')) ? (int) $request->query('beds') : null,
         'baths' => is_numeric($request->query('baths')) ? (int) $request->query('baths') : null,
+        'status' => trim((string) $request->query('status', '')),
+        'floors' => is_numeric($request->query('floors')) ? (int) $request->query('floors') : null,
         'sort' => trim((string) $request->query('sort', 'newest')),
     ];
 
     $hasUserFilters = collect($filters)
-        ->except(['sort'])
+        ->except(['sort', 'status'])
         ->contains(function ($value) {
             return $value !== null && $value !== '' && $value !== 0;
         });
 
     $propertiesQuery = Property::query()
-        ->with($frontendPropertyRelations)
-        ->where('status', 'active');
+        ->with($frontendPropertyRelations);
+
+    if ($filters['status'] !== '') {
+        $propertiesQuery->where('status', $filters['status']);
+    } else {
+        $propertiesQuery->where('status', 'active');
+    }
 
     if ($filters['q'] !== '') {
         $searchTerm = $filters['q'];
@@ -204,6 +211,10 @@ Route::get('/properties', function (Request $request) use ($frontendPropertyRela
 
     if ($filters['baths'] !== null) {
         $propertiesQuery->where('bathrooms', '>=', $filters['baths']);
+    }
+
+    if ($filters['floors'] !== null) {
+        $propertiesQuery->where('floors', '>=', $filters['floors']);
     }
 
     switch ($filters['sort']) {

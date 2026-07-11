@@ -32,10 +32,12 @@ class PropertyController extends Controller
 
     public function data(Request $request)
     {
-        $query = Property::query()->with(['category', 'city', 'state', 'country', 'images']);
+        $query = Property::query()->with(['categories', 'city', 'state', 'country', 'images']);
 
         if ($request->filled('category_filter') && $request->string('category_filter')->toString() !== 'all') {
-            $query->where('category_id', $request->string('category_filter')->toString());
+            $query->whereHas('categories', function ($q) use ($request) {
+                $q->where('categories.id', $request->string('category_filter')->toString());
+            });
         }
 
         if ($request->filled('status_filter') && in_array($request->string('status_filter')->toString(), ['active', 'pending', 'sold', 'draft'], true)) {
@@ -51,7 +53,7 @@ class PropertyController extends Controller
 
                 return '<img src="' . e(ImageuploadHelper::getUploadedFileUrl($primaryImage->path)) . '" class="h-12 w-20 rounded-lg object-cover" alt="Primary image">';
             })
-            ->addColumn('category', fn(Property $property): string => $property->category?->name ?? 'None')
+            ->addColumn('category', fn(Property $property): string => $property->categories->pluck('name')->implode(', ') ?: 'None')
             ->addColumn('location', fn(Property $property): string => trim(implode(', ', array_filter([$property->city?->name, $property->state?->name, $property->country?->name]))) ?: 'Unknown')
             ->addColumn('action', function (Property $property): string {
                 return '<div class="flex flex-wrap gap-2">'
@@ -127,7 +129,6 @@ class PropertyController extends Controller
                     'listing_type' => $validated['listing_type'] ?? null,
                     'RERA_no' => $validated['RERA_no'] ?? null,
                     'builder_developer' => $validated['builder_developer'] ?? null,
-                    'category_id' => is_array($validated['category_id'] ?? null) ? head($validated['category_id']) : ($validated['category_id'] ?? null),
                     'bedrooms' => $validated['bedrooms'] ?? null,
                     'bathrooms' => $validated['bathrooms'] ?? null,
                     'rooms' => $validated['rooms'] ?? null,
@@ -244,7 +245,6 @@ class PropertyController extends Controller
                     'listing_type' => $validated['listing_type'] ?? null,
                     'RERA_no' => $validated['RERA_no'] ?? null,
                     'builder_developer' => $validated['builder_developer'] ?? null,
-                    'category_id' => is_array($validated['category_id'] ?? null) ? head($validated['category_id']) : ($validated['category_id'] ?? null),
                     'bedrooms' => $validated['bedrooms'] ?? null,
                     'bathrooms' => $validated['bathrooms'] ?? null,
                     'rooms' => $validated['rooms'] ?? null,

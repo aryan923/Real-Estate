@@ -11,6 +11,182 @@
     <link rel="icon" href="{{ $adminFavicon ?? asset('vendor/tailadmin/favicon.ico') }}">
     <link href="{{ asset('vendor/tailadmin/style.css') }}" rel="stylesheet">
     @stack('styles')
+    <style>
+      /* DataTables Dark Mode Overrides */
+      .dark .dataTables_wrapper {
+        color: #cbd5e1 !important;
+      }
+      .dark .dataTables_wrapper .dataTables_length,
+      .dark .dataTables_wrapper .dataTables_filter,
+      .dark .dataTables_wrapper .dataTables_info,
+      .dark .dataTables_wrapper .dataTables_processing,
+      .dark .dataTables_wrapper .dataTables_paginate {
+        color: #cbd5e1 !important;
+      }
+      .dark .dataTables_wrapper .dataTables_length select,
+      .dark .dataTables_wrapper .dataTables_filter input {
+        background-color: #1e293b !important;
+        border: 1px solid #334155 !important;
+        color: #f8fafc !important;
+        border-radius: 0.5rem !important;
+        padding: 0.375rem 0.75rem !important;
+        outline: none !important;
+      }
+      .dark .dataTables_wrapper .dataTables_length select:focus,
+      .dark .dataTables_wrapper .dataTables_filter input:focus {
+        border-color: #1e73be !important;
+      }
+      .dark table {
+        background-color: transparent !important;
+        border-color: #334155 !important;
+      }
+      .dark table thead tr {
+        background-color: #0f172a !important;
+      }
+      .dark table thead th {
+        color: #f8fafc !important;
+        border-bottom: 1px solid #334155 !important;
+        background-color: #0f172a !important;
+      }
+      .dark table tbody tr {
+        background-color: transparent !important;
+        color: #cbd5e1 !important;
+      }
+      .dark table tbody tr td {
+        border-bottom: 1px solid #1e293b !important;
+        background-color: transparent !important;
+      }
+      .dark table tbody tr:hover td {
+        background-color: rgba(255, 255, 255, 0.02) !important;
+      }
+      .dark table.no-footer {
+        border-bottom: 1px solid #334155 !important;
+      }
+      .dark .dataTables_wrapper .dataTables_paginate .paginate_button {
+        color: #cbd5e1 !important;
+      }
+      .dark .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+      .dark .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        background: #1e73be !important;
+        color: #ffffff !important;
+        border: 1px solid #1e73be !important;
+        border-radius: 0.375rem !important;
+      }
+      .dark .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+      .dark .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
+      .dark .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
+        color: #64748b !important;
+      }
+      .dark .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        background: #334155 !important;
+        color: #ffffff !important;
+        border: 1px solid #334155 !important;
+        border-radius: 0.375rem !important;
+      }
+      /* Highlight edit buttons in dark mode */
+      .dark table tbody tr td a[href*="/edit"] {
+        background-color: rgba(30, 115, 190, 0.15) !important;
+        color: #38bdf8 !important;
+        border-color: rgba(30, 115, 190, 0.4) !important;
+      }
+      .dark table tbody tr td a[href*="/edit"]:hover {
+        background-color: #1e73be !important;
+        color: #ffffff !important;
+        border-color: #1e73be !important;
+      }
+      /* High-visibility select dropdown filter options in dark mode */
+      .dark select {
+        background-color: #1e293b !important;
+        border-color: #475569 !important;
+        color: #f1f5f9 !important;
+      }
+      .dark select option {
+        background-color: #1e293b !important;
+        color: #f1f5f9 !important;
+      }
+      .dark select:focus {
+        border-color: #1e73be !important;
+      }
+      /* High-visibility form labels and file inputs in dark mode */
+      .dark label {
+        color: #cbd5e1 !important;
+      }
+      .dark input[type="file"] {
+        color: #94a3b8 !important;
+      }
+      .dark input[type="file"]::file-selector-button {
+        background-color: #1e293b !important;
+        color: #cbd5e1 !important;
+        border-color: #475569 !important;
+      }
+      /* Input elements high-visibility in dark mode */
+      .dark input[type="text"],
+      .dark input[type="number"],
+      .dark input[type="password"],
+      .dark input[type="email"],
+      .dark textarea {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+        color: #f8fafc !important;
+      }
+      .dark input[type="checkbox"] {
+        background-color: #1e293b !important;
+        border-color: #475569 !important;
+      }
+      /* Style Back & Cancel buttons and text-gray-700 elements in dark mode */
+      .dark a.border-gray-200,
+      .dark button.border-gray-200,
+      .dark a.dark\:border-gray-800,
+      .dark button.dark\:border-gray-800,
+      .dark a.border,
+      .dark button.border {
+        background-color: #1e293b !important;
+        color: #cbd5e1 !important;
+        border-color: #475569 !important;
+      }
+      .dark a.border-gray-200:hover,
+      .dark button.border-gray-200:hover,
+      .dark a.dark\:border-gray-800:hover,
+      .dark button.dark\:border-gray-800:hover,
+      .dark a.border:hover,
+      .dark button.border:hover {
+        background-color: #334155 !important;
+        color: #ffffff !important;
+        border-color: #64748b !important;
+      }
+      .dark .text-gray-700,
+      .dark .dark\:text-gray-300 {
+        color: #cbd5e1 !important;
+      }
+      /* Clean up table row and container backgrounds in dark mode */
+      .dark .bg-white {
+        background-color: rgba(30, 41, 59, 0.5) !important; /* bg-slate-800/50 */
+      }
+      .dark table,
+      .dark table tr,
+      .dark table tr td,
+      .dark table tr th {
+        background-color: transparent !important;
+      }
+      .dark .dataTables_wrapper {
+        background-color: transparent !important;
+      }
+      /* Brand elements high-visibility in dark mode */
+      .dark .text-brand-700,
+      .dark .dark\:text-brand-300 {
+        color: #38bdf8 !important;
+      }
+      .dark .bg-white\/70,
+      .dark .bg-white\/80,
+      .dark .dark\:bg-brand-500\/10 {
+        background-color: rgba(30, 41, 59, 0.4) !important;
+      }
+      .dark .border-brand-200\/70,
+      .dark .border-brand-100,
+      .dark .dark\:border-brand-500\/30 {
+        border-color: rgba(56, 189, 248, 0.3) !important;
+      }
+    </style>
   </head>
   <body
     x-data="{ page: '@yield('page', 'dashboard')', 'loaded': true, 'darkMode': false, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"

@@ -295,7 +295,7 @@
                         $mediaCount = $property->images->count();
                         $badgeOne = \Illuminate\Support\Str::title($property->property_purpose ?: 'property');
                         $badgeTwo = \Illuminate\Support\Str::title($property->status ?: 'active');
-                        $agentName = $property->builder_developer ?: ($property->category?->name ?? 'Lux Estate');
+                        $agentName = $property->builder_developer ?: ($property->categories->first()?->name ?? 'Lux Estate');
                         $agentAvatar = 'https://ui-avatars.com/api/?name=' . urlencode($agentName) . '&background=1e73be&color=ffffff&size=120';
                     @endphp
                     <article class="property-listing-card overflow-hidden rounded border border-slate-200 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
