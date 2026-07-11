@@ -2,8 +2,12 @@
 
 <nav class="relative flex items-center justify-between rounded-xl border px-4 py-3.5 text-white sm:px-5 lg:px-7 {{ $solidHeader ? 'border-[#b8c7d6] bg-[#afbdd0]' : 'border-white/20 bg-white/8 backdrop-blur-sm' }}" data-responsive-nav>
     <a href="{{ route('home') }}" class="flex items-center gap-3">
-        <span class="inline-flex h-11 w-11 items-center justify-center rounded-md border border-white/30 bg-gradient-to-br from-[#2a8def] to-[#0f2f54] text-sm font-extrabold text-white">RS</span>
-        <span class="text-[1.45rem] font-extrabold tracking-[0.01em] sm:text-[1.6rem]">RealScape</span>
+        @if(!empty($settings['site_logo']))
+            <img src="{{ \App\Classes\ImageuploadHelper::getUploadedFileUrl($settings['site_logo']) }}" alt="{{ $settings['site_name'] ?? 'RealScape' }}" class="h-10 object-contain">
+        @else
+            <span class="inline-flex h-11 w-11 items-center justify-center rounded-md border border-white/30 bg-gradient-to-br from-[#2a8def] to-[#0f2f54] text-sm font-extrabold text-white">RS</span>
+        @endif
+        <span class="text-[1.45rem] font-extrabold tracking-[0.01em] sm:text-[1.6rem]">{{ $settings['site_name'] ?? 'RealScape' }}</span>
     </a>
 
     <button data-menu-toggle class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/30 text-white lg:hidden" aria-label="Toggle menu" aria-expanded="false">

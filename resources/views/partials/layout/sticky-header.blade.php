@@ -1,7 +1,12 @@
 <div class="sticky-site-header fixed inset-x-0 top-0 z-[70] border-b border-slate-200/80 bg-white/95 shadow-[0_8px_28px_rgba(15,23,42,0.08)] backdrop-blur" data-sticky-header>
     <div class="section-shell">
         <nav class="relative flex h-14 items-center justify-between gap-4" aria-label="Sticky navigation" data-responsive-nav>
-            <a href="{{ route('home') }}" class="text-[1.2rem] font-extrabold tracking-[0.01em] text-[#1f2a44]">RealScape</a>
+            <a href="{{ route('home') }}" class="flex items-center gap-3">
+                @if(!empty($settings['site_logo']))
+                    <img src="{{ \App\Classes\ImageuploadHelper::getUploadedFileUrl($settings['site_logo']) }}" alt="{{ $settings['site_name'] ?? 'RealScape' }}" class="h-8 object-contain">
+                @endif
+                <span class="text-[1.2rem] font-extrabold tracking-[0.01em] text-[#1f2a44]">{{ $settings['site_name'] ?? 'RealScape' }}</span>
+            </a>
 
             <button data-menu-toggle class="inline-flex h-9 w-9 items-center justify-center rounded border border-slate-300 text-slate-700 md:hidden" aria-label="Toggle sticky menu" aria-expanded="false">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

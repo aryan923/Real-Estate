@@ -73,6 +73,36 @@
               <img :src="favPreview" alt="Favicon Preview" class="mt-3 h-16 w-16 rounded-md object-contain" />
             </template>
           </div>
+
+          <div>
+            <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Contact Email</label>
+            <input type="email" name="contact_email" value="{{ old('contact_email', $settings['contact_email'] ?? '') }}" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
+          </div>
+
+          <div>
+            <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Contact Phone</label>
+            <input type="text" name="contact_phone" value="{{ old('contact_phone', $settings['contact_phone'] ?? '') }}" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
+          </div>
+
+          <div>
+            <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Facebook URL</label>
+            <input type="text" name="social_facebook" value="{{ old('social_facebook', $settings['social_facebook'] ?? '') }}" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
+          </div>
+
+          <div>
+            <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">X (Twitter) URL</label>
+            <input type="text" name="social_x" value="{{ old('social_x', $settings['social_x'] ?? '') }}" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
+          </div>
+
+          <div>
+            <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">LinkedIn URL</label>
+            <input type="text" name="social_linkedin" value="{{ old('social_linkedin', $settings['social_linkedin'] ?? '') }}" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
+          </div>
+
+          <div>
+            <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Instagram URL</label>
+            <input type="text" name="social_instagram" value="{{ old('social_instagram', $settings['social_instagram'] ?? '') }}" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
+          </div>
         </div>
 
         <div x-show="tab === 'smtp'" x-cloak class="grid grid-cols-1 gap-6 md:grid-cols-2">

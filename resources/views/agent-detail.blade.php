@@ -169,22 +169,43 @@
                             </p>
                         </div>
 
-                        <form class="mt-6 space-y-3">
+                        <form id="agent-contact-form" class="mt-6 space-y-3" novalidate>
+                            @csrf
+                            <input type="hidden" name="type" value="agent">
                             <div class="grid gap-3 sm:grid-cols-2">
-                                <input type="text" placeholder="Name" class="w-full rounded border border-slate-300 bg-white px-3 py-2.5 text-[14px] text-slate-700 outline-none focus:border-[#1e73be]">
-                                <input type="email" placeholder="Email" class="w-full rounded border border-slate-300 bg-white px-3 py-2.5 text-[14px] text-slate-700 outline-none focus:border-[#1e73be]">
-                                <input type="text" placeholder="Phone" class="w-full rounded border border-slate-300 bg-white px-3 py-2.5 text-[14px] text-slate-700 outline-none focus:border-[#1e73be]">
-                                <select class="w-full rounded border border-slate-300 bg-white px-3 py-2.5 text-[14px] text-slate-700 outline-none focus:border-[#1e73be]">
-                                    <option>What are you looking to do?</option>
-                                    <option>Buy a property</option>
-                                    <option>Sell a property</option>
-                                    <option>Rent a property</option>
-                                </select>
+                                <div>
+                                    <input type="text" name="name" placeholder="Name" required class="w-full rounded border border-slate-300 bg-white px-3 py-2.5 text-[14px] text-slate-700 outline-none focus:border-[#1e73be]">
+                                    <span class="error-msg text-xs text-red-500 hidden mt-1">Name is required.</span>
+                                </div>
+                                <div>
+                                    <input type="email" name="email" placeholder="Email" required class="w-full rounded border border-slate-300 bg-white px-3 py-2.5 text-[14px] text-slate-700 outline-none focus:border-[#1e73be]">
+                                    <span class="error-msg text-xs text-red-500 hidden mt-1">Please enter a valid email address.</span>
+                                </div>
+                                <div>
+                                    <input type="tel" name="phone" placeholder="Phone" class="w-full rounded border border-slate-300 bg-white px-3 py-2.5 text-[14px] text-slate-700 outline-none focus:border-[#1e73be]">
+                                    <span class="error-msg text-xs text-red-500 hidden mt-1">Please enter a valid phone number.</span>
+                                </div>
+                                <div>
+                                    <select name="enq_for" class="w-full rounded border border-slate-300 bg-white px-3 py-2.5 text-[14px] text-slate-700 outline-none focus:border-[#1e73be]">
+                                        <option value="">What are you looking to do?</option>
+                                        <option value="sale">Sale</option>
+                                        <option value="rent">Rent</option>
+                                        <option value="lease">Lease</option>
+                                    </select>
+                                </div>
                             </div>
 
-                            <textarea rows="5" class="w-full rounded border border-slate-300 bg-white px-3 py-2.5 text-[14px] text-slate-700 outline-none focus:border-[#1e73be]" placeholder=""></textarea>
+                            <div>
+                                <textarea name="message" rows="5" class="w-full rounded border border-slate-300 bg-white px-3 py-2.5 text-[14px] text-slate-700 outline-none focus:border-[#1e73be]" placeholder="Message"></textarea>
+                            </div>
 
-                            <button type="submit" class="inline-flex min-h-11 items-center justify-center rounded bg-[#1e73be] px-10 text-[15px] font-semibold text-white hover:bg-[#0f6fcb]">Send</button>
+                            <button type="submit" class="inline-flex min-h-11 items-center justify-center rounded bg-[#1e73be] px-10 text-[15px] font-semibold text-white hover:bg-[#0f6fcb] transition flex items-center justify-center gap-2">
+                                <span class="submit-text">Send</span>
+                                <svg class="spinner hidden animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                            </button>
                         </form>
                     </article>
                 </div>
@@ -389,3 +410,137 @@
 
     @include('partials.layout.footer')
 @endsection
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="module">
+$(document).ready(function() {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    function clearErrors(form) {
+        $(form).find('.error-msg').addClass('hidden');
+        $(form).find('input, select, textarea').removeClass('border-red-500').addClass('border-slate-200');
+    }
+
+    function showFieldError(inputEl, errorText) {
+        inputEl.addClass('border-red-500').removeClass('border-slate-200');
+        const errorEl = inputEl.parent().find('.error-msg');
+        if (errorEl.length) {
+            if (errorText) {
+                errorEl.text(errorText);
+            }
+            errorEl.removeClass('hidden');
+        }
+    }
+
+    $('#agent-contact-form').on('submit', function(e) {
+        e.preventDefault();
+        const form = this;
+        const $form = $(form);
+        clearErrors(form);
+
+        let isValid = true;
+
+        const nameInput = $form.find('input[name="name"]');
+        if (!nameInput.val().trim()) {
+            showFieldError(nameInput, 'Name is required.');
+            isValid = false;
+        }
+
+        const emailInput = $form.find('input[name="email"]');
+        const emailVal = emailInput.val().trim();
+        if (!emailVal) {
+            showFieldError(emailInput, 'Email is required.');
+            isValid = false;
+        } else if (!emailRegex.test(emailVal)) {
+            showFieldError(emailInput, 'Please enter a valid email address.');
+            isValid = false;
+        }
+
+        const phoneInput = $form.find('input[name="phone"]');
+        const phoneVal = phoneInput.val().trim();
+        if (phoneVal && phoneVal.length > 20) {
+            showFieldError(phoneInput, 'Phone number must be under 20 characters.');
+            isValid = false;
+        }
+
+        if (!isValid) return;
+
+        const submitBtn = $form.find('button[type="submit"]');
+        const spinner = submitBtn.find('.spinner');
+        const submitText = submitBtn.find('.submit-text');
+
+        submitBtn.prop('disabled', true);
+        spinner.removeClass('hidden');
+        if (submitText.length) submitText.css('opacity', '0.5');
+
+        $.ajax({
+            url: "{{ route('save_enq') }}",
+            type: 'POST',
+            data: $form.serialize(),
+            dataType: 'json',
+            success: function(response) {
+                submitBtn.prop('disabled', false);
+                spinner.addClass('hidden');
+                if (submitText.length) submitText.css('opacity', '1');
+
+                if (response.success) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: response.message || 'Submitted successfully!',
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#1e73be'
+                    });
+                    
+                    // Reset inputs
+                    $form.find('input[type="text"], input[type="email"], input[type="tel"]').val('');
+                    $form.find('select').val('');
+                    $form.find('textarea').val('');
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: response.message || 'Submission failed. Please try again.',
+                        icon: 'error',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#1e73be'
+                    });
+                }
+            },
+            error: function(xhr) {
+                submitBtn.prop('disabled', false);
+                spinner.addClass('hidden');
+                if (submitText.length) submitText.css('opacity', '1');
+
+                if (xhr.status === 422) {
+                    const errors = xhr.responseJSON.errors;
+
+                    Swal.fire({
+                        title: 'Validation Error',
+                        text: 'Please correct the errors in the form.',
+                        icon: 'warning',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#1e73be'
+                    });
+
+                    Object.keys(errors).forEach(function(field) {
+                        const inputEl = $form.find(`[name="${field}"]`);
+                        if (inputEl.length) {
+                            showFieldError(inputEl, errors[field][0]);
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'An error occurred. Please try again later.',
+                        icon: 'error',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#1e73be'
+                    });
+                }
+            }
+        });
+    });
+});
+</script>
+@endpush

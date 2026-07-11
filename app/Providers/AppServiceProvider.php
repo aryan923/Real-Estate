@@ -22,9 +22,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer('admin.*', function ($view) {
+        View::composer('*', function ($view) {
             $settings = Setting::allAsArray();
 
+            $view->with('settings', $settings);
             $view->with('adminSiteName', $settings['site_name'] ?? config('app.name', 'TailAdmin'));
             $view->with('adminFavicon', !empty($settings['site_fav'])
                 ? ImageuploadHelper::getUploadedFileUrl($settings['site_fav'])
