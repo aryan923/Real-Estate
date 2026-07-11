@@ -215,3 +215,23 @@
         transform: translateY(0);
     }
 }
+
+@media (min-width: 1024px) {
+    [data-menu-panel] {
+        background-color: transparent !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
+}
+
+@media (min-width: 768px) {
+    [data-sticky-menu] {
+        background-color: transparent !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
+}

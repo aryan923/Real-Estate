@@ -722,101 +722,170 @@
                         </div>
                     </article>
 
-                    <section>
-                        <h2 class="section-title">Similar Listings</h2>
-
-                        <div class="mt-4 grid gap-4 sm:grid-cols-2">
-                            <article class="property-listing-card overflow-hidden rounded border border-slate-200 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
-                                <div class="relative">
-                                    <a href="#" class="block">
-                                        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80" alt="Luxury House in Greenville" class="h-52 w-full object-cover">
-                                    </a>
-                                    <div class="absolute left-3 top-3 rounded bg-emerald-500 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-white">Featured</div>
-                                    <div class="absolute right-3 top-3 flex gap-1">
-                                        <span class="rounded bg-[#1e73be] px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-white">Sales</span>
-                                        <span class="rounded bg-[#2f7ecc] px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-white">Active</span>
-                                    </div>
-                                    <div class="absolute bottom-3 left-3 text-xs text-white drop-shadow-sm">Greenville, Jersey City</div>
-                                    <div class="absolute bottom-3 right-3 text-xs text-white">7</div>
+                    <section class="mt-2">
+                        <div class="flex items-center justify-between">
+                            <h2 class="section-title">Similar Listings</h2>
+                            @if($similarProperties->isNotEmpty())
+                                <div class="flex items-center gap-2" id="sim-slider-controls">
+                                    <button id="sim-prev" type="button" aria-label="Previous"
+                                        class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-sm transition hover:border-[#1e73be] hover:text-[#1e73be] disabled:opacity-30">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                                    </button>
+                                    <button id="sim-next" type="button" aria-label="Next"
+                                        class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-sm transition hover:border-[#1e73be] hover:text-[#1e73be] disabled:opacity-30">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                                    </button>
                                 </div>
-
-                                <div class="p-4">
-                                    <h3 class="property-card-title">Luxury House in Greenville</h3>
-                                    <p class="property-card-price mt-2">$860,000</p>
-                                    <p class="property-card-copy mt-3">This property is mostly wooded and sits high on a hilltop overlooking the Mohawk River Val ...</p>
-
-                                    <div class="property-card-meta mt-4 flex items-center gap-4 border-b border-slate-200 pb-3">
-                                        <span>5</span>
-                                        <span>6</span>
-                                        <span>190 ft<sup>2</sup></span>
-                                    </div>
-
-                                    <div class="mt-3 flex items-center justify-between">
-                                        <div class="flex items-center gap-2.5">
-                                            <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?auto=format&fit=crop&w=120&q=80" alt="John Collins" class="h-7 w-7 rounded-full object-cover">
-                                            <span class="property-card-agent">John Collins</span>
-                                        </div>
-                                        <div class="flex items-center gap-1.5 text-slate-400">
-                                            <button type="button" class="inline-flex h-7 w-7 items-center justify-center rounded border border-slate-200 hover:text-slate-600" aria-label="Share">+</button>
-                                            <button type="button" class="inline-flex h-7 w-7 items-center justify-center rounded border border-slate-200 hover:text-slate-600" aria-label="Favorite">♡</button>
-                                            <button type="button" class="inline-flex h-7 w-7 items-center justify-center rounded border border-slate-200 hover:text-slate-600" aria-label="Add">+</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-
-                            <article class="property-listing-card overflow-hidden rounded border border-slate-200 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
-                                <div class="relative">
-                                    <a href="#" class="block">
-                                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80" alt="Modern Condo for Sale" class="h-52 w-full object-cover">
-                                    </a>
-                                    <div class="absolute left-3 top-3 rounded bg-emerald-500 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-white">Featured</div>
-                                    <div class="absolute right-3 top-3 flex gap-1">
-                                        <span class="rounded bg-[#1e73be] px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-white">Sales</span>
-                                        <span class="rounded bg-[#2f7ecc] px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-white">Open House</span>
-                                    </div>
-                                    <div class="absolute bottom-3 left-3 text-xs text-white drop-shadow-sm">Manhattan, New York</div>
-                                    <div class="absolute bottom-3 right-3 text-xs text-white">7</div>
-                                </div>
-
-                                <div class="p-4">
-                                    <h3 class="property-card-title">Modern Condo for Sale</h3>
-                                    <p class="property-card-price mt-2">$150,000</p>
-                                    <p class="property-card-copy mt-3">Beautiful, updated, ground level Co-op apartment in the desirable Bay Terrace neighborhood ...</p>
-
-                                    <div class="property-card-meta mt-4 flex items-center gap-4 border-b border-slate-200 pb-3">
-                                        <span>2</span>
-                                        <span>2</span>
-                                        <span>200 ft<sup>2</sup></span>
-                                    </div>
-
-                                    <div class="mt-3 flex items-center justify-between">
-                                        <div class="flex items-center gap-2.5">
-                                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80" alt="Michael Sutther" class="h-7 w-7 rounded-full object-cover">
-                                            <span class="property-card-agent">Michael Sutther</span>
-                                        </div>
-                                        <div class="flex items-center gap-1.5 text-slate-400">
-                                            <button type="button" class="inline-flex h-7 w-7 items-center justify-center rounded border border-slate-200 hover:text-slate-600" aria-label="Share">+</button>
-                                            <button type="button" class="inline-flex h-7 w-7 items-center justify-center rounded border border-slate-200 hover:text-slate-600" aria-label="Favorite">♡</button>
-                                            <button type="button" class="inline-flex h-7 w-7 items-center justify-center rounded border border-slate-200 hover:text-slate-600" aria-label="Add">+</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
+                            @endif
                         </div>
+
+                        @if($similarProperties->isEmpty())
+                            <p class="mt-4 text-sm text-slate-500">No similar properties found at this time.</p>
+                        @else
+                            {{-- Slider wrapper --}}
+                            <div class="relative mt-4 overflow-hidden" id="sim-slider-outer">
+                                <div class="flex transition-transform duration-500 ease-in-out" id="sim-slider-track" style="will-change:transform;">
+                                    @foreach($similarProperties->chunk(2) as $slideIndex => $slide)
+                                        <div class="sim-slide min-w-full grid gap-4 sm:grid-cols-2" data-slide-index="{{ $slideIndex }}">
+                                            @foreach($slide as $sim)
+                                                @php
+                                                    $simImage   = $sim->images->first()?->image_url ?? 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80';
+                                                    $simCity    = $sim->city?->name ?? '';
+                                                    $simState   = $sim->state?->name ?? '';
+                                                    $simLoc     = trim($simCity . ($simState ? ', '.$simState : ''));
+                                                    $simCat     = $sim->categories->first()?->name ?? null;
+                                                    $simPurpose = ucfirst(strtolower($sim->property_purpose ?? ''));
+                                                    $simPrice   = '$'.number_format((float)$sim->price);
+                                                    $simBeds    = $sim->bedrooms ?? 0;
+                                                    $simBaths   = $sim->bathrooms ?? 0;
+                                                    $simSize    = $sim->size ? $sim->size.' ft²' : '—';
+                                                    $simImgCount = $sim->images->count();
+                                                    $simScore   = $sim->similarity_score ?? 0;
+                                                @endphp
+                                                <article class="property-listing-card overflow-hidden rounded border border-slate-200 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+                                                    <div class="relative">
+                                                        <a href="{{ route('property-detail', $sim->slug) }}" class="block">
+                                                            <img src="{{ $simImage }}" alt="{{ $sim->title }}"
+                                                                 onerror="this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80'"
+                                                                 class="h-48 w-full object-cover">
+                                                        </a>
+                                                        {{-- Match score badge --}}
+                                                        <div class="absolute left-3 top-3 flex items-center gap-1">
+                                                            @if($sim->featured)
+                                                                <span class="rounded bg-emerald-500 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">Featured</span>
+                                                            @endif
+                                                            <span class="rounded bg-[#7c3aed] px-2 py-0.5 text-[10px] font-semibold text-white">{{ $simScore }}pt match</span>
+                                                        </div>
+                                                        <div class="absolute right-3 top-3 flex gap-1">
+                                                            @if($simPurpose)
+                                                                <span class="rounded bg-[#1e73be] px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-white">{{ $simPurpose }}</span>
+                                                            @endif
+                                                            @if($sim->status)
+                                                                <span class="rounded bg-[#2f7ecc] px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-white">{{ ucfirst($sim->status) }}</span>
+                                                            @endif
+                                                        </div>
+                                                        @if($simLoc)
+                                                            <div class="absolute bottom-3 left-3 text-xs font-medium text-white drop-shadow-sm">{{ $simLoc }}</div>
+                                                        @endif
+                                                        @if($simImgCount > 0)
+                                                            <div class="absolute bottom-3 right-3 text-xs font-semibold text-white">{{ $simImgCount }}</div>
+                                                        @endif
+                                                    </div>
+
+                                                    <div class="p-4">
+                                                        @if($simCat)
+                                                            <span class="mb-2 inline-block rounded bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-500">{{ $simCat }}</span>
+                                                        @endif
+                                                        <h3 class="property-card-title">
+                                                            <a href="{{ route('property-detail', $sim->slug) }}" class="hover:text-[#1e73be]">{{ $sim->title }}</a>
+                                                        </h3>
+                                                        <p class="property-card-price mt-2">{{ $simPrice }}</p>
+                                                        @if($sim->description)
+                                                            <p class="property-card-copy mt-2 line-clamp-2">{{ Str::limit(strip_tags($sim->description), 100) }}</p>
+                                                        @endif
+
+                                                        <div class="property-card-meta mt-4 flex items-center gap-4 border-b border-slate-200 pb-3">
+                                                            <span title="Bedrooms">🛏 {{ $simBeds }}</span>
+                                                            <span title="Bathrooms">🚿 {{ $simBaths }}</span>
+                                                            <span title="Size">📐 {{ $simSize }}</span>
+                                                        </div>
+
+                                                        <div class="mt-3 flex items-center justify-end gap-1.5 text-slate-400">
+                                                            <button type="button" class="inline-flex h-7 w-7 items-center justify-center rounded border border-slate-200 hover:text-slate-600" aria-label="Share">+</button>
+                                                            <button type="button" class="inline-flex h-7 w-7 items-center justify-center rounded border border-slate-200 hover:text-slate-600" aria-label="Favorite">♡</button>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            @endforeach
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            {{-- Dot indicators --}}
+                            @php $slideCount = $similarProperties->chunk(2)->count(); @endphp
+                            @if($slideCount > 1)
+                                <div class="mt-4 flex justify-center gap-2" id="sim-dots">
+                                    @for($d = 0; $d < $slideCount; $d++)
+                                        <button type="button" data-dot="{{ $d }}"
+                                            class="sim-dot h-2 w-2 rounded-full bg-slate-300 transition-all {{ $d === 0 ? '!w-5 !bg-[#1e73be]' : '' }}"
+                                            aria-label="Go to slide {{ $d + 1 }}"></button>
+                                    @endfor
+                                </div>
+                            @endif
+
+                            <script>
+                            (function(){
+                                const track   = document.getElementById('sim-slider-track');
+                                const prev    = document.getElementById('sim-prev');
+                                const next    = document.getElementById('sim-next');
+                                const dots    = document.querySelectorAll('.sim-dot');
+                                const total   = {{ $slideCount }};
+                                let cur = 0;
+
+                                function go(index) {
+                                    cur = Math.max(0, Math.min(index, total - 1));
+                                    track.style.transform = 'translateX(-' + (cur * 100) + '%)';
+                                    dots.forEach(function(d, i) {
+                                        d.classList.toggle('!w-5', i === cur);
+                                        d.classList.toggle('!bg-[#1e73be]', i === cur);
+                                        d.classList.toggle('bg-slate-300', i !== cur);
+                                    });
+                                    if (prev) prev.disabled = cur === 0;
+                                    if (next) next.disabled = cur === total - 1;
+                                }
+
+                                if (prev) prev.addEventListener('click', function(){ go(cur - 1); });
+                                if (next) next.addEventListener('click', function(){ go(cur + 1); });
+                                dots.forEach(function(d) {
+                                    d.addEventListener('click', function(){ go(parseInt(d.dataset.dot)); });
+                                });
+
+                                go(0);
+                            })();
+                            </script>
+                        @endif
                     </section>
                 </div>
 
                 <aside class="sticky self-start" style="top:3.5rem;">
-                    <div class="rounded-xl bg-white shadow-[0_10px_30px_rgba(15,23,42,0.08)]">
+                    <div class="rounded-xl bg-white shadow-[0_10px_30px_rgba(15,23,42,0.08)] overflow-hidden">
+
+                        {{-- Tab headers --}}
                         <div class="grid grid-cols-2 border-b border-slate-200 text-center text-[15px] font-semibold" data-sidebar-tabs>
-                            <button type="button" class="border-b-2 border-[#1e73be] px-4 py-3 text-[#1f2a44]" data-sidebar-tab="request" aria-pressed="true">Request Info</button>
-                            <button type="button" class="px-4 py-3 text-slate-500" data-sidebar-tab="tour" aria-pressed="false">Schedule a tour</button>
+                            <button type="button" id="tab-request"
+                                class="border-b-2 border-[#1e73be] px-4 py-3 text-[#1f2a44] transition"
+                                data-sidebar-tab="request" aria-pressed="true">Request Info</button>
+                            <button type="button" id="tab-tour"
+                                class="px-4 py-3 text-slate-500 transition"
+                                data-sidebar-tab="tour" aria-pressed="false">Schedule a tour</button>
                         </div>
 
-                        <div class="p-4 sm:p-5" data-sidebar-panel="request">
+                        {{-- ─── REQUEST INFO PANEL ─── --}}
+                        <div class="overflow-y-auto max-h-[520px] p-4 sm:p-5 scrollbar-thin scrollbar-thumb-slate-200" data-sidebar-panel="request">
                             <div class="flex items-center gap-3">
-                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80" alt="Lara Black" class="h-14 w-14 rounded-full object-cover">
+                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80"
+                                     alt="Lara Black" class="h-14 w-14 rounded-full object-cover">
                                 <div>
                                     <p class="text-lg font-bold text-[#1f2a44]">Lara Black</p>
                                     <p class="text-sm text-slate-500">Member ID: 987654321</p>
@@ -826,82 +895,106 @@
                             <div class="mt-4 rounded bg-[#67c47c] px-3 py-1.5 text-sm font-semibold text-white">Schedule a showing?</div>
 
                             <form class="mt-4 space-y-3">
-                                <input type="text" placeholder="Name" class="w-full rounded border border-slate-200 px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-[#1e73be]">
-                                <input type="email" placeholder="Email" class="w-full rounded border border-slate-200 px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-[#1e73be]">
-                                <input type="tel" placeholder="Phone" class="w-full rounded border border-slate-200 px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-[#1e73be]">
+                                <input type="text" placeholder="Name"
+                                    class="w-full rounded border border-slate-200 px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-[#1e73be]">
+                                <input type="email" placeholder="Email"
+                                    class="w-full rounded border border-slate-200 px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-[#1e73be]">
+                                <input type="tel" placeholder="Phone"
+                                    class="w-full rounded border border-slate-200 px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-[#1e73be]">
                                 <select class="w-full rounded border border-slate-200 px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-[#1e73be]">
                                     <option>What are you looking to do?</option>
                                     <option>Buy</option>
                                     <option>Rent</option>
                                     <option>Invest</option>
                                 </select>
-                                <textarea rows="6" class="w-full rounded border border-slate-200 px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-[#1e73be]">Hello,
-I'm interested in [ Suburb Home for Sale ]</textarea>
+                                <textarea rows="5" class="w-full rounded border border-slate-200 px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-[#1e73be]">Hello,
+I'm interested in [ {{ $property->title }} ]</textarea>
 
-                                <button type="submit" class="w-full rounded bg-[#1279eb] px-4 py-2.5 text-base font-bold text-white hover:bg-[#0f6fcb]">Send</button>
-                                <button type="button" class="w-full rounded border border-[#1279eb] px-4 py-2.5 text-base font-bold text-[#1279eb] hover:bg-[#f3f8ff]">Call</button>
-                                <button type="button" class="w-full rounded border border-[#1279eb] px-4 py-2.5 text-base font-bold text-[#1279eb] hover:bg-[#f3f8ff]">WhatsApp</button>
+                                <button type="submit" class="w-full rounded bg-[#1279eb] px-4 py-2.5 text-base font-bold text-white hover:bg-[#0f6fcb] transition">Send</button>
+                                <button type="button" class="w-full rounded border border-[#1279eb] px-4 py-2.5 text-base font-bold text-[#1279eb] hover:bg-[#f3f8ff] transition">Call</button>
+                                <button type="button" class="w-full rounded border border-[#1279eb] px-4 py-2.5 text-base font-bold text-[#1279eb] hover:bg-[#f3f8ff] transition">WhatsApp</button>
                             </form>
                         </div>
 
-                        <div class="hidden p-4 sm:p-5" data-sidebar-panel="tour">
-                            <h3 class="text-[30px] font-semibold leading-tight tracking-[-0.02em] text-[#1f2a44]">Schedule a tour</h3>
+                        {{-- ─── SCHEDULE A TOUR PANEL ─── --}}
+                        <div class="hidden overflow-y-auto max-h-[520px] p-4 sm:p-5 scrollbar-thin scrollbar-thumb-slate-200" data-sidebar-panel="tour">
+                            <h3 class="text-[22px] font-bold leading-tight tracking-[-0.02em] text-[#1f2a44]">Schedule a tour</h3>
 
-                            <div class="mt-4 grid grid-cols-[1fr_1fr_1fr_1fr] gap-2">
-                                <button type="button" class="rounded border border-slate-200 px-2 py-1 text-center text-sm text-slate-700">
-                                    <span class="block">Mon</span>
-                                    <span class="block text-lg font-semibold">06</span>
-                                    <span class="block">Jul</span>
-                                </button>
-                                <button type="button" class="rounded border border-[#1e73be] bg-[#f0f6ff] px-2 py-1 text-center text-sm text-[#1e73be]">
-                                    <span class="block">Tue</span>
-                                    <span class="block text-lg font-semibold">07</span>
-                                    <span class="block">Jul</span>
-                                </button>
-                                <button type="button" class="rounded border border-slate-200 px-2 py-1 text-center text-sm text-slate-700">
-                                    <span class="block">Wed</span>
-                                    <span class="block text-lg font-semibold">08</span>
-                                    <span class="block">Jul</span>
-                                </button>
-                                <button type="button" class="rounded border border-slate-200 px-2 py-1 text-center text-sm text-slate-700">
-                                    <span class="block">Thu</span>
-                                    <span class="block text-lg font-semibold">09</span>
-                                    <span class="block">Jul</span>
-                                </button>
+                            {{-- Date & Time picker --}}
+                            <div class="mt-4 space-y-3">
+                                <label class="block text-sm font-semibold text-slate-600">Pick a date & time</label>
+                                <input type="datetime-local" id="tour-datetime"
+                                    class="w-full rounded border border-slate-200 px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-[#1e73be] cursor-pointer"
+                                    min="{{ now()->addDay()->format('Y-m-d\TH:i') }}">
                             </div>
 
-                            <form class="mt-4 space-y-3">
-                                <select class="w-full rounded border border-slate-200 px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-[#1e73be]">
-                                    <option>Please select the time</option>
-                                    <option>10:00 AM</option>
-                                    <option>12:00 PM</option>
-                                    <option>02:00 PM</option>
-                                </select>
-
-                                <div class="grid grid-cols-2 gap-2">
-                                    <button type="button" class="inline-flex items-center justify-center gap-1.5 rounded border border-[#1e73be] bg-[#f0f6ff] px-3 py-2 text-sm font-medium text-[#1e73be]">In Person</button>
-                                    <button type="button" class="inline-flex items-center justify-center gap-1.5 rounded border border-slate-200 px-3 py-2 text-sm font-medium text-slate-600">Video Chat</button>
+                            {{-- Tour type — radio buttons --}}
+                            <div class="mt-4">
+                                <label class="block text-sm font-semibold text-slate-600 mb-2">Tour type</label>
+                                <div class="grid grid-cols-2 gap-2" id="tour-type-group">
+                                    <button type="button"
+                                        data-tour-type="in-person"
+                                        class="tour-type-btn inline-flex items-center justify-center gap-1.5 rounded border-2 border-[#1e73be] bg-[#f0f6ff] px-3 py-2.5 text-sm font-semibold text-[#1e73be] transition"
+                                        aria-pressed="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                        In Person
+                                    </button>
+                                    <button type="button"
+                                        data-tour-type="video-chat"
+                                        class="tour-type-btn inline-flex items-center justify-center gap-1.5 rounded border-2 border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-500 transition"
+                                        aria-pressed="false">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.723v6.554a1 1 0 01-1.447.894L15 14M4 8h11a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4a2 2 0 012-2z"/></svg>
+                                        Video Chat
+                                    </button>
                                 </div>
+                                <input type="hidden" id="tour-type-value" name="tour_type" value="in-person">
+                            </div>
 
-                                <p class="pt-2 text-[18px] font-semibold text-[#1f2a44]">Your information</p>
+                            {{-- Your information --}}
+                            <p class="mt-5 text-[16px] font-bold text-[#1f2a44]">Your information</p>
 
-                                <input type="text" placeholder="Name" class="w-full rounded border border-slate-200 px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-[#1e73be]">
-                                <input type="email" placeholder="Email" class="w-full rounded border border-slate-200 px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-[#1e73be]">
-                                <input type="tel" placeholder="Phone" class="w-full rounded border border-slate-200 px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-[#1e73be]">
-
+                            <form class="mt-3 space-y-3">
+                                <input type="text" placeholder="Name"
+                                    class="w-full rounded border border-slate-200 px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-[#1e73be]">
+                                <input type="email" placeholder="Email"
+                                    class="w-full rounded border border-slate-200 px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-[#1e73be]">
+                                <input type="tel" placeholder="Phone"
+                                    class="w-full rounded border border-slate-200 px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-[#1e73be]">
                                 <select class="w-full rounded border border-slate-200 px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-[#1e73be]">
                                     <option>What are you looking to do?</option>
                                     <option>Buy</option>
                                     <option>Rent</option>
                                     <option>Invest</option>
                                 </select>
+                                <textarea rows="4" class="w-full rounded border border-slate-200 px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-[#1e73be]">I would like to schedule a tour for [ {{ $property->title }} ].</textarea>
 
-                                <textarea rows="5" class="w-full rounded border border-slate-200 px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-[#1e73be]">I would like to schedule a tour for [ Family House In Hudson ].</textarea>
-
-                                <button type="submit" class="w-full rounded bg-[#1279eb] px-4 py-2.5 text-base font-bold text-white hover:bg-[#0f6fcb]">Send</button>
+                                <button type="submit" class="w-full rounded bg-[#1279eb] px-4 py-2.5 text-base font-bold text-white hover:bg-[#0f6fcb] transition">Book Tour</button>
                             </form>
                         </div>
                     </div>
+
+                    {{-- JS: Tour type radio behaviour --}}
+                    <script>
+                    (function () {
+                        // Tour type toggle
+                        const tourBtns = document.querySelectorAll('.tour-type-btn');
+                        const tourTypeInput = document.getElementById('tour-type-value');
+
+                        tourBtns.forEach(function (btn) {
+                            btn.addEventListener('click', function () {
+                                tourBtns.forEach(function (b) {
+                                    b.classList.remove('border-[#1e73be]', 'bg-[#f0f6ff]', 'text-[#1e73be]');
+                                    b.classList.add('border-slate-200', 'bg-white', 'text-slate-500');
+                                    b.setAttribute('aria-pressed', 'false');
+                                });
+                                btn.classList.remove('border-slate-200', 'bg-white', 'text-slate-500');
+                                btn.classList.add('border-[#1e73be]', 'bg-[#f0f6ff]', 'text-[#1e73be]');
+                                btn.setAttribute('aria-pressed', 'true');
+                                if (tourTypeInput) tourTypeInput.value = btn.dataset.tourType;
+                            });
+                        });
+                    })();
+                    </script>
                 </aside>
             </div>
         </div>

@@ -13,11 +13,19 @@
     </button>
 
     <div data-menu-panel class="absolute left-0 right-0 top-[calc(100%+0.55rem)] z-40 hidden flex-col gap-1 rounded-xl border border-white/25 bg-[#0f2f54]/95 p-4 shadow-xl backdrop-blur lg:static lg:z-auto lg:flex lg:flex-row lg:items-center lg:gap-7 lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none lg:backdrop-blur-0">
-        <a href="{{ route('home') }}" class="rounded px-2 py-1.5 text-[15px] font-bold text-white/95 hover:bg-white/10 hover:text-white lg:px-0 lg:py-0 lg:hover:bg-transparent">Home</a>
-        <a href="{{ route('about-us') }}" class="rounded px-2 py-1.5 text-[15px] font-semibold text-white/95 hover:bg-white/10 hover:text-white lg:px-0 lg:py-0 lg:hover:bg-transparent">About Us</a>
-        <a href="{{ route('properties') }}" class="rounded px-2 py-1.5 text-[15px] font-semibold text-white/95 hover:bg-white/10 hover:text-white lg:px-0 lg:py-0 lg:hover:bg-transparent">Properties</a>
-        <a href="{{ route('agents') }}" class="rounded px-2 py-1.5 text-[15px] font-semibold text-white/95 hover:bg-white/10 hover:text-white lg:px-0 lg:py-0 lg:hover:bg-transparent">Agent</a>
-        <a href="{{ route('blog') }}" class="rounded px-2 py-1.5 text-[15px] font-semibold text-white/95 hover:bg-white/10 hover:text-white lg:px-0 lg:py-0 lg:hover:bg-transparent">Blog</a>
-        <a href="{{ route('contact-us') }}" class="rounded px-2 py-1.5 text-[15px] font-semibold text-white/95 hover:bg-white/10 hover:text-white lg:px-0 lg:py-0 lg:hover:bg-transparent">Contact Us</a>
+        @php($routes = [
+            'home' => 'Home',
+            'about-us' => 'About Us',
+            'properties' => 'Properties',
+            'agents' => 'Agent',
+            'blog' => 'Blog',
+            'contact-us' => 'Contact Us'
+        ])
+        @foreach($routes as $route => $label)
+            @php($isActive = request()->routeIs($route))
+            <a href="{{ route($route) }}" class="relative rounded px-2 py-1.5 text-[15px] font-semibold transition-all lg:rounded-none lg:px-0 lg:py-1 {{ $isActive ? 'text-white border-b-2 border-white font-bold' : 'text-white/80 hover:text-white lg:hover:border-b-2 lg:hover:border-white/50' }}">
+                {{ $label }}
+            </a>
+        @endforeach
     </div>
 </nav>

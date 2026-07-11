@@ -82,7 +82,7 @@
         $featuredPosts = array_slice($allPosts, 1, 2);
     @endphp
 
-    <header class="relative isolate min-h-[480px] overflow-hidden bg-[#08192f]" data-sticky-trigger>
+    <header class="relative isolate min-h-[480px] bg-[#08192f] z-30" data-sticky-trigger>
         @include('partials.layout.topbar')
 
         <div class="section-shell relative z-20 py-4 sm:py-6">

@@ -3,7 +3,7 @@
 @section('title', 'About Us')
 
 @section('content')
-    <header class="relative isolate min-h-[520px] overflow-hidden bg-[#08192f]" data-sticky-trigger>
+    <header class="relative isolate min-h-[520px] bg-[#08192f] z-30" data-sticky-trigger>
         @include('partials.layout.topbar')
 
         <div class="section-shell relative z-20 py-4 sm:py-6">

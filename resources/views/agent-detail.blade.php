@@ -3,7 +3,7 @@
 @section('title', $agent['name'])
 
 @section('content')
-    <header class="relative isolate overflow-hidden bg-[#08192f]" data-sticky-trigger>
+    <header class="relative isolate bg-[#08192f] z-30" data-sticky-trigger>
         @include('partials.layout.topbar')
 
         <div class="section-shell relative z-20 py-4 sm:py-6">
@@ -302,7 +302,7 @@
                             </div>
 
                             <div class="p-4">
-                                <h3 class="property-card-title"><a href="{{ route('property-detail') }}" class="hover:text-[#1e73be]">{{ $listing['title'] }}</a></h3>
+                                <h3 class="property-card-title"><a href="{{ route('properties') }}" class="hover:text-[#1e73be]">{{ $listing['title'] }}</a></h3>
                                 <p class="property-card-price mt-2">{{ $listing['price'] }}</p>
                                 <p class="property-card-copy mt-3">{{ $listing['excerpt'] }}</p>
 

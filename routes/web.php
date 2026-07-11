@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\EnquiryController;
 use App\Http\Controllers\Admin\FeatureController;
 use App\Http\Controllers\Admin\PropertyController;
 use App\Http\Controllers\Admin\RolePermissionController;
@@ -127,6 +128,8 @@ $frontendPropertyRelations = ['images', 'categories', 'categories.parent', 'feat
 Route::get('/', function () {
     return view('index');
 })->name('home');
+
+Route::post('enquiries', [EnquiryController::class, 'store'])->name('save_enq');
 
 Route::get('/properties', function (Request $request) use ($frontendPropertyRelations) {
     $filters = [
@@ -416,8 +419,46 @@ Route::get('/property-detail/{slug}', function (string $slug) use ($frontendProp
         ->where('slug', $slug)
         ->firstOrFail();
 
+    // Gather matching criteria
+    $categoryIds  = $property->categories->pluck('id')->toArray();
+    $cityId       = $property->city_id;
+    $purpose      = $property->property_purpose;
+    $price        = (float) $property->price;
+    $minPrice     = $price > 0 ? $price * 0.5 : 0;
+    $maxPrice     = $price > 0 ? $price * 1.5 : PHP_INT_MAX;
+
+    // Fetch candidate pool: active, not current, limit to 200
+    $candidates = Property::query()
+        ->with($frontendPropertyRelations)
+        ->where('status', 'active')
+        ->where('id', '!=', $property->id)
+        ->limit(200)
+        ->get();
+
+    // Score each candidate
+    $scored = $candidates->map(function ($p) use ($categoryIds, $cityId, $purpose, $minPrice, $maxPrice) {
+        $score = 0;
+        // Same category overlap: 3 pts per shared category
+        $sharedCategories = $p->categories->pluck('id')->intersect($categoryIds)->count();
+        $score += $sharedCategories * 3;
+        // Same city: 2 pts
+        if ($p->city_id && $p->city_id === $cityId) $score += 2;
+        // Same purpose (buy/rent): 2 pts
+        if (strtolower($p->property_purpose) === strtolower($purpose)) $score += 2;
+        // Similar price range ±50%: 1 pt
+        $pPrice = (float) $p->price;
+        if ($pPrice >= $minPrice && $pPrice <= $maxPrice) $score += 1;
+        $p->similarity_score = $score;
+        return $p;
+    })
+    ->filter(fn($p) => $p->similarity_score > 0)
+    ->sortByDesc('similarity_score')
+    ->take(8)
+    ->values();
+
     return view('property-detail', [
-        'property' => $property,
+        'property'           => $property,
+        'similarProperties'  => $scored,
     ]);
 })->name('property-detail');
 
@@ -524,5 +565,13 @@ Route::prefix('admin')->name('admin.')->group(function () use ($tailAdminPages) 
  
              return response()->view('admin.pages.404', [], 404);
          })->where('page', '[A-Za-z0-9\-]+')->name('page');
+         Route::prefix('enquiries')->name('enquiries.')->group(function () {
+            Route::get('/', [EnquiryController::class, 'index'])->name('index');
+            Route::get('/data', [EnquiryController::class, 'data'])->name('data');
+            Route::get('/{enquiry}', [EnquiryController::class, 'show'])->name('show');
+            Route::get('/{enquiry}/edit', [EnquiryController::class, 'edit'])->name('edit');
+            Route::put('/{enquiry}', [EnquiryController::class, 'update'])->name('update');
+            Route::delete('/{enquiry}', [EnquiryController::class, 'destroy'])->name('destroy');
+        });
      });
  });
