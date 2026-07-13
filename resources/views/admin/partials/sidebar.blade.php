@@ -22,7 +22,7 @@
   <div class="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
     <nav
       x-data="{ selected: $persist('Dashboard') }"
-      x-init="selected = window.location.pathname.includes('/admin/user-management') ? 'User Management' : window.location.pathname.includes('/admin/roles-permissions') ? 'Roles & Permissions' : window.location.pathname.includes('/admin/general-setting') ? 'General Setting' : window.location.pathname.includes('/admin/categories') ? 'Categories' : window.location.pathname.includes('/admin/features') ? 'Features' : 'Dashboard'"
+      x-init="selected = window.location.pathname.includes('/admin/enquiries') ? 'Manage Leads' : window.location.pathname.includes('/admin/testimonials') ? 'Manage Testimonials' : window.location.pathname.includes('/admin/posts') ? 'Manage Blog' : window.location.pathname.includes('/admin/comments') ? 'Manage Comments' : window.location.pathname.includes('/admin/agents') ? 'Manage Agents' : window.location.pathname.includes('/admin/user-management') ? 'User Management' : window.location.pathname.includes('/admin/roles-permissions') ? 'Roles & Permissions' : window.location.pathname.includes('/admin/general-setting') ? 'General Setting' : window.location.pathname.includes('/admin/categories') ? 'Categories' : window.location.pathname.includes('/admin/features') ? 'Features' : 'Dashboard'"
     >
       <div>
         <h3 class="mb-4 text-xs uppercase leading-[20px] text-gray-400">
@@ -77,6 +77,117 @@
                 <path d="M9 17H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
               </svg>
               <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Properties</span>
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="{{ route('admin.enquiries.index') }}"
+              @click="selected = 'Manage Leads'"
+              class="menu-item group"
+              :class="(selected === 'Manage Leads' || page === 'enquiries') ? 'menu-item-active' : 'menu-item-inactive'"
+            >
+              <svg
+                :class="(selected === 'Manage Leads' || page === 'enquiries') ? 'menu-item-icon-active' : 'menu-item-icon-inactive'"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M22 6l-10 7L2 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Manage Leads</span>
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="{{ route('admin.testimonials') }}"
+              @click="selected = 'Manage Testimonials'"
+              class="menu-item group"
+              :class="(selected === 'Manage Testimonials' || page === 'testimonials') ? 'menu-item-active' : 'menu-item-inactive'"
+            >
+              <svg
+                :class="(selected === 'Manage Testimonials' || page === 'testimonials') ? 'menu-item-icon-active' : 'menu-item-icon-inactive'"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Manage Testimonials</span>
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="{{ route('admin.posts') }}"
+              @click="selected = 'Manage Blog'"
+              class="menu-item group"
+              :class="(selected === 'Manage Blog' || page === 'posts') ? 'menu-item-active' : 'menu-item-inactive'"
+            >
+              <svg
+                :class="(selected === 'Manage Blog' || page === 'posts') ? 'menu-item-icon-active' : 'menu-item-icon-inactive'"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10l4 4v10a2 2 0 0 1-2 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 11H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M17 15H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Manage Blog</span>
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="{{ route('admin.comments') }}"
+              @click="selected = 'Manage Comments'"
+              class="menu-item group"
+              :class="(selected === 'Manage Comments' || page === 'comments') ? 'menu-item-active' : 'menu-item-inactive'"
+            >
+              <svg
+                :class="(selected === 'Manage Comments' || page === 'comments') ? 'menu-item-icon-active' : 'menu-item-icon-inactive'"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Manage Comments</span>
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="{{ route('admin.agents') }}"
+              @click="selected = 'Manage Agents'"
+              class="menu-item group"
+              :class="(selected === 'Manage Agents' || page === 'agents') ? 'menu-item-active' : 'menu-item-inactive'"
+            >
+              <svg
+                :class="(selected === 'Manage Agents' || page === 'agents') ? 'menu-item-icon-active' : 'menu-item-icon-inactive'"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Manage Agents</span>
             </a>
           </li>
 

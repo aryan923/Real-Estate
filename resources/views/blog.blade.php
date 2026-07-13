@@ -4,82 +4,7 @@
 
 @section('content')
     @php
-        $allPosts = $allPosts ?? [
-            [
-                'title' => 'Manhattan Apartments',
-                'slug' => 'manhattan-apartments',
-                'excerpt' => 'In Manhattan, uptown means north (more precisely north-northeast, which is the direction the island and its street grid are oriented) and downtown means south.',
-                'category' => 'City Living',
-                'date' => 'May 27, 2014',
-                'read_time' => '5 min read',
-                'image' => 'https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1400&q=80',
-            ],
-            [
-                'title' => 'Why Live in New York',
-                'slug' => 'why-live-in-new-york',
-                'excerpt' => 'In contrast with New York City urban atmosphere, the vast majority of the state is dominated by farms, forests, rivers, mountains and lakes.',
-                'category' => 'Neighborhood',
-                'date' => 'May 27, 2014',
-                'read_time' => '4 min read',
-                'image' => 'https://images.unsplash.com/photo-1617104551722-3b2d51366400?auto=format&fit=crop&w=1400&q=80',
-            ],
-            [
-                'title' => 'What Luxury Renters Are Prioritizing This Year',
-                'slug' => 'what-luxury-renters-are-prioritizing-this-year',
-                'excerpt' => 'From wellness-driven layouts to energy-smart systems, learn which features are driving premium lease decisions.',
-                'category' => 'Market Trends',
-                'date' => 'June 18, 2026',
-                'read_time' => '5 min read',
-                'image' => 'https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=1400&q=80',
-            ],
-            [
-                'title' => 'Renovation ROI: Which Upgrades Actually Increase Value',
-                'slug' => 'renovation-roi-which-upgrades-actually-increase-value',
-                'excerpt' => 'Not every improvement adds equal return. Here is where homeowners are seeing the strongest resale gains right now.',
-                'category' => 'Home Value',
-                'date' => 'June 10, 2026',
-                'read_time' => '7 min read',
-                'image' => 'https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1400&q=80',
-            ],
-            [
-                'title' => 'How to Evaluate a Neighborhood Like a Local Expert',
-                'slug' => 'how-to-evaluate-a-neighborhood-like-a-local-expert',
-                'excerpt' => 'A field-tested framework for comparing commute access, long-term growth indicators, and quality-of-life signals.',
-                'category' => 'Buying Guide',
-                'date' => 'June 1, 2026',
-                'read_time' => '6 min read',
-                'image' => 'https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=1400&q=80',
-            ],
-            [
-                'title' => 'Rental Demand Snapshot: Where Investors Are Looking',
-                'slug' => 'rental-demand-snapshot-where-investors-are-looking',
-                'excerpt' => 'A quick look at rental demand shifts and the property types drawing the most interest from experienced investors.',
-                'category' => 'Investing',
-                'date' => 'May 24, 2026',
-                'read_time' => '5 min read',
-                'image' => 'https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=1400&q=80',
-            ],
-        ];
-
         $query = trim((string) request('q', ''));
-
-        $posts = $allPosts;
-
-        if ($query !== '') {
-            $posts = collect($allPosts)
-                ->filter(function (array $post) use ($query) {
-                    $needle = strtolower($query);
-
-                    return str_contains(strtolower($post['title']), $needle)
-                        || str_contains(strtolower($post['excerpt']), $needle)
-                        || str_contains(strtolower($post['category']), $needle);
-                })
-                ->values()
-                ->all();
-        }
-
-        $recentPosts = array_slice($allPosts, 0, 4);
-        $featuredPosts = array_slice($allPosts, 1, 2);
     @endphp
 
     <header class="relative isolate min-h-[480px] bg-[#08192f] z-30" data-sticky-trigger>
@@ -107,7 +32,7 @@
                         @forelse ($posts as $post)
                             <article class="rounded-[4px] bg-[#e6eaee] p-3.5 sm:p-4">
                                 <div class="overflow-hidden rounded-[4px]">
-                                    <img src="{{ $post['image'] }}" alt="{{ $post['title'] }}" class="aspect-[16/9] w-full object-cover">
+                                    <img src="{{ \Illuminate\Support\Str::startsWith($post['image'] ?? '', ['http://', 'https://']) ? $post['image'] : \App\Classes\ImageuploadHelper::getUploadedFileUrl($post['image']) }}" alt="{{ $post['title'] }}" class="aspect-[16/9] w-full object-cover">
                                 </div>
 
                                 <div class="px-2 pb-2 pt-5 sm:px-3">
@@ -129,6 +54,10 @@
                             </div>
                         @endforelse
                     </div>
+
+                    <div class="mt-8">
+                        {{ $posts->links() }}
+                    </div>
                 </div>
 
                 <aside class="space-y-6 xl:col-span-4">
@@ -147,7 +76,7 @@
                         <div class="mt-4 space-y-4">
                             @foreach ($recentPosts as $post)
                                 <article class="flex items-start gap-3">
-                                    <img src="{{ $post['image'] }}" alt="{{ $post['title'] }}" class="h-16 w-20 rounded-[4px] object-cover">
+                                    <img src="{{ \Illuminate\Support\Str::startsWith($post['image'] ?? '', ['http://', 'https://']) ? $post['image'] : \App\Classes\ImageuploadHelper::getUploadedFileUrl($post['image']) }}" alt="{{ $post['title'] }}" class="h-16 w-20 rounded-[4px] object-cover">
                                     <div class="min-w-0 flex-1">
                                         <p class="line-clamp-2 text-[14px] font-semibold leading-5 text-[#242b34]"><a href="{{ route('blog-detail', $post['slug']) }}" class="transition hover:text-[#0f5faf]">{{ $post['title'] }}</a></p>
                                         <p class="mt-1 text-[14px] text-[#5f7690]">{{ $post['date'] }}</p>
@@ -163,7 +92,7 @@
                             @foreach ($featuredPosts as $post)
                                 <article>
                                     <a href="{{ route('blog-detail', $post['slug']) }}" class="block overflow-hidden rounded-[4px]">
-                                        <img src="{{ $post['image'] }}" alt="{{ $post['title'] }}" class="h-40 w-full object-cover transition duration-300 hover:scale-[1.02]">
+                                        <img src="{{ \Illuminate\Support\Str::startsWith($post['image'] ?? '', ['http://', 'https://']) ? $post['image'] : \App\Classes\ImageuploadHelper::getUploadedFileUrl($post['image']) }}" alt="{{ $post['title'] }}" class="h-40 w-full object-cover transition duration-300 hover:scale-[1.02]">
                                     </a>
                                     <p class="mt-3 text-[14px] font-semibold leading-6 text-[#242b34]"><a href="{{ route('blog-detail', $post['slug']) }}" class="transition hover:text-[#0f5faf]">{{ $post['title'] }}</a></p>
                                     <p class="mt-1 text-[14px] text-[#5f7690]">{{ $post['date'] }}</p>

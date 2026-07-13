@@ -18,9 +18,9 @@
     <div class="mx-auto max-w-6xl">
         <!-- Intent Tabs -->
         <div class="mx-auto inline-flex items-center gap-1.5 rounded-2xl bg-[linear-gradient(90deg,rgba(66,91,117,0.9),rgba(39,64,90,0.85))] p-1.5 shadow-[0_18px_35px_rgba(10,30,51,0.36)]" id="intent-tabs">
-            <button type="button" data-type="sale" class="intent-tab is-active rounded-xl px-8 py-2.5 text-[16px] font-extrabold transition-all duration-200 cursor-pointer sm:min-w-[136px] bg-[#1e73be] text-white">Sales</button>
-            <button type="button" data-type="rent" class="intent-tab rounded-xl px-8 py-2.5 text-[16px] font-bold transition-all duration-200 cursor-pointer sm:min-w-[136px] bg-white/10 hover:bg-white/20 text-white">Rentals</button>
-            <button type="button" data-type="lease" class="intent-tab rounded-xl px-8 py-2.5 text-[16px] font-bold transition-all duration-200 cursor-pointer sm:min-w-[136px] bg-white/10 hover:bg-white/20 text-white">Invest</button>
+            <button type="button" data-type="sale" class="intent-tab is-active rounded-xl px-8 py-2.5 text-[16px] font-extrabold transition-all duration-200 cursor-pointer sm:min-w-[136px] bg-white text-[#1f2a44]">Sale</button>
+            <button type="button" data-type="rent" class="intent-tab rounded-xl px-8 py-2.5 text-[16px] font-bold transition-all duration-200 cursor-pointer sm:min-w-[136px] bg-white/10 hover:bg-white/20 text-white">Rent</button>
+            <button type="button" data-type="lease" class="intent-tab rounded-xl px-8 py-2.5 text-[16px] font-bold transition-all duration-200 cursor-pointer sm:min-w-[136px] bg-white/10 hover:bg-white/20 text-white">Lease</button>
         </div>
 
         <!-- Main Search Form Card -->
@@ -173,11 +173,11 @@
             tab.addEventListener('click', function () {
                 // Update active classes for clicked tab
                 tabs.forEach(t => {
-                    t.classList.remove('bg-[#1e73be]', 'text-white', 'font-extrabold');
+                    t.classList.remove('bg-white', 'text-[#1f2a44]', 'font-extrabold');
                     t.classList.add('bg-white/10', 'hover:bg-white/20', 'text-white', 'font-bold');
                 });
-                this.classList.add('bg-[#1e73be]', 'text-white', 'font-extrabold');
-                this.classList.remove('bg-white/10', 'hover:bg-white/20', 'font-bold');
+                this.classList.add('bg-white', 'text-[#1f2a44]', 'font-extrabold');
+                this.classList.remove('bg-white/10', 'hover:bg-white/20', 'text-white', 'font-bold');
 
                 // Update hidden type value
                 const type = this.getAttribute('data-type');
@@ -188,11 +188,11 @@
                     priceLabel.textContent = 'Sale Price';
                     pricePlaceholder.textContent = 'Sale Price';
                 } else if (type === 'rent') {
-                    priceLabel.textContent = 'Rental Price';
-                    pricePlaceholder.textContent = 'Rental Price';
+                    priceLabel.textContent = 'Rent Price';
+                    pricePlaceholder.textContent = 'Rent Price';
                 } else {
-                    priceLabel.textContent = 'Invest Price';
-                    pricePlaceholder.textContent = 'Invest Price';
+                    priceLabel.textContent = 'Lease Price';
+                    pricePlaceholder.textContent = 'Lease Price';
                 }
             });
         });

@@ -21,6 +21,9 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class,
             FeatureSeeder::class,
             CategorySeeder::class,
+            TestimonialSeeder::class,
+            AgentSeeder::class,
+            PostSeeder::class,
         ]);
     }
 }

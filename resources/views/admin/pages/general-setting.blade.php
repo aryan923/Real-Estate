@@ -47,6 +47,7 @@
             <div class="mb-6 flex flex-wrap gap-3">
               <button type="button" @click="tab='site'" class="rounded-lg px-4 py-2 text-sm font-medium" :class="tab==='site' ? 'bg-brand-500 text-white' : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-200'">Site Setting</button>
               <button type="button" @click="tab='smtp'" class="rounded-lg px-4 py-2 text-sm font-medium" :class="tab==='smtp' ? 'bg-brand-500 text-white' : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-200'">SMTP Setting</button>
+              <button type="button" @click="tab='footer'" class="rounded-lg px-4 py-2 text-sm font-medium" :class="tab==='footer' ? 'bg-brand-500 text-white' : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-200'">Manage Footer</button>
             </div>
 
             <form action="{{ route('admin.general-setting.update') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
@@ -129,6 +130,37 @@
           <div>
             <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">From Address</label>
             <input type="email" name="smtp_from_address" value="{{ old('smtp_from_address', $settings['smtp_from_address'] ?? '') }}" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
+          </div>
+        </div>
+
+        <div x-show="tab === 'footer'" x-cloak class="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div class="md:col-span-2">
+            <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">About Text / Company Name (e.g. RealScape)</label>
+            <textarea name="footer_about" rows="3" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white">{{ old('footer_about', $settings['footer_about'] ?? '') }}</textarea>
+          </div>
+          <div class="md:col-span-2">
+            <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Address</label>
+            <textarea name="footer_address" rows="3" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white">{{ old('footer_address', $settings['footer_address'] ?? '') }}</textarea>
+          </div>
+          <div>
+            <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Phone 1</label>
+            <input type="text" name="footer_phone_1" value="{{ old('footer_phone_1', $settings['footer_phone_1'] ?? '') }}" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
+          </div>
+          <div>
+            <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Phone 2</label>
+            <input type="text" name="footer_phone_2" value="{{ old('footer_phone_2', $settings['footer_phone_2'] ?? '') }}" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
+          </div>
+          <div class="md:col-span-2">
+            <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+            <input type="email" name="footer_email" value="{{ old('footer_email', $settings['footer_email'] ?? '') }}" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
+          </div>
+          <div class="md:col-span-2">
+            <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Copyright Text</label>
+            <input type="text" name="footer_copyright" value="{{ old('footer_copyright', $settings['footer_copyright'] ?? '') }}" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
+          </div>
+          <div class="md:col-span-2">
+            <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Footer Links / Meta Info</label>
+            <input type="text" name="footer_links" value="{{ old('footer_links', $settings['footer_links'] ?? '') }}" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
           </div>
         </div>
 

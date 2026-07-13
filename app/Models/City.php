@@ -30,4 +30,9 @@ class City extends Model
     {
         return $this->belongsTo(State::class);
     }
+
+    public function properties()
+    {
+        return $this->hasMany(Property::class);
+    }
 }
