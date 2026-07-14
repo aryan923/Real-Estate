@@ -22,7 +22,7 @@
   <div class="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
     <nav
       x-data="{ selected: $persist('Dashboard') }"
-      x-init="selected = window.location.pathname.includes('/admin/enquiries') ? 'Manage Leads' : window.location.pathname.includes('/admin/testimonials') ? 'Manage Testimonials' : window.location.pathname.includes('/admin/posts') ? 'Manage Blog' : window.location.pathname.includes('/admin/comments') ? 'Manage Comments' : window.location.pathname.includes('/admin/agents') ? 'Manage Agents' : window.location.pathname.includes('/admin/user-management') ? 'User Management' : window.location.pathname.includes('/admin/roles-permissions') ? 'Roles & Permissions' : window.location.pathname.includes('/admin/general-setting') ? 'General Setting' : window.location.pathname.includes('/admin/categories') ? 'Categories' : window.location.pathname.includes('/admin/features') ? 'Features' : window.location.pathname.includes('/admin/cities') ? 'Cities' : 'Dashboard'"
+      x-init="selected = window.location.pathname.includes('/admin/enquiries') ? 'Manage Leads' : window.location.pathname.includes('/admin/testimonials') ? 'Manage Testimonials' : window.location.pathname.includes('/admin/posts') ? 'Manage Blog' : window.location.pathname.includes('/admin/comments') ? 'Manage Comments' : window.location.pathname.includes('/admin/agents') ? 'Manage Agents' : window.location.pathname.includes('/admin/user-management') ? 'User Management' : window.location.pathname.includes('/admin/roles-permissions') ? 'Roles & Permissions' : window.location.pathname.includes('/admin/general-setting') ? 'General Setting' : window.location.pathname.includes('/admin/categories') ? 'Categories' : window.location.pathname.includes('/admin/features') ? 'Features' : window.location.pathname.includes('/admin/cities') ? 'Cities' : window.location.pathname.includes('/admin/currencies') ? 'Currencies' : 'Dashboard'"
     >
       <div>
         <h3 class="mb-4 text-xs uppercase leading-[20px] text-gray-400">
@@ -339,6 +339,28 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25s-7.5-4.108-7.5-11.25a7.5 7.5 0 1115 0z" />
               </svg>
               <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Cities</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="{{ route('admin.currencies') }}"
+              @click="selected = 'Currencies'"
+              class="menu-item group"
+              :class="(selected === 'Currencies' || page === 'currencies') ? 'menu-item-active' : 'menu-item-inactive'"
+            >
+              <svg
+                :class="(selected === 'Currencies' || page === 'currencies') ? 'menu-item-icon-active' : 'menu-item-icon-inactive'"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+              <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Currencies</span>
             </a>
           </li>
         </ul>
