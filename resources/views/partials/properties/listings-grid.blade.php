@@ -288,7 +288,7 @@
                             $property->state?->name,
                             $property->country?->name,
                         ]))) ?: 'Location not set';
-                        $priceText = $property->price ?: ($property->price_info ?: 'Contact for price');
+                        $priceText = is_numeric($property->price) ? format_price($property->price) : ($property->price ?: ($property->price_info ?: 'Contact for price'));
                         $beds = $property->bedrooms ?? 0;
                         $baths = $property->bathrooms ?? 0;
                         $size = $property->size ? $property->size . ' ft²' : 'N/A';

@@ -65,6 +65,7 @@ class PropertyController extends Controller
                     . '</form>'
                     . '</div>';
             })
+            ->editColumn('price', fn (Property $property): string => is_numeric($property->price) ? format_price($property->price) : ($property->price ?: 'Contact for price'))
             ->rawColumns(['image', 'action'])
             ->toJson();
     }

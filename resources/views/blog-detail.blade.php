@@ -155,7 +155,7 @@
                                 @php
                                     $primaryImage = $listing->images->firstWhere('is_primary', true) ?? $listing->images->first();
                                     $imageUrl = $primaryImage ? \App\Classes\ImageuploadHelper::getUploadedFileUrl($primaryImage->path) : $imageFallback;
-                                    $priceText = $listing->price ?: ($listing->price_info ?: 'Contact for price');
+                                    $priceText = is_numeric($listing->price) ? format_price($listing->price) : ($listing->price ?: ($listing->price_info ?: 'Contact for price'));
                                 @endphp
                                 <article class="flex items-center gap-3">
                                     <a href="{{ route('property-detail', ['slug' => $listing->slug ?: $listing->id]) }}" class="block shrink-0">

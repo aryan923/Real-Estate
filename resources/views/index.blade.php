@@ -162,7 +162,7 @@
                                     </a>
                                 </h3>
                                 <p class="property-card-price mt-1">
-                                    {{ $prop->price && is_numeric($prop->price) ? '$' . number_format((float) $prop->price) : ($prop->price ?: 'Contact for Price') }}{{ $prop->property_purpose === 'rent' ? ' / month' : '' }}
+                                    {{ is_numeric($prop->price) ? format_price($prop->price) : ($prop->price ?: 'Contact for Price') }}{{ $prop->property_purpose === 'rent' ? ' / month' : '' }}
                                 </p>
                                 <p class="property-card-copy mt-2 line-clamp-2">{{ Str::limit($prop->description, 100) }}</p>
                                 <p class="property-card-meta mt-auto pt-3">
@@ -273,7 +273,7 @@
                                     </a>
                                 </h3>
                                 <p class="mt-1 text-lg font-semibold text-blue-600">
-                                    {{ $prop->price && is_numeric($prop->price) ? '$' . number_format((float) $prop->price) : ($prop->price ?: 'Contact for Price') }} / {{ $prop->price_type ?? 'month' }}
+                                    {{ is_numeric($prop->price) ? format_price($prop->price) : ($prop->price ?: 'Contact for Price') }} / {{ $prop->price_type ?? 'month' }}
                                 </p>
                                 <p class="mt-2 text-sm leading-6 text-slate-500 line-clamp-3">{{ Str::limit($prop->description, 100) }}</p>
                                 <div class="mt-auto pt-4">
@@ -351,7 +351,7 @@
                                             {{ $prop->title }}
                                         </a>
                                     </h3>
-                                    <p class="mt-3 text-3xl font-semibold text-blue-600">{{ $prop->price && is_numeric($prop->price) ? '$' . number_format((float) $prop->price) : ($prop->price ?: 'Contact for Price') }}</p>
+                                    <p class="mt-3 text-3xl font-semibold text-blue-600">{{ is_numeric($prop->price) ? format_price($prop->price) : ($prop->price ?: 'Contact for Price') }}</p>
                                     <p class="mt-4 text-[15px] leading-7 text-[#5f6f8c] sm:text-base line-clamp-3">{{ Str::limit($prop->description, 100) }}</p>
                                     <div class="mt-5 flex gap-2">
                                         <span class="rounded border border-slate-200 px-3 py-2 text-slate-400">⇄</span>

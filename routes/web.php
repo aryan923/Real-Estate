@@ -12,6 +12,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PropertyController as FrontendPropertyController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\Admin\CurrencyController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -147,6 +148,18 @@ Route::prefix('admin')->name('admin.')->group(function () use ($tailAdminPages) 
                  'index' => 'cities',
                  'edit' => 'cities.edit',
                  'update' => 'cities.update',
+             ]);
+
+         Route::get('/currencies/data', [CurrencyController::class, 'data'])->name('currencies.data');
+         Route::resource('/currencies', CurrencyController::class)
+             ->except(['show'])
+             ->names([
+                 'index' => 'currencies',
+                 'create' => 'currencies.create',
+                 'store' => 'currencies.store',
+                 'edit' => 'currencies.edit',
+                 'update' => 'currencies.update',
+                 'destroy' => 'currencies.destroy',
              ]);
 
          Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');

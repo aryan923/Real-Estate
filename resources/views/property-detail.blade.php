@@ -21,8 +21,8 @@
         $mapSrc = $property->map_latitude && $property->map_longitude
             ? 'https://www.google.com/maps?q=' . $property->map_latitude . ',' . $property->map_longitude . '&z=13&output=embed'
             : 'https://www.google.com/maps?q=' . rawurlencode($location) . '&z=13&output=embed';
-        $priceText = $property->price ?: 'Contact for price';
-        $priceInfo = $property->price_info ?: null;
+        $priceText = $property->price ? format_price($property->price) : 'Contact for price';
+        $priceInfo = $property->price_info ? format_price_text($property->price_info) : null;
         $propertyType = $property->property_purpose ? \Illuminate\Support\Str::title($property->property_purpose) : 'Property';
         $selectedFeatures = $property->features?->loadMissing('parent')->values() ?? collect();
         $groupedFeatures = $selectedFeatures->groupBy(function ($feature) {
