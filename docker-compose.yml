@@ -35,25 +35,16 @@ services:
     environment:
       MYSQL_DATABASE: "${DB_DATABASE:-Real_estate}"
       MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
-      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_ALLOW_EMPTY_PASSWORD: 0
     volumes:
-      - propdesk-db-data:/var/lib/mysql
+      - ./docker_volumes/mysql:/var/lib/mysql
 
-  # phpMyAdmin
-  phpmyadmin:
-    image: phpmyadmin:latest
-    container_name: propdesk-phpmyadmin
+  # Adminer (Database Management)
+  adminer:
+    image: adminer:latest
+    container_name: propdesk-adminer
     restart: unless-stopped
     ports:
-      - "8082:80"
-    environment:
-      PMA_HOST: mysql
-      PMA_PORT: 3306
-      PMA_USER: "${DB_USERNAME:-root}"
-      PMA_PASSWORD: "${DB_PASSWORD}"
+      - "8082:8080"
     depends_on:
       - mysql
-
-volumes:
-  propdesk-db-data:
-    driver: local
