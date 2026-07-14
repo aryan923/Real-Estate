@@ -115,7 +115,7 @@ class FeatureController extends Controller
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('features', 'name')->ignore($feature?->id),
+                Rule::unique('features', 'name')->ignore($feature?->id)->whereNull('deleted_at'),
             ],
             'parent_id' => array_filter([
                 'nullable',

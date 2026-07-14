@@ -339,7 +339,7 @@ class PropertyController extends Controller
 
         return $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', Rule::unique('properties', 'slug')->ignore($property?->id)],
+            'slug' => ['nullable', 'string', 'max:255', Rule::unique('properties', 'slug')->ignore($property?->id)->whereNull('deleted_at')],
             'description' => ['nullable', 'string'],
             'price' => ['nullable', 'string', 'max:255'],
             'price_type' => ['nullable', 'string', 'max:50'],

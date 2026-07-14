@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
             TestimonialSeeder::class,
             AgentSeeder::class,
             PostSeeder::class,
+            CurrencySeeder::class,
+            IndianPropertySeeder::class,
         ]);
     }
 }

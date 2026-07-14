@@ -51,7 +51,7 @@
                     <div class="mx-auto inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#e9f3ff] text-[#1e73be]">✉</div>
                     <h3 class="property-card-title mt-4">Email</h3>
                     <p class="property-card-copy mt-3">contact@mail.com</p>
-                    <p class="property-card-copy mt-1">support@realscape.com</p>
+                    <p class="property-card-copy mt-1">support@.com</p>
                 </article>
 
                 <article class="rounded bg-white p-6 text-center shadow-sm ring-1 ring-slate-200">
@@ -119,7 +119,7 @@
                     <p class="section-copy mt-2">Visit our office at 1234 Beacon Street, Suite 101, Boston, MA 02118.</p>
                 </div>
                 <iframe
-                    title="RealScape Office Location"
+                    title="{{env('APP_NAME')}} Office Location"
                     class="h-[360px] w-full border-0 sm:h-[420px]"
                     loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"

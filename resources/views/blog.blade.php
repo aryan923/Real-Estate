@@ -20,7 +20,7 @@
         <div class="section-shell relative z-10 flex min-h-[360px] flex-col items-center justify-center pt-6 text-center sm:min-h-[390px]">
             <p class="text-[12px] font-semibold uppercase tracking-[0.16em] text-sky-200">Insights & Stories</p>
             <h1 class="mt-3 max-w-4xl text-[40px] font-semibold leading-tight text-white sm:text-[56px]">Real Estate Knowledge for Smarter Decisions</h1>
-            <p class="mt-4 max-w-2xl text-[17px] text-white/90 sm:text-[19px]">Market updates, buying advice, seller strategy, and neighborhood trends from the RealScape team.</p>
+            <p class="mt-4 max-w-2xl text-[17px] text-white/90 sm:text-[19px]">Market updates, buying advice, seller strategy, and neighborhood trends from the {{env('APP_NAME')}} team.</p>
         </div>
     </header>
 

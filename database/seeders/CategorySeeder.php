@@ -58,58 +58,6 @@ class CategorySeeder extends Seeder
                 'Motel',
                 'Guest House',
                 'Restaurant Space',
-                'Food Court Space',
-                'Banquet Hall',
-                'Cinema',
-                'Mall Shop',
-                'Clinic',
-                'Hospital Space',
-                'Diagnostic Centre',
-                'Educational Institute',
-                'School Building',
-                'College Building',
-            ],
-            'Industrial' => [
-                'Industrial Plot',
-                'Factory',
-                'Manufacturing Plant',
-                'Warehouse',
-                'Industrial Shed',
-                'Logistics Warehouse',
-                'Cold Storage',
-                'Distribution Centre',
-                'Industrial Building',
-            ],
-            'Agricultural' => [
-                'Agricultural Land',
-                'Farm Land',
-                'Orchard',
-                'Plantation',
-                'Dairy Farm',
-                'Poultry Farm',
-                'Fish Farm',
-            ],
-            'Mixed Use' => [
-                'Mixed Use Building',
-                'Residential + Commercial Building',
-                'Retail + Office',
-                'Commercial + Residential Plot',
-            ],
-            'Luxury' => [
-                'Luxury Villa',
-                'Luxury Apartment',
-                'Luxury Penthouse',
-                'Beach House',
-                'Golf Villa',
-                'Smart Home',
-                'Mansion',
-            ],
-            'Investment Properties' => [
-                'Pre-Leased Property',
-                'Rental Property',
-                'Income Property',
-                'REIT Property',
-                'Auction Property',
             ],
             'Land Categories' => [
                 'Residential Plot',
@@ -143,12 +91,22 @@ class CategorySeeder extends Seeder
             ],
         ];
 
+        $parentImages = [
+            'Residential' => 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
+            'Commercial' => 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80',
+            'Land Categories' => 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80',
+            'Builder Projects' => 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1200&q=80',
+            'Special Purpose' => 'https://images.unsplash.com/photo-1581094288338-2314dddb7ecc?auto=format&fit=crop&w=1200&q=80',
+        ];
+
         foreach ($categories as $parentName => $children) {
             $parent = Category::firstOrCreate([
                 'name' => $parentName,
                 'parent_id' => null,
             ], [
+                'image' => $parentImages[$parentName] ?? null,
                 'status' => true,
+                'is_featured' => true,
             ]);
 
             foreach ($children as $childName) {
@@ -157,6 +115,7 @@ class CategorySeeder extends Seeder
                     'parent_id' => $parent->id,
                 ], [
                     'status' => true,
+                    'is_featured' => false,
                 ]);
             }
         }

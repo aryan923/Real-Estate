@@ -140,7 +140,10 @@ class CategoryController extends Controller
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('categories', 'name')->ignore($category?->id),
+                Rule::unique('categories', 'name')
+                    ->ignore($category?->id)
+                    ->where('parent_id', $request->input('parent_id'))
+                    ->whereNull('deleted_at'),
             ],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'parent_id' => array_filter([

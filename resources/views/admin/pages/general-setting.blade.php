@@ -135,7 +135,7 @@
 
         <div x-show="tab === 'footer'" x-cloak class="grid grid-cols-1 gap-6 md:grid-cols-2">
           <div class="md:col-span-2">
-            <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">About Text / Company Name (e.g. RealScape)</label>
+            <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">About Text / Company Name (e.g. {{env('APP_NAME')}})</label>
             <textarea name="footer_about" rows="3" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white">{{ old('footer_about', $settings['footer_about'] ?? '') }}</textarea>
           </div>
           <div class="md:col-span-2">
