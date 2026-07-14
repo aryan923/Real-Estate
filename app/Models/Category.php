@@ -15,10 +15,12 @@ class Category extends Model
         'image',
         'parent_id',
         'status',
+        'is_featured',
     ];
 
     protected $casts = [
         'status' => 'boolean',
+        'is_featured' => 'boolean',
         'parent_id' => 'integer',
     ];
 

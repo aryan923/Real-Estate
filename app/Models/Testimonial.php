@@ -17,10 +17,12 @@ class Testimonial extends Model
         'rating',
         'image',
         'status',
+        'is_featured',
     ];
 
     protected $casts = [
         'status' => 'boolean',
+        'is_featured' => 'boolean',
         'rating' => 'integer',
     ];
 }

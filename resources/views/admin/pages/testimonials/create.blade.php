@@ -71,10 +71,18 @@
               </div>
             </div>
 
-            <div class="flex items-center gap-3 text-sm font-semibold text-gray-700 dark:text-gray-300">
-              <input type="hidden" name="status" value="0">
-              <input type="checkbox" name="status" value="1" {{ old('status', true) ? 'checked' : '' }} class="h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500">
-              Active / Visible
+            <div class="space-y-3">
+              <div class="flex items-center gap-3 text-sm font-semibold text-gray-700 dark:text-gray-300">
+                <input type="hidden" name="status" value="0">
+                <input type="checkbox" name="status" value="1" {{ old('status', true) ? 'checked' : '' }} class="h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500">
+                Active / Visible
+              </div>
+
+              <div class="flex items-center gap-3 text-sm font-semibold text-gray-700 dark:text-gray-300">
+                <input type="hidden" name="is_featured" value="0">
+                <input type="checkbox" name="is_featured" value="1" {{ old('is_featured', false) ? 'checked' : '' }} class="h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500">
+                Featured Testimonial (Show on Home Page)
+              </div>
             </div>
 
             <div class="flex items-center gap-3">

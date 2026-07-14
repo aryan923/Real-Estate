@@ -40,9 +40,21 @@ class CategoryController extends Controller
             $query->where('status', $request->string('status_filter')->toString() === 'active');
         }
 
+        if ($request->filled('featured_filter') && in_array($request->string('featured_filter')->toString(), ['yes', 'no'], true)) {
+            $query->where('is_featured', $request->string('featured_filter')->toString() === 'yes');
+        }
+
         return DataTables::eloquent($query)
+            ->addColumn('image_preview', function (Category $category): string {
+                if ($category->image) {
+                    $url = ImageuploadHelper::getUploadedFileUrl($category->image);
+                    return '<img src="' . $url . '" class="h-10 w-16 rounded-md object-cover border border-gray-100 dark:border-gray-800">';
+                }
+                return '<span class="text-xs text-gray-400">No Image</span>';
+            })
             ->addColumn('parent', fn (Category $category): string => $category->parent?->name ?? 'None')
             ->addColumn('status_label', fn (Category $category): string => $category->status ? 'Active' : 'Inactive')
+            ->addColumn('featured_label', fn (Category $category): string => $category->is_featured ? 'Yes' : 'No')
             ->addColumn('action', function (Category $category): string {
                 return '<div class="flex flex-wrap gap-2">'
                     . '<a href="' . route('admin.categories.edit', $category) . '" class="rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:border-gray-800 dark:text-gray-200 dark:hover:bg-white/5">Edit</a>'
@@ -53,7 +65,7 @@ class CategoryController extends Controller
                     . '</form>'
                     . '</div>';
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'image_preview'])
             ->toJson();
     }
 
@@ -73,6 +85,7 @@ class CategoryController extends Controller
             'image' => $this->storeImage($request),
             'parent_id' => $validated['parent_id'] ?? null,
             'status' => $validated['status'],
+            'is_featured' => $validated['is_featured'],
         ]);
 
         return redirect()
@@ -96,6 +109,7 @@ class CategoryController extends Controller
             'name' => $validated['name'],
             'parent_id' => $validated['parent_id'] ?? null,
             'status' => $validated['status'],
+            'is_featured' => $validated['is_featured'],
         ];
 
         if ($image = $this->storeImage($request)) {
@@ -136,6 +150,7 @@ class CategoryController extends Controller
                 $category ? Rule::notIn([$category->id]) : null,
             ]),
             'status' => ['required', 'boolean'],
+            'is_featured' => ['required', 'boolean'],
         ]);
     }
 

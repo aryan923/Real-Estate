@@ -16,6 +16,34 @@
         <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <style>
+            #rent-slider-container {
+                display: flex;
+                align-items: stretch;
+                gap: 24px;
+                overflow-x: auto;
+                scroll-behavior: smooth;
+                scroll-snap-type: x mandatory;
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            #rent-slider-container::-webkit-scrollbar {
+                display: none;
+            }
+            #rent-slider-container .rent-card {
+                width: 100%;
+                flex-shrink: 0;
+                scroll-snap-align: start;
+                display: flex;
+                flex-direction: column;
+                height: auto !important;
+            }
+            @media (min-width: 768px) {
+                #rent-slider-container .rent-card {
+                    width: calc(33.333% - 16px) !important;
+                }
+            }
+        </style>
     </head>
     <body class="bg-[#f3f7fc] text-slate-700">
         @include('partials.layout.sticky-header')
@@ -24,23 +52,7 @@
             <img src="{{ asset('images/hero-home.webp') }}" alt="Hero home" class="absolute inset-0 h-full w-full object-cover" onerror="this.style.display='none'">
             <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(12,46,78,0.74)_0%,rgba(11,47,79,0.84)_52%,rgba(9,39,66,0.9)_100%)]"></div>
 
-            <div class="relative z-20 border-b border-white/20 bg-[#0c355b]/35">
-                <div class="section-shell hidden h-10 items-center justify-between text-[11px] font-semibold uppercase tracking-[0.05em] text-white/90 lg:flex">
-                    <div class="flex items-stretch border-l border-r border-white/18">
-                        <span class="inline-flex h-10 w-10 items-center justify-center border-r border-white/18">f</span>
-                        <span class="inline-flex h-10 w-10 items-center justify-center border-r border-white/18">x</span>
-                        <span class="inline-flex h-10 w-10 items-center justify-center border-r border-white/18">in</span>
-                        <span class="inline-flex h-10 w-10 items-center justify-center border-r border-white/18">p</span>
-                        <span class="inline-flex h-10 w-10 items-center justify-center border-r border-white/18">o</span>
-                        <span class="inline-flex h-10 w-10 items-center justify-center">v</span>
-                    </div>
-                    <div class="flex items-center gap-8 text-[12px] font-semibold normal-case tracking-normal">
-                        <span class="inline-flex items-center gap-1.5">❤ Favorites</span>
-                        <span class="inline-flex items-center gap-1.5">✉ contact@mail.com</span>
-                        <span class="inline-flex items-center gap-1.5">☎ +1 408 167 1234</span>
-                    </div>
-                </div>
-            </div>
+            @include('partials.layout.topbar')
 
             <div class="section-shell relative z-20 py-4 sm:py-6">
                 @include('partials.layout.navbar')
@@ -225,10 +237,10 @@
                     </p>
                 </div>
 
-                <button class="absolute left-0 top-1/2 hidden -translate-x-5 rounded bg-[#e8edf7] p-2 text-[#2f6dd7] shadow-sm md:block" aria-label="Previous slide">&larr;</button>
-                <button class="absolute right-0 top-1/2 hidden translate-x-5 rounded bg-[#e8edf7] p-2 text-[#2f6dd7] shadow-sm md:block" aria-label="Next slide">&rarr;</button>
+                <button class="absolute left-0 top-1/2 z-10 -translate-y-1/2 -translate-x-5 rounded bg-[#e8edf7] p-2 text-[#2f6dd7] shadow-md hover:bg-[#2f6dd7] hover:text-white transition duration-300 md:block hidden" aria-label="Previous slide">&larr;</button>
+                <button class="absolute right-0 top-1/2 z-10 -translate-y-1/2 translate-x-5 rounded bg-[#e8edf7] p-2 text-[#2f6dd7] shadow-md hover:bg-[#2f6dd7] hover:text-white transition duration-300 md:block hidden" aria-label="Next slide">&rarr;</button>
 
-                <div class="mx-auto mt-8 grid max-w-6xl gap-6 md:grid-cols-2 xl:grid-cols-3">
+                <div id="rent-slider-container" class="mx-auto mt-8 flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory no-scrollbar max-w-6xl pb-4">
                     @foreach($rentProperties as $prop)
                         @php
                             $primaryImage = $prop->images?->firstWhere('is_primary', true) ?? $prop->images?->first();
@@ -236,7 +248,7 @@
                                 ? \App\Classes\ImageuploadHelper::getUploadedFileUrl($primaryImage->path)
                                 : 'https://images.unsplash.com/photo-1502672023488-70e25813eb80?auto=format&fit=crop&w=900&q=80';
                         @endphp
-                        <article class="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm flex flex-col h-full">
+                        <article class="rent-card overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm flex flex-col h-full">
                             <div class="relative">
                                 <a href="{{ route('property-detail', $prop->slug) }}">
                                     <img src="{{ $imageUrl }}" alt="{{ $prop->title }}" class="h-56 w-full object-cover">
@@ -283,11 +295,11 @@
                     @endforeach
                 </div>
 
-                <div class="mt-6 flex justify-center gap-3">
-                    <span class="h-2.5 w-2.5 rounded-full bg-[#2f6dd7]"></span>
-                    <span class="h-2.5 w-2.5 rounded-full bg-slate-300"></span>
-                    <span class="h-2.5 w-2.5 rounded-full bg-slate-300"></span>
-                    <span class="h-2.5 w-2.5 rounded-full bg-slate-300"></span>
+                <div id="rent-slider-dots" class="mt-6 flex justify-center gap-3 hidden">
+                    <button data-slide="0" class="h-2.5 w-2.5 rounded-full bg-[#2f6dd7] transition duration-300 cursor-pointer" aria-label="Go to page 1"></button>
+                    <button data-slide="1" class="h-2.5 w-2.5 rounded-full bg-slate-300 transition duration-300 cursor-pointer" aria-label="Go to page 2"></button>
+                    <button data-slide="2" class="h-2.5 w-2.5 rounded-full bg-slate-300 transition duration-300 cursor-pointer" aria-label="Go to page 3"></button>
+                    <button data-slide="3" class="h-2.5 w-2.5 rounded-full bg-slate-300 transition duration-300 cursor-pointer" aria-label="Go to page 4"></button>
                 </div>
             </div>
         </section>
@@ -360,33 +372,55 @@
             </div>
         </section>
 
+        @if($adProperty)
         <section class="w-full bg-white py-0">
             <div class="grid w-full gap-0 lg:grid-cols-2">
+                @php
+                    $primaryImage = $adProperty->images?->firstWhere('is_primary', true) ?? $adProperty->images?->first();
+                    $imageUrl = $primaryImage 
+                        ? \App\Classes\ImageuploadHelper::getUploadedFileUrl($primaryImage->path)
+                        : 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=80';
+
+                    $gallery = $adProperty->images->where('is_primary', false)->values();
+                    $fallbackAdImages = [
+                        'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1000&q=80',
+                        'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=80',
+                        'https://images.unsplash.com/photo-1617104678098-de229db51175?auto=format&fit=crop&w=1000&q=80',
+                        'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=80'
+                    ];
+                @endphp
                 <article class="relative min-h-[340px] overflow-hidden lg:min-h-[460px]">
-                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=80" alt="Gorgeous Home for Sale in Jersey" class="absolute inset-0 h-full w-full object-cover">
+                    <img src="{{ $imageUrl }}" alt="{{ $adProperty->title }}" class="absolute inset-0 h-full w-full object-cover">
                     <div class="absolute inset-0 bg-gradient-to-r from-black/35 via-black/20 to-transparent"></div>
 
                     <div class="absolute left-1/2 top-1/2 w-[86%] max-w-[460px] -translate-x-1/2 -translate-y-1/2 bg-white/95 p-6 shadow-xl backdrop-blur-sm sm:p-8">
-                        <p class="text-sm font-semibold text-blue-600 sm:text-base">$770,000</p>
-                        <h3 class="mt-3 text-2xl font-bold leading-tight tracking-[-0.015em] text-[#1f2a44] sm:text-3xl">Gorgeous Home for Sale in Jersey</h3>
-                        <p class="mt-3 text-xs text-slate-500 sm:text-sm">5 BD · 6 BA · 190 ft²</p>
-                        <p class="mt-4 text-[15px] leading-7 text-[#5f6f8c] sm:text-base">
-                            This property is mostly wooded and sits high on a hilltop overlooking the Mohawk
-                            River Valley. Located right in the heart of upstate New York.
+                        <p class="text-sm font-semibold text-blue-600 sm:text-base">
+                            {{ $adProperty->price && is_numeric($adProperty->price) ? '$' . number_format((float) $adProperty->price) : ($adProperty->price ?: 'Contact for Price') }}{{ $adProperty->property_purpose === 'rent' ? ' / month' : '' }}
                         </p>
-                        <a href="#" class="mt-5 inline-flex items-center text-xs font-semibold uppercase tracking-[0.08em] text-slate-800 hover:text-blue-600 sm:text-sm">discover more <span class="ml-2">&rsaquo;</span></a>
+                        <h3 class="mt-3 text-2xl font-bold leading-tight tracking-[-0.015em] text-[#1f2a44] sm:text-3xl">{{ $adProperty->title }}</h3>
+                        <p class="mt-3 text-xs text-slate-500 sm:text-sm">{{ $adProperty->bedrooms ?? 0 }} BD · {{ $adProperty->bathrooms ?? 0 }} BA · {{ $adProperty->size ? $adProperty->size . ' ft²' : 'N/A' }}</p>
+                        <p class="mt-4 text-[15px] leading-7 text-[#5f6f8c] sm:text-base">
+                            {{ Str::limit($adProperty->description, 180) }}
+                        </p>
+                        <a href="{{ route('property-detail', $adProperty->slug) }}" class="mt-5 inline-flex items-center text-xs font-semibold uppercase tracking-[0.08em] text-slate-800 hover:text-blue-600 sm:text-sm">discover more <span class="ml-2">&rsaquo;</span></a>
                     </div>
                 </article>
 
                 <div class="grid min-h-[340px] grid-cols-2 grid-rows-2 gap-[2px] bg-white lg:min-h-[460px]">
-                    <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1000&q=80" alt="Interior gallery image" class="h-full w-full object-cover">
-                    <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=80" alt="Interior gallery image" class="h-full w-full object-cover">
-                    <img src="https://images.unsplash.com/photo-1617104678098-de229db51175?auto=format&fit=crop&w=1000&q=80" alt="Interior gallery image" class="h-full w-full object-cover">
-                    <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=80" alt="Interior gallery image" class="h-full w-full object-cover">
+                    @for($i = 0; $i < 4; $i++)
+                        @php
+                            $imgUrl = isset($gallery[$i]) 
+                                ? \App\Classes\ImageuploadHelper::getUploadedFileUrl($gallery[$i]->path) 
+                                : $fallbackAdImages[$i];
+                        @endphp
+                        <img src="{{ $imgUrl }}" alt="Interior gallery image" class="h-full w-full object-cover">
+                    @endfor
                 </div>
             </div>
         </section>
+        @endif
 
+        @if(count($featuredAgents) > 0)
         <section class="bg-[#eef5fc] py-12 sm:py-16">
             <div class="section-shell">
                 <div class="mx-auto max-w-3xl text-center">
@@ -398,90 +432,67 @@
                 </div>
 
                 <div class="mx-auto mt-8 grid max-w-6xl gap-6 md:grid-cols-2 xl:grid-cols-3">
-                    <article class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-0.5 hover:shadow-lg">
-                        <div class="relative aspect-[4/3] overflow-hidden bg-[#f1f3f8]">
-                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=900&q=80" alt="Lily Bicharm" class="h-full w-full object-cover object-center" loading="lazy">
-                            <span class="absolute bottom-3 left-3 rounded bg-emerald-500 px-3 py-1 text-xs font-semibold text-white">4 listings</span>
-                        </div>
-                        <div class="p-5">
-                            <h3 class="text-xl font-semibold tracking-[-0.01em] text-[#1f2a44] sm:text-2xl">Lily Bicharm</h3>
-                            <p class="mt-1 text-sm text-[#6a7892] sm:text-base">Realtor</p>
-                            <p class="mt-4 text-[15px] leading-7 text-[#5f6f8c] sm:text-base">
-                                Lily Bicharm is a dedicated and professional real estate agent who specializes in providing premium support.
-                            </p>
-                            <div class="mt-6 flex items-center justify-between border-t border-slate-100 pt-4">
-                                <div class="flex items-center gap-2 text-slate-500">
-                                    <a href="#" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="Facebook"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 9H16V6h-2.5C11.6 6 10 7.6 10 9.5V12H8v3h2v6h3v-6h2.3l.7-3H13v-2.2c0-.5.2-.8.5-.8z"/></svg></a>
-                                    <a href="#" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="X"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 3H22l-6.8 7.8L23 21h-6.2l-4.9-6.4L6.3 21H3.1l7.3-8.3L1 3h6.3l4.4 5.9L18.9 3z"/></svg></a>
-                                    <a href="#" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="LinkedIn"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M6.9 8.5A1.9 1.9 0 1 0 6.9 4.7a1.9 1.9 0 0 0 0 3.8zM5.2 10h3.4v9.3H5.2V10zm5.4 0H14v1.3h.1c.5-.9 1.6-1.6 3.2-1.6 3.5 0 4.1 2.3 4.1 5.3v4.3H18v-3.8c0-.9 0-2.1-1.3-2.1s-1.5 1-1.5 2v4H12V10z"/></svg></a>
-                                    <a href="#" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="Pinterest"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 0 0-3.3 17.4c0-.6 0-1.6.2-2.3l1.2-5.1s-.3-.6-.3-1.5c0-1.4.8-2.4 1.8-2.4.8 0 1.2.6 1.2 1.4 0 .8-.5 2.1-.8 3.2-.2.9.5 1.7 1.4 1.7 1.7 0 2.9-1.8 2.9-4.3 0-2.2-1.6-3.8-3.9-3.8-2.7 0-4.2 2-4.2 4.1 0 .8.3 1.7.7 2.2.1.2.1.2.1.4l-.3 1c-.1.2-.2.3-.5.2-1.7-.8-2.8-3.1-2.8-5 0-4.1 3-7.8 8.6-7.8 4.5 0 8 3.2 8 7.5 0 4.5-2.8 8.1-6.7 8.1-1.3 0-2.6-.7-3-1.5l-.8 3.2c-.3 1.1-1 2.5-1.4 3.3 1 .3 2 .5 3.1.5a9 9 0 1 0 0-18z"/></svg></a>
-                                    <a href="#" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="Instagram"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4zM18.4 6.9a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0z"/><path d="M12 2.8c3 0 3.3 0 4.4.1 1 .1 1.5.2 1.8.4.5.2.8.4 1.1.7.3.3.5.6.7 1.1.2.3.3.9.4 1.8.1 1.1.1 1.4.1 4.4s0 3.3-.1 4.4c-.1 1-.2 1.5-.4 1.8-.2.5-.4.8-.7 1.1-.3.3-.6.5-1.1.7-.3.2-.9.3-1.8.4-1.1.1-1.4.1-4.4.1s-3.3 0-4.4-.1c-1-.1-1.5-.2-1.8-.4a3 3 0 0 1-1.1-.7 3 3 0 0 1-.7-1.1c-.2-.3-.3-.9-.4-1.8-.1-1.1-.1-1.4-.1-4.4s0-3.3.1-4.4c.1-1 .2-1.5.4-1.8.2-.5.4-.8.7-1.1.3-.3.6-.5 1.1-.7.3-.2.9-.3 1.8-.4 1.1-.1 1.4-.1 4.4-.1zm0-1.8c-3.1 0-3.5 0-4.6.1-1.1.1-1.9.2-2.6.5a4.8 4.8 0 0 0-1.7 1.1A4.8 4.8 0 0 0 2 4.4c-.3.7-.4 1.5-.5 2.6C1.4 8 1.4 8.4 1.4 11.5S1.4 15 1.5 16c.1 1.1.2 1.9.5 2.6a4.8 4.8 0 0 0 1.1 1.7 4.8 4.8 0 0 0 1.7 1.1c.7.3 1.5.4 2.6.5 1.1.1 1.4.1 4.6.1 3.1 0 3.5 0 4.6-.1 1.1-.1 1.9-.2 2.6-.5a4.8 4.8 0 0 0 1.7-1.1 4.8 4.8 0 0 0 1.1-1.7c.3-.7.4-1.5.5-2.6.1-1.1.1-1.4.1-4.6s0-3.5-.1-4.6c-.1-1.1-.2-1.9-.5-2.6a4.8 4.8 0 0 0-1.1-1.7 4.8 4.8 0 0 0-1.7-1.1c-.7-.3-1.5-.4-2.6-.5C15.5 1 15.2 1 12 1z"/></svg></a>
-                                </div>
-                                <div class="flex items-center gap-2 text-slate-500">
-                                    <a href="#" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="Call"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.3 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C11.9 21 3 12.1 3 1.9 3 1.3 3.4.9 4 .9h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.3 1l-2.2 2.3z"/></svg></a>
-                                    <a href="#" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="Email"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5L4 8V6l8 5 8-5v2z"/></svg></a>
+                    @foreach($featuredAgents as $agent)
+                        @php
+                            $agentPhoto = $agent->profile_pic 
+                                ? \App\Classes\ImageuploadHelper::getUploadedFileUrl($agent->profile_pic)
+                                : 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=900&q=80';
+                        @endphp
+                        <article class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-0.5 hover:shadow-lg flex flex-col h-full">
+                            <div class="relative aspect-[4/3] overflow-hidden bg-[#f1f3f8]">
+                                <a href="{{ route('agent-detail', ['slug' => \Illuminate\Support\Str::slug($agent->name)]) }}">
+                                    <img src="{{ $agentPhoto }}" alt="{{ $agent->name }}" class="h-full w-full object-cover object-center" loading="lazy">
+                                </a>
+                                @if($agent->agentMeta?->is_featured)
+                                    <span class="absolute top-3 left-3 rounded bg-emerald-500 px-3 py-1 text-xs font-semibold text-white">Featured</span>
+                                @endif
+                            </div>
+                            <div class="p-5 flex flex-col flex-grow">
+                                <h3 class="text-xl font-semibold tracking-[-0.01em] text-[#1f2a44] sm:text-2xl hover:text-blue-600 transition">
+                                    <a href="{{ route('agent-detail', ['slug' => \Illuminate\Support\Str::slug($agent->name)]) }}">
+                                        {{ $agent->name }}
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-[#6a7892] sm:text-base">{{ $agent->agentMeta?->title ?? 'Realtor' }}</p>
+                                <p class="mt-4 text-[15px] leading-7 text-[#5f6f8c] sm:text-base flex-grow">
+                                    {{ Str::limit($agent->agentMeta?->about_me, 120) }}
+                                </p>
+                                <div class="mt-6 flex items-center justify-between border-t border-slate-100 pt-4">
+                                    <div class="flex items-center gap-2 text-slate-500">
+                                        @if($agent->agentMeta?->facebook)
+                                            <a href="{{ $agent->agentMeta->facebook }}" target="_blank" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="Facebook"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 9H16V6h-2.5C11.6 6 10 7.6 10 9.5V12H8v3h2v6h3v-6h2.3l.7-3H13v-2.2c0-.5.2-.8.5-.8z"/></svg></a>
+                                        @endif
+                                        @if($agent->agentMeta?->twitter)
+                                            <a href="{{ $agent->agentMeta->twitter }}" target="_blank" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="X"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 3H22l-6.8 7.8L23 21h-6.2l-4.9-6.4L6.3 21H3.1l7.3-8.3L1 3h6.3l4.4 5.9L18.9 3z"/></svg></a>
+                                        @endif
+                                        @if($agent->agentMeta?->linkedin)
+                                            <a href="{{ $agent->agentMeta->linkedin }}" target="_blank" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="LinkedIn"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M6.9 8.5A1.9 1.9 0 1 0 6.9 4.7a1.9 1.9 0 0 0 0 3.8zM5.2 10h3.4v9.3H5.2V10zm5.4 0H14v1.3h.1c.5-.9 1.6-1.6 3.2-1.6 3.5 0 4.1 2.3 4.1 5.3v4.3H18v-3.8c0-.9 0-2.1-1.3-2.1s-1.5 1-1.5 2v4H12V10z"/></svg></a>
+                                        @endif
+                                        @if($agent->agentMeta?->instagram)
+                                            <a href="{{ $agent->agentMeta->instagram }}" target="_blank" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="Instagram"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4zM18.4 6.9a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0z"/><path d="M12 2.8c3 0 3.3 0 4.4.1 1 .1 1.5.2 1.8.4.5.2.8.4 1.1.7.3.3.5.6.7 1.1.2.3.3.9.4 1.8.1 1.1.1 1.4.1 4.4s0 3.3-.1 4.4c-.1 1-.2 1.5-.4 1.8-.2.5-.4.8-.7 1.1-.3.3-.6.5-1.1.7-.3.2-.9.3-1.8.4-1.1.1-1.4.1-4.4.1s-3.3 0-4.4-.1c-1-.1-1.5-.2-1.8-.4a3 3 0 0 1-1.1-.7 3 3 0 0 1-.7-1.1c-.2-.3-.3-.9-.4-1.8-.1-1.1-.1-1.4-.1-4.4s0-3.3.1-4.4c.1-1 .2-1.5.4-1.8.2-.5.4-.8.7-1.1.3-.3.6-.5 1.1-.7.3-.2.9-.3 1.8-.4 1.1-.1 1.4-.1 4.4-.1zm0-1.8c-3.1 0-3.5 0-4.6.1-1.1.1-1.9.2-2.6.5a4.8 4.8 0 0 0-1.7 1.1A4.8 4.8 0 0 0 2 4.4c-.3.7-.4 1.5-.5 2.6C1.4 8 1.4 8.4 1.4 11.5S1.4 15 1.5 16c.1 1.1.2 1.9.5 2.6a4.8 4.8 0 0 0 1.1 1.7 4.8 4.8 0 0 0 1.7 1.1c.7.3 1.5.4 2.6.5 1.1.1 1.4.1 4.6.1 3.1 0 3.5 0 4.6-.1 1.1-.1 1.9-.2 2.6-.5a4.8 4.8 0 0 0 1.7-1.1 4.8 4.8 0 0 0 1.1-1.7c.3-.7.4-1.5.5-2.6.1-1.1.1-1.4.1-4.6s0-3.5-.1-4.6c-.1-1.1-.2-1.9-.5-2.6a4.8 4.8 0 0 0-1.1-1.7 4.8 4.8 0 0 0-1.7-1.1c-.7-.3-1.5-.4-2.6-.5C15.5 1 15.2 1 12 1z"/></svg></a>
+                                        @endif
+                                    </div>
+                                    <div class="flex items-center gap-2 text-slate-500">
+                                        @if($agent->phone)
+                                            <a href="tel:{{ $agent->phone }}" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="Call"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.3 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C11.9 21 3 12.1 3 1.9 3 1.3 3.4.9 4 .9h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.3 1l-2.2 2.3z"/></svg></a>
+                                        @endif
+                                        <a href="mailto:{{ $agent->email }}" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="Email"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5L4 8V6l8 5 8-5v2z"/></svg></a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </article>
+                        </article>
+                    @endforeach
+                </div>
 
-                    <article class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-0.5 hover:shadow-lg">
-                        <div class="relative aspect-[4/3] overflow-hidden bg-[#f1f3f8]">
-                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=80" alt="Samuel Diesel" class="h-full w-full object-cover object-center" loading="lazy">
-                            <span class="absolute bottom-3 left-3 rounded bg-emerald-500 px-3 py-1 text-xs font-semibold text-white">4 listings</span>
-                        </div>
-                        <div class="p-5">
-                            <h3 class="text-xl font-semibold tracking-[-0.01em] text-[#1f2a44] sm:text-2xl">Samuel Diesel</h3>
-                            <p class="mt-1 text-sm text-[#6a7892] sm:text-base">Commercial Broker</p>
-                            <p class="mt-4 text-[15px] leading-7 text-[#5f6f8c] sm:text-base">
-                                With a genuine passion for helping clients find their dream homes, Samuel Diesel brings a strategic approach.
-                            </p>
-                            <div class="mt-6 flex items-center justify-between border-t border-slate-100 pt-4">
-                                <div class="flex items-center gap-2 text-slate-500">
-                                    <a href="#" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="Facebook"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 9H16V6h-2.5C11.6 6 10 7.6 10 9.5V12H8v3h2v6h3v-6h2.3l.7-3H13v-2.2c0-.5.2-.8.5-.8z"/></svg></a>
-                                    <a href="#" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="X"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 3H22l-6.8 7.8L23 21h-6.2l-4.9-6.4L6.3 21H3.1l7.3-8.3L1 3h6.3l4.4 5.9L18.9 3z"/></svg></a>
-                                    <a href="#" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="LinkedIn"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M6.9 8.5A1.9 1.9 0 1 0 6.9 4.7a1.9 1.9 0 0 0 0 3.8zM5.2 10h3.4v9.3H5.2V10zm5.4 0H14v1.3h.1c.5-.9 1.6-1.6 3.2-1.6 3.5 0 4.1 2.3 4.1 5.3v4.3H18v-3.8c0-.9 0-2.1-1.3-2.1s-1.5 1-1.5 2v4H12V10z"/></svg></a>
-                                    <a href="#" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="Pinterest"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 0 0-3.3 17.4c0-.6 0-1.6.2-2.3l1.2-5.1s-.3-.6-.3-1.5c0-1.4.8-2.4 1.8-2.4.8 0 1.2.6 1.2 1.4 0 .8-.5 2.1-.8 3.2-.2.9.5 1.7 1.4 1.7 1.7 0 2.9-1.8 2.9-4.3 0-2.2-1.6-3.8-3.9-3.8-2.7 0-4.2 2-4.2 4.1 0 .8.3 1.7.7 2.2.1.2.1.2.1.4l-.3 1c-.1.2-.2.3-.5.2-1.7-.8-2.8-3.1-2.8-5 0-4.1 3-7.8 8.6-7.8 4.5 0 8 3.2 8 7.5 0 4.5-2.8 8.1-6.7 8.1-1.3 0-2.6-.7-3-1.5l-.8 3.2c-.3 1.1-1 2.5-1.4 3.3 1 .3 2 .5 3.1.5a9 9 0 1 0 0-18z"/></svg></a>
-                                    <a href="#" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="Instagram"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4zM18.4 6.9a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0z"/><path d="M12 2.8c3 0 3.3 0 4.4.1 1 .1 1.5.2 1.8.4.5.2.8.4 1.1.7.3.3.5.6.7 1.1.2.3.3.9.4 1.8.1 1.1.1 1.4.1 4.4s0 3.3-.1 4.4c-.1 1-.2 1.5-.4 1.8-.2.5-.4.8-.7 1.1-.3.3-.6.5-1.1.7-.3.2-.9.3-1.8.4-1.1.1-1.4.1-4.4.1s-3.3 0-4.4-.1c-1-.1-1.5-.2-1.8-.4a3 3 0 0 1-1.1-.7 3 3 0 0 1-.7-1.1c-.2-.3-.3-.9-.4-1.8-.1-1.1-.1-1.4-.1-4.4s0-3.3.1-4.4c.1-1 .2-1.5.4-1.8.2-.5.4-.8.7-1.1.3-.3.6-.5 1.1-.7.3-.2.9-.3 1.8-.4 1.1-.1 1.4-.1 4.4-.1zm0-1.8c-3.1 0-3.5 0-4.6.1-1.1.1-1.9.2-2.6.5a4.8 4.8 0 0 0-1.7 1.1A4.8 4.8 0 0 0 2 4.4c-.3.7-.4 1.5-.5 2.6C1.4 8 1.4 8.4 1.4 11.5S1.4 15 1.5 16c.1 1.1.2 1.9.5 2.6a4.8 4.8 0 0 0 1.1 1.7 4.8 4.8 0 0 0 1.7 1.1c.7.3 1.5.4 2.6.5 1.1.1 1.4.1 4.6.1 3.1 0 3.5 0 4.6-.1 1.1-.1 1.9-.2 2.6-.5a4.8 4.8 0 0 0 1.7-1.1 4.8 4.8 0 0 0 1.1-1.7c.3-.7.4-1.5.5-2.6.1-1.1.1-1.4.1-4.6s0-3.5-.1-4.6c-.1-1.1-.2-1.9-.5-2.6a4.8 4.8 0 0 0-1.1-1.7 4.8 4.8 0 0 0-1.7-1.1c-.7-.3-1.5-.4-2.6-.5C15.5 1 15.2 1 12 1z"/></svg></a>
-                                    <a href="#" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="YouTube"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M23 12c0-2.2-.2-3.7-.6-4.7-.3-.8-1-1.5-1.8-1.8C19.6 5 12 5 12 5s-7.6 0-8.6.5c-.8.3-1.5 1-1.8 1.8C1.2 8.3 1 9.8 1 12c0 2.2.2 3.7.6 4.7.3.8 1 1.5 1.8 1.8.9.5 8.6.5 8.6.5s7.6 0 8.6-.5c.8-.3 1.5-1 1.8-1.8.4-1 .6-2.5.6-4.7zM10 15.5v-7l6 3.5-6 3.5z"/></svg></a>
-                                    <a href="#" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="Vimeo"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7.2c-.1 2.8-2 6.6-5.7 11.5-3.8 5.1-6.9 7.6-9.1 7.6-1.4 0-2.6-1.3-3.5-3.9-.6-2.3-1.2-4.6-1.8-6.9-.7-2.6-1.5-4-2.3-4-.2 0-1 .5-2.2 1.5L0 11.4c2-1.8 3.9-3.6 5.8-5.4 2.6-2.2 4.5-3.4 5.8-3.5 1.5-.2 2.4.9 2.8 3.2.4 2.5.7 4 .8 4.6.4 2 .8 3 1.4 3 .4 0 1.1-.7 2.1-2 .9-1.3 1.4-2.3 1.4-3 0-.9-.7-1.3-2-1.3.6-1.9 1.8-2.8 3.6-2.8 1.4 0 2.1 1 2 3z"/></svg></a>
-                                </div>
-                                <div class="flex items-center gap-2 text-slate-500">
-                                    <a href="#" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="Call"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.3 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C11.9 21 3 12.1 3 1.9 3 1.3 3.4.9 4 .9h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.3 1l-2.2 2.3z"/></svg></a>
-                                    <a href="#" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="Email"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5L4 8V6l8 5 8-5v2z"/></svg></a>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-0.5 hover:shadow-lg">
-                        <div class="relative aspect-[4/3] overflow-hidden bg-[#f1f3f8]">
-                            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=900&q=80" alt="Dennis Albo" class="h-full w-full object-cover object-center" loading="lazy">
-                        </div>
-                        <div class="p-5">
-                            <h3 class="text-xl font-semibold tracking-[-0.01em] text-[#1f2a44] sm:text-2xl">Dennis Albo</h3>
-                            <p class="mt-1 text-sm text-[#6a7892] sm:text-base">Member ID: 987654321</p>
-                            <p class="mt-4 text-[15px] leading-7 text-[#5f6f8c] sm:text-base">
-                                With a sharp understanding of market trends and a strategic approach to negotiation, Dennis delivers results.
-                            </p>
-                            <div class="mt-6 flex items-center justify-between border-t border-slate-100 pt-4">
-                                <div class="flex items-center gap-2 text-slate-500">
-                                    <a href="#" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="Facebook"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 9H16V6h-2.5C11.6 6 10 7.6 10 9.5V12H8v3h2v6h3v-6h2.3l.7-3H13v-2.2c0-.5.2-.8.5-.8z"/></svg></a>
-                                    <a href="#" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="X"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 3H22l-6.8 7.8L23 21h-6.2l-4.9-6.4L6.3 21H3.1l7.3-8.3L1 3h6.3l4.4 5.9L18.9 3z"/></svg></a>
-                                    <a href="#" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="LinkedIn"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M6.9 8.5A1.9 1.9 0 1 0 6.9 4.7a1.9 1.9 0 0 0 0 3.8zM5.2 10h3.4v9.3H5.2V10zm5.4 0H14v1.3h.1c.5-.9 1.6-1.6 3.2-1.6 3.5 0 4.1 2.3 4.1 5.3v4.3H18v-3.8c0-.9 0-2.1-1.3-2.1s-1.5 1-1.5 2v4H12V10z"/></svg></a>
-                                    <a href="#" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="Pinterest"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 0 0-3.3 17.4c0-.6 0-1.6.2-2.3l1.2-5.1s-.3-.6-.3-1.5c0-1.4.8-2.4 1.8-2.4.8 0 1.2.6 1.2 1.4 0 .8-.5 2.1-.8 3.2-.2.9.5 1.7 1.4 1.7 1.7 0 2.9-1.8 2.9-4.3 0-2.2-1.6-3.8-3.9-3.8-2.7 0-4.2 2-4.2 4.1 0 .8.3 1.7.7 2.2.1.2.1.2.1.4l-.3 1c-.1.2-.2.3-.5.2-1.7-.8-2.8-3.1-2.8-5 0-4.1 3-7.8 8.6-7.8 4.5 0 8 3.2 8 7.5 0 4.5-2.8 8.1-6.7 8.1-1.3 0-2.6-.7-3-1.5l-.8 3.2c-.3 1.1-1 2.5-1.4 3.3 1 .3 2 .5 3.1.5a9 9 0 1 0 0-18z"/></svg></a>
-                                    <a href="#" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="Instagram"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4zM18.4 6.9a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0z"/><path d="M12 2.8c3 0 3.3 0 4.4.1 1 .1 1.5.2 1.8.4.5.2.8.4 1.1.7.3.3.5.6.7 1.1.2.3.3.9.4 1.8.1 1.1.1 1.4.1 4.4s0 3.3-.1 4.4c-.1 1-.2 1.5-.4 1.8-.2.5-.4.8-.7 1.1-.3.3-.6.5-1.1.7-.3.2-.9.3-1.8.4-1.1.1-1.4.1-4.4.1s-3.3 0-4.4-.1c-1-.1-1.5-.2-1.8-.4a3 3 0 0 1-1.1-.7 3 3 0 0 1-.7-1.1c-.2-.3-.3-.9-.4-1.8-.1-1.1-.1-1.4-.1-4.4s0-3.3.1-4.4c.1-1 .2-1.5.4-1.8.2-.5.4-.8.7-1.1.3-.3.6-.5 1.1-.7.3-.2.9-.3 1.8-.4 1.1-.1 1.4-.1 4.4-.1zm0-1.8c-3.1 0-3.5 0-4.6.1-1.1.1-1.9.2-2.6.5a4.8 4.8 0 0 0-1.7 1.1A4.8 4.8 0 0 0 2 4.4c-.3.7-.4 1.5-.5 2.6C1.4 8 1.4 8.4 1.4 11.5S1.4 15 1.5 16c.1 1.1.2 1.9.5 2.6a4.8 4.8 0 0 0 1.1 1.7 4.8 4.8 0 0 0 1.7 1.1c.7.3 1.5.4 2.6.5 1.1.1 1.4.1 4.6.1 3.1 0 3.5 0 4.6-.1 1.1-.1 1.9-.2 2.6-.5a4.8 4.8 0 0 0 1.7-1.1 4.8 4.8 0 0 0 1.1-1.7c.3-.7.4-1.5.5-2.6.1-1.1.1-1.4.1-4.6s0-3.5-.1-4.6c-.1-1.1-.2-1.9-.5-2.6a4.8 4.8 0 0 0-1.1-1.7 4.8 4.8 0 0 0-1.7-1.1c-.7-.3-1.5-.4-2.6-.5C15.5 1 15.2 1 12 1z"/></svg></a>
-                                </div>
-                                <div class="flex items-center gap-2 text-slate-500">
-                                    <a href="#" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="Call"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.3 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C11.9 21 3 12.1 3 1.9 3 1.3 3.4.9 4 .9h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.3 1l-2.2 2.3z"/></svg></a>
-                                    <a href="#" class="rounded-md p-1.5 transition hover:bg-slate-100 hover:text-blue-600" aria-label="Email"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5L4 8V6l8 5 8-5v2z"/></svg></a>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
+                <div class="mt-12 flex justify-center">
+                    <a href="{{ route('agents') }}" class="rounded bg-[#0f6fcb] px-6 py-3 text-base font-semibold text-white transition hover:bg-[#0c5eac] shadow-md flex items-center gap-2">
+                        View All Agents
+                        <span>&rarr;</span>
+                    </a>
                 </div>
             </div>
         </section>
+        @endif
 
         <section class="bg-[#eef5fc] py-12 sm:py-16">
             <div class="section-shell">
@@ -591,6 +602,76 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script type="module">
         $(document).ready(function() {
+            // Equalize card heights
+            function equalizeRentCardHeights() {
+                const cards = document.querySelectorAll('#rent-slider-container .rent-card');
+                let maxHeight = 0;
+                cards.forEach(function(card) {
+                    card.style.height = 'auto';
+                });
+                cards.forEach(function(card) {
+                    const height = card.offsetHeight;
+                    if (height > maxHeight) {
+                        maxHeight = height;
+                    }
+                });
+                cards.forEach(function(card) {
+                    card.style.setProperty('height', maxHeight + 'px', 'important');
+                });
+            }
+
+            equalizeRentCardHeights();
+            window.addEventListener('resize', equalizeRentCardHeights);
+            // Run again after images/assets load to ensure final height calculation
+            window.addEventListener('load', equalizeRentCardHeights);
+
+            // Rent slider controls
+            const rentContainer = document.getElementById('rent-slider-container');
+            const rentPrevBtn = document.querySelector('[aria-label="Previous slide"]');
+            const rentNextBtn = document.querySelector('[aria-label="Next slide"]');
+            const rentDots = document.querySelectorAll('#rent-slider-dots button');
+            
+            if (rentContainer && rentPrevBtn && rentNextBtn) {
+                rentPrevBtn.addEventListener('click', function() {
+                    rentContainer.scrollBy({ left: -rentContainer.clientWidth, behavior: 'smooth' });
+                });
+                rentNextBtn.addEventListener('click', function() {
+                    rentContainer.scrollBy({ left: rentContainer.clientWidth, behavior: 'smooth' });
+                });
+            }
+
+            // Dots click handling
+            rentDots.forEach(function(dot) {
+                dot.addEventListener('click', function() {
+                    const slideIndex = parseInt(this.getAttribute('data-slide'));
+                    if (rentContainer) {
+                        rentContainer.scrollTo({
+                            left: slideIndex * rentContainer.clientWidth,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Update active dot on scroll
+            if (rentContainer) {
+                rentContainer.addEventListener('scroll', function() {
+                    const scrollLeft = rentContainer.scrollLeft;
+                    const containerWidth = rentContainer.clientWidth || 1;
+                    const activeIndex = Math.round(scrollLeft / containerWidth);
+                    
+                    rentDots.forEach(function(dot, index) {
+                        if (index === activeIndex) {
+                            dot.classList.remove('bg-slate-300');
+                            dot.classList.add('bg-[#2f6dd7]');
+                        } else {
+                            dot.classList.remove('bg-[#2f6dd7]');
+                            dot.classList.add('bg-slate-300');
+                        }
+                    });
+                });
+            }
+
             // Filter latest properties
             $('.filter-tab-btn').on('click', function() {
                 const targetPurpose = $(this).attr('data-filter');

@@ -22,7 +22,7 @@
   <div class="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
     <nav
       x-data="{ selected: $persist('Dashboard') }"
-      x-init="selected = window.location.pathname.includes('/admin/enquiries') ? 'Manage Leads' : window.location.pathname.includes('/admin/testimonials') ? 'Manage Testimonials' : window.location.pathname.includes('/admin/posts') ? 'Manage Blog' : window.location.pathname.includes('/admin/comments') ? 'Manage Comments' : window.location.pathname.includes('/admin/agents') ? 'Manage Agents' : window.location.pathname.includes('/admin/user-management') ? 'User Management' : window.location.pathname.includes('/admin/roles-permissions') ? 'Roles & Permissions' : window.location.pathname.includes('/admin/general-setting') ? 'General Setting' : window.location.pathname.includes('/admin/categories') ? 'Categories' : window.location.pathname.includes('/admin/features') ? 'Features' : 'Dashboard'"
+      x-init="selected = window.location.pathname.includes('/admin/enquiries') ? 'Manage Leads' : window.location.pathname.includes('/admin/testimonials') ? 'Manage Testimonials' : window.location.pathname.includes('/admin/posts') ? 'Manage Blog' : window.location.pathname.includes('/admin/comments') ? 'Manage Comments' : window.location.pathname.includes('/admin/agents') ? 'Manage Agents' : window.location.pathname.includes('/admin/user-management') ? 'User Management' : window.location.pathname.includes('/admin/roles-permissions') ? 'Roles & Permissions' : window.location.pathname.includes('/admin/general-setting') ? 'General Setting' : window.location.pathname.includes('/admin/categories') ? 'Categories' : window.location.pathname.includes('/admin/features') ? 'Features' : window.location.pathname.includes('/admin/cities') ? 'Cities' : 'Dashboard'"
     >
       <div>
         <h3 class="mb-4 text-xs uppercase leading-[20px] text-gray-400">
@@ -316,6 +316,29 @@
                 <path d="M12 17.25L7.053 20.69L8.276 14.31L4 10.18L10.449 9.47L12 3.25L13.551 9.47L20 10.18L15.724 14.31L16.947 20.69L12 17.25Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
               <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Features</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="{{ route('admin.cities') }}"
+              @click="selected = 'Cities'"
+              class="menu-item group"
+              :class="(selected === 'Cities' || page === 'cities') ? 'menu-item-active' : 'menu-item-inactive'"
+            >
+              <svg
+                :class="(selected === 'Cities' || page === 'cities') ? 'menu-item-icon-active' : 'menu-item-icon-inactive'"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25s-7.5-4.108-7.5-11.25a7.5 7.5 0 1115 0z" />
+              </svg>
+              <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Cities</span>
             </a>
           </li>
         </ul>

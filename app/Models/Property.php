@@ -44,10 +44,12 @@ class Property extends Model
         'state_id',
         'zip',
         'country_id',
+        'is_advertisement',
     ];
 
     protected $casts = [
         'featured' => 'boolean',
+        'is_advertisement' => 'boolean',
         'available_from' => 'date',
         'map_latitude' => 'decimal:7',
         'map_longitude' => 'decimal:7',

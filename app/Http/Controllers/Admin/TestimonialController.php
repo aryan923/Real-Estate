@@ -29,6 +29,7 @@ class TestimonialController extends Controller
 
         return DataTables::eloquent($query)
             ->addColumn('status_label', fn (Testimonial $testimonial): string => $testimonial->status ? 'Active' : 'Inactive')
+            ->addColumn('featured_label', fn (Testimonial $testimonial): string => $testimonial->is_featured ? 'Yes' : 'No')
             ->addColumn('action', function (Testimonial $testimonial): string {
                 return '<div class="flex flex-wrap gap-2">'
                     . '<a href="' . route('admin.testimonials.edit', $testimonial) . '" class="rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:border-gray-800 dark:text-gray-200 dark:hover:bg-white/5">Edit</a>'
@@ -59,6 +60,7 @@ class TestimonialController extends Controller
             'rating' => $validated['rating'],
             'image' => $this->storeImage($request),
             'status' => $validated['status'],
+            'is_featured' => $validated['is_featured'] ?? false,
         ]);
 
         return redirect()
@@ -81,6 +83,7 @@ class TestimonialController extends Controller
             'content' => $validated['content'],
             'rating' => $validated['rating'],
             'status' => $validated['status'],
+            'is_featured' => $validated['is_featured'] ?? false,
         ];
 
         if ($request->hasFile('image')) {
@@ -115,6 +118,7 @@ class TestimonialController extends Controller
             'rating' => ['required', 'integer', 'min:1', 'max:5'],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'status' => ['required', 'boolean'],
+            'is_featured' => ['nullable', 'boolean'],
         ]);
     }
 

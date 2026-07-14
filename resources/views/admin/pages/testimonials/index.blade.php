@@ -47,6 +47,7 @@
                   <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Designation</th>
                   <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Rating</th>
                   <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Status</th>
+                  <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Featured</th>
                   <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Actions</th>
                 </tr>
               </thead>
@@ -94,6 +95,7 @@
             }
           },
           { data: 'status_label', name: 'status' },
+          { data: 'featured_label', name: 'is_featured' },
           { data: 'action', name: 'action', orderable: false, searchable: false }
         ],
         classes: {

@@ -155,17 +155,29 @@
                                 </div>
                             </div>
                             <div>
+                                <label
+                                    class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Advertisement</label>
+                                <div class="rounded-lg border border-gray-200 bg-white px-4 py-3">
+                                    <input type="hidden" name="is_advertisement" value="0" />
+                                    <label class="inline-flex items-center gap-2 text-sm text-gray-700">
+                                        <input type="checkbox" name="is_advertisement" value="1"
+                                            class="h-4 w-4 rounded border-gray-300"
+                                            {{ old('is_advertisement', $property['is_advertisement'] ?? false) ? 'checked' : '' }} />
+                                        Show in Homepage Advertisement section
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-4 mt-6">
+                            <div>
                                 <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Rooms</label>
                                 <input type="number" name="rooms" min="0"
                                     value="{{ old('rooms', $property['rooms'] ?? '') }}"
                                     class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10" />
                             </div>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-4 mt-6">
                             <div>
-                                <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Price
-                                    type</label>
+                                <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Price type</label>
                                 <select name="price_type"
                                     class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10">
                                     <option value="Sale"
@@ -180,8 +192,7 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Available
-                                    from</label>
+                                <label class="mb-2 block text-sm font-semibold text-gray-800 dark:text-white">Available from</label>
                                 <input type="date" name="available_from"
                                     value="{{ old('available_from', $property['available_from'] ?? '') }}"
                                     class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-brand-500/10" />

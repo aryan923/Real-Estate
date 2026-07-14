@@ -16,7 +16,7 @@
         </svg>
     </button>
 
-    <div data-menu-panel class="absolute left-0 right-0 top-[calc(100%+0.55rem)] z-40 hidden flex-col gap-1 rounded-xl border border-white/25 bg-[#0f2f54]/95 p-4 shadow-xl backdrop-blur lg:static lg:z-auto lg:flex lg:flex-row lg:items-center lg:gap-7 lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none lg:backdrop-blur-0">
+    <div data-menu-panel class="absolute left-0 right-0 top-[calc(100%+0.55rem)] z-40 hidden flex-col gap-1 rounded-xl border border-white/25 bg-[#0f2f54] p-4 shadow-xl lg:static lg:z-auto lg:flex lg:flex-row lg:items-center lg:gap-7 lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none lg:backdrop-blur-0">
         @php($routes = [
             'home' => 'Home',
             'about-us' => 'About Us',

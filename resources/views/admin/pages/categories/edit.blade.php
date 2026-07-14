@@ -45,7 +45,15 @@
               <input type="text" name="name" value="{{ old('name', $category->name) }}" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm text-gray-700 outline-none focus:border-brand-500 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white" required>
             </div>
 
-            <div class="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label class="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-300 font-medium">Image</label>
+              <div id="image-preview-container" class="{{ $category->image ? '' : 'hidden' }} mb-3">
+                <img id="image-preview" src="{{ $category->image ? \App\Classes\ImageuploadHelper::getUploadedFileUrl($category->image) : '#' }}" alt="Selected Image Preview" class="h-20 w-32 rounded-lg object-cover border border-gray-200 dark:border-gray-800">
+              </div>
+              <input type="file" name="image" id="category-image-input" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm text-gray-700 outline-none focus:border-brand-500 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white" accept="image/*">
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-3 items-center">
               <div>
                 <label class="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-300">Parent Category</label>
                 <select name="parent_id" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm text-gray-700 outline-none focus:border-brand-500 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white">
@@ -56,10 +64,16 @@
                 </select>
               </div>
 
-              <label class="flex items-center gap-3 text-sm font-semibold text-gray-700 dark:text-gray-300">
+              <label class="flex items-center gap-3 text-sm font-semibold text-gray-700 dark:text-gray-300 cursor-pointer pt-6">
                 <input type="hidden" name="status" value="0">
                 <input type="checkbox" name="status" value="1" {{ old('status', $category->status) ? 'checked' : '' }} class="h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500">
                 Active
+              </label>
+
+              <label class="flex items-center gap-3 text-sm font-semibold text-gray-700 dark:text-gray-300 cursor-pointer pt-6">
+                <input type="hidden" name="is_featured" value="0">
+                <input type="checkbox" name="is_featured" value="1" {{ old('is_featured', $category->is_featured) ? 'checked' : '' }} class="h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500">
+                Featured
               </label>
             </div>
 
@@ -73,3 +87,22 @@
     </div>
   </main>
 @endsection
+
+@push('scripts')
+<script>
+  document.getElementById('category-image-input')?.addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const previewContainer = document.getElementById('image-preview-container');
+    const previewImage = document.getElementById('image-preview');
+    
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        if (previewImage) previewImage.src = e.target.result;
+        previewContainer?.classList.remove('hidden');
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+</script>
+@endpush

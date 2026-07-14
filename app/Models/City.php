@@ -19,6 +19,11 @@ class City extends Model
         'longitude',
         'flag',
         'wikiDataId',
+        'is_featured',
+    ];
+
+    protected $casts = [
+        'is_featured' => 'boolean',
     ];
 
     public function country()

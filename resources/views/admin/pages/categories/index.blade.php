@@ -45,6 +45,14 @@
                   <option value="inactive">Inactive</option>
                 </select>
               </div>
+              <div class="flex items-center gap-2">
+                <label for="categories-featured-filter" class="text-sm font-medium text-gray-600 dark:text-gray-300">Featured</label>
+                <select id="categories-featured-filter" class="h-10 rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-700 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200">
+                  <option value="all">All</option>
+                  <option value="yes">Yes</option>
+                  <option value="no">No</option>
+                </select>
+              </div>
             </div>
           </div>
 
@@ -52,15 +60,17 @@
             <table id="categories-table" class="min-w-full table-auto">
               <thead>
                 <tr class="border-b border-gray-100 bg-gray-50 dark:border-gray-800 dark:bg-gray-900/40">
+                  <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Image</th>
                   <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Name</th>
                   <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Parent</th>
                   <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Status</th>
+                  <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Featured</th>
                   <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td colspan="4" class="px-5 py-4 text-sm text-gray-500 dark:text-gray-400">Loading categories...</td>
+                  <td colspan="6" class="px-5 py-4 text-sm text-gray-500 dark:text-gray-400">Loading categories...</td>
                 </tr>
               </tbody>
             </table>
@@ -88,20 +98,23 @@
           data: function (d) {
             d.parent_filter = window.jQuery('#categories-parent-filter').val();
             d.status_filter = window.jQuery('#categories-status-filter').val();
+            d.featured_filter = window.jQuery('#categories-featured-filter').val();
           },
         },
         pageLength: 10,
         lengthMenu: [[5, 10, 20, 50, -1], [5, 10, 20, 50, 'All']],
-        order: [[0, 'asc']],
+        order: [[1, 'asc']],
         columns: [
+          { data: 'image_preview', name: 'image', orderable: false, searchable: false },
           { data: 'name', name: 'name' },
           { data: 'parent', name: 'parent', orderable: false, searchable: false },
           { data: 'status_label', name: 'status' },
+          { data: 'featured_label', name: 'is_featured' },
           { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
       });
 
-      window.jQuery('#categories-parent-filter, #categories-status-filter').on('change', function () {
+      window.jQuery('#categories-parent-filter, #categories-status-filter, #categories-featured-filter').on('change', function () {
         table.ajax.reload();
       });
     });

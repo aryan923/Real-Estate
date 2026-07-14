@@ -11,22 +11,22 @@
                     @endif
 
                     @if(!empty($settings['footer_phone_1']))
-                        <li>{{ $settings['footer_phone_1'] }}</li>
+                        <li><a href="tel:{{ $settings['footer_phone_1'] }}" class="hover:underline hover:text-white transition">{{ $settings['footer_phone_1'] }}</a></li>
                     @endif
 
                     @if(!empty($settings['footer_phone_2']))
-                        <li>{{ $settings['footer_phone_2'] }}</li>
+                        <li><a href="tel:{{ $settings['footer_phone_2'] }}" class="hover:underline hover:text-white transition">{{ $settings['footer_phone_2'] }}</a></li>
                     @endif
 
                     @if(empty($settings['footer_phone_1']) && empty($settings['footer_phone_2']))
-                        <li>(305) 555-4446</li>
-                        <li>(305) 555-4555</li>
+                        <li><a href="tel:3055554446" class="hover:underline hover:text-white transition">(305) 555-4446</a></li>
+                        <li><a href="tel:3055554555" class="hover:underline hover:text-white transition">(305) 555-4555</a></li>
                     @endif
 
                     @if(!empty($settings['footer_email']))
-                        <li>{{ $settings['footer_email'] }}</li>
+                        <li><a href="mailto:{{ $settings['footer_email'] }}" class="hover:underline hover:text-white transition">{{ $settings['footer_email'] }}</a></li>
                     @else
-                        <li>youremail@gmail.com</li>
+                        <li><a href="mailto:youremail@gmail.com" class="hover:underline hover:text-white transition">youremail@gmail.com</a></li>
                     @endif
 
                     @if(!empty($settings['footer_about']))
@@ -70,15 +70,17 @@
                     @forelse($latestProperties as $lprop)
                         @php($primary = $lprop->images?->firstWhere('is_primary', true) ?? $lprop->images?->first())
                         <article class="flex items-center gap-3">
-                            @if($primary)
-                                <img src="{{ \App\Classes\ImageuploadHelper::getUploadedFileUrl($primary->path) }}" alt="{{ $lprop->title }}" class="h-14 w-16 rounded-md object-cover sm:h-16 sm:w-20">
-                            @else
-                                <img src="https://images.unsplash.com/photo-1576941089067-2de3c901e126?auto=format&fit=crop&w=240&q=80" alt="{{ $lprop->title }}" class="h-14 w-16 rounded-md object-cover sm:h-16 sm:w-20">
-                            @endif
-                            <div>
-                                <p class="text-sm font-medium text-white sm:text-[15px]">{{ $lprop->title }}</p>
-                                <p class="text-sm text-slate-300 sm:text-[15px]">{{ $lprop->price ? '$' . number_format($lprop->price) : 'Contact for Price' }}</p>
-                            </div>
+                            <a href="{{ route('property-detail', $lprop->slug) }}" class="flex items-center gap-3 group w-full">
+                                @if($primary)
+                                    <img src="{{ \App\Classes\ImageuploadHelper::getUploadedFileUrl($primary->path) }}" alt="{{ $lprop->title }}" class="h-14 w-16 rounded-md object-cover sm:h-16 sm:w-20 group-hover:opacity-80 transition flex-shrink-0">
+                                @else
+                                    <img src="https://images.unsplash.com/photo-1576941089067-2de3c901e126?auto=format&fit=crop&w=240&q=80" alt="{{ $lprop->title }}" class="h-14 w-16 rounded-md object-cover sm:h-16 sm:w-20 group-hover:opacity-80 transition flex-shrink-0">
+                                @endif
+                                <div>
+                                    <p class="text-sm font-medium text-white sm:text-[15px] group-hover:text-blue-400 transition">{{ $lprop->title }}</p>
+                                    <p class="text-sm text-slate-300 sm:text-[15px]">{{ $lprop->price ? '$' . number_format($lprop->price) : 'Contact for Price' }}</p>
+                                </div>
+                            </a>
                         </article>
                     @empty
                         <p class="text-sm text-slate-400">No properties available.</p>
@@ -94,11 +96,10 @@
                 <p>Copyright {{ $settings['site_name'] ?? '' }}. All Rights Reserved.</p>
             @endif
 
-            @if(!empty($settings['footer_links']))
-                <p>{{ $settings['footer_links'] }}</p>
-            @else
-                <p>Documentation Video Tutorial Client Support</p>
-            @endif
+            <div class="flex gap-4">
+                <a href="{{ route('terms') }}" class="hover:text-white transition">Terms & Conditions</a>
+                <a href="{{ route('privacy') }}" class="hover:text-white transition">Privacy Policy</a>
+            </div>
         </div>
     </div>
 </footer>

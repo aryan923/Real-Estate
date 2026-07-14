@@ -19,7 +19,16 @@
               <h1 class="text-xl font-semibold text-gray-900 dark:text-white">Agents</h1>
               <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Manage real estate agents, their account credentials, and detailed metadata.</p>
             </div>
-            <a href="{{ route('admin.agents.create') }}" class="inline-flex items-center rounded-lg bg-brand-500 px-4 py-3 text-sm font-medium text-white transition hover:bg-brand-600">Add Agent</a>
+            <div class="flex flex-wrap items-center gap-4">
+              <div>
+                <select id="filter-featured" class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white">
+                  <option value="">All Agents</option>
+                  <option value="yes">Featured Only</option>
+                  <option value="no">Not Featured Only</option>
+                </select>
+              </div>
+              <a href="{{ route('admin.agents.create') }}" class="inline-flex items-center rounded-lg bg-brand-500 px-4 py-3 text-sm font-medium text-white transition hover:bg-brand-600">Add Agent</a>
+            </div>
           </div>
         </div>
 
@@ -34,6 +43,7 @@
                   <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Phone</th>
                   <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Title</th>
                   <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Company</th>
+                  <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Featured</th>
                   <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Actions</th>
                 </tr>
               </thead>
@@ -54,7 +64,10 @@
         processing: true,
         serverSide: true,
         ajax: {
-          url: '{{ route("admin.agents.data") }}'
+          url: '{{ route("admin.agents.data") }}',
+          data: function(d) {
+            d.is_featured = $('#filter-featured').val();
+          }
         },
         columns: [
           { data: 'photo', name: 'profile_pic', orderable: false },
@@ -63,8 +76,13 @@
           { data: 'phone', name: 'phone' },
           { data: 'title', name: 'agentMeta.title' },
           { data: 'company', name: 'agentMeta.company' },
+          { data: 'featured_label', name: 'agentMeta.is_featured' },
           { data: 'action', name: 'action', orderable: false, searchable: false }
         ]
+      });
+
+      $('#filter-featured').on('change', function() {
+        table.draw();
       });
 
       $(document).on('submit', 'form[data-confirm]', function (e) {

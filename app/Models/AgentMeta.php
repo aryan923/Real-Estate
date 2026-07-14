@@ -33,6 +33,11 @@ class AgentMeta extends Model
         'mls_id',
         'languages',
         'experience_years',
+        'is_featured',
+    ];
+
+    protected $casts = [
+        'is_featured' => 'boolean',
     ];
 
     public function user(): BelongsTo

@@ -128,6 +128,14 @@
               </div>
             </div>
 
+            <div class="rounded-lg border border-gray-200 bg-white px-4 py-3 dark:border-gray-800 dark:bg-white/[0.03]">
+              <input type="hidden" name="is_featured" value="0" />
+              <label class="inline-flex items-center gap-2 text-sm font-semibold text-gray-750 dark:text-gray-300 cursor-pointer">
+                <input type="checkbox" name="is_featured" value="1" {{ old('is_featured') ? 'checked' : '' }} class="h-4 w-4 rounded border-gray-300" />
+                Featured Agent (Show on Home Page)
+              </label>
+            </div>
+
             <div>
               <label class="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-300">Specialties & Service Areas (comma separated tags)</label>
               <input type="text" name="specialties" value="{{ old('specialties') }}" placeholder="New York, Commercial, Consultancy, Residential" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm text-gray-700 outline-none focus:border-brand-500 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white">

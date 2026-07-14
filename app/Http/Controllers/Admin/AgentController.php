@@ -26,6 +26,13 @@ class AgentController extends Controller
     {
         $query = User::query()->has('agentMeta')->with('agentMeta');
 
+        if ($request->filled('is_featured')) {
+            $isFeatured = $request->input('is_featured');
+            $query->whereHas('agentMeta', function ($q) use ($isFeatured) {
+                $q->where('is_featured', $isFeatured === 'yes');
+            });
+        }
+
         return DataTables::eloquent($query)
             ->addColumn('photo', function (User $user): string {
                 if (! $user->profile_pic) {
@@ -39,6 +46,7 @@ class AgentController extends Controller
             })
             ->addColumn('title', fn (User $user): string => $user->agentMeta?->title ?? 'N/A')
             ->addColumn('company', fn (User $user): string => $user->agentMeta?->company ?? 'N/A')
+            ->addColumn('featured_label', fn (User $user): string => $user->agentMeta?->is_featured ? 'Yes' : 'No')
             ->addColumn('action', function (User $user): string {
                 return '<div class="flex flex-wrap gap-2">'
                     . '<a href="' . route('admin.agents.edit', $user) . '" class="rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:border-gray-800 dark:text-gray-200 dark:hover:bg-white/5">Edit</a>'
@@ -95,6 +103,7 @@ class AgentController extends Controller
                 'mls_id' => $validated['mls_id'],
                 'languages' => $validated['languages'],
                 'experience_years' => $validated['experience_years'],
+                'is_featured' => $validated['is_featured'] ?? false,
             ]);
 
             return $user;
@@ -159,6 +168,7 @@ class AgentController extends Controller
                     'mls_id' => $validated['mls_id'],
                     'languages' => $validated['languages'],
                     'experience_years' => $validated['experience_years'],
+                    'is_featured' => $validated['is_featured'] ?? false,
                 ]
             );
         });
@@ -228,6 +238,7 @@ class AgentController extends Controller
             'mls_id' => ['nullable', 'string', 'max:255'],
             'languages' => ['nullable', 'string', 'max:255'],
             'experience_years' => ['nullable', 'string', 'max:255'],
+            'is_featured' => ['nullable', 'boolean'],
         ]);
     }
 
