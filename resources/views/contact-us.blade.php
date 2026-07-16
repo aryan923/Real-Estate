@@ -43,22 +43,25 @@
                 <article class="rounded bg-white p-6 text-center shadow-sm ring-1 ring-slate-200">
                     <div class="mx-auto inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#e9f3ff] text-[#1e73be]">☎</div>
                     <h3 class="property-card-title mt-4">Call Us</h3>
-                    <p class="property-card-copy mt-3">+1 408 167 1234</p>
-                    <p class="property-card-copy mt-1">+1 800 555 6789</p>
+                    <p class="property-card-copy mt-3">{{ $settings['contact_phone'] ?? '+1 408 167 1234' }}</p>
+                    @if(!empty($settings['contact_phone_2']))
+                        <p class="property-card-copy mt-1">{{ $settings['contact_phone_2'] }}</p>
+                    @endif
                 </article>
 
                 <article class="rounded bg-white p-6 text-center shadow-sm ring-1 ring-slate-200">
                     <div class="mx-auto inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#e9f3ff] text-[#1e73be]">✉</div>
                     <h3 class="property-card-title mt-4">Email</h3>
-                    <p class="property-card-copy mt-3">contact@mail.com</p>
-                    <p class="property-card-copy mt-1">support@.com</p>
+                    <p class="property-card-copy mt-3">{{ $settings['contact_email'] ?? 'contact@mail.com' }}</p>
+                    @if(!empty($settings['contact_email_2']))
+                        <p class="property-card-copy mt-1">{{ $settings['contact_email_2'] }}</p>
+                    @endif
                 </article>
 
                 <article class="rounded bg-white p-6 text-center shadow-sm ring-1 ring-slate-200">
                     <div class="mx-auto inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#e9f3ff] text-[#1e73be]">⌂</div>
                     <h3 class="property-card-title mt-4">Office Address</h3>
-                    <p class="property-card-copy mt-3">1234 Beacon Street, Suite 101</p>
-                    <p class="property-card-copy mt-1">Boston, MA 02118</p>
+                    <p class="property-card-copy mt-3">{{ $settings['contact_address'] ?? '1234 Beacon Street, Suite 101, Boston, MA 02118' }}</p>
                 </article>
             </div>
 
@@ -116,14 +119,14 @@
             <div class="mx-auto mt-10 max-w-6xl overflow-hidden rounded bg-white shadow-sm ring-1 ring-slate-200">
                 <div class="border-b border-slate-200 px-6 py-4 sm:px-7">
                     <h3 class="section-title">Find Us On The Map</h3>
-                    <p class="section-copy mt-2">Visit our office at 1234 Beacon Street, Suite 101, Boston, MA 02118.</p>
+                    <p class="section-copy mt-2">Visit our office at {{ $settings['contact_address'] ?? '1234 Beacon Street, Suite 101, Boston, MA 02118' }}.</p>
                 </div>
                 <iframe
                     title="{{env('APP_NAME')}} Office Location"
                     class="h-[360px] w-full border-0 sm:h-[420px]"
                     loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"
-                    src="https://www.google.com/maps?q=1234+Beacon+Street,+Boston,+MA+02118&output=embed">
+                    src="{{ $settings['contact_map_iframe'] ?? 'https://www.google.com/maps?q=1234+Beacon+Street,+Boston,+MA+02118&output=embed' }}">
                 </iframe>
             </div>
         </div>

@@ -4,27 +4,27 @@
             <div>
                 <h3 class="text-xl font-semibold tracking-[-0.01em] sm:text-2xl">Contact us</h3>
                 <ul class="mt-5 space-y-3 text-sm leading-6 text-slate-300 sm:text-[15px]">
-                    @if(!empty($settings['footer_address']))
-                        <li>{{ $settings['footer_address'] }}</li>
+                    @if(!empty($settings['contact_address']))
+                        <li>{{ $settings['contact_address'] }}</li>
                     @else
                         <li>3755 Commercial St SE Salem, Corner with Sunny Boulevard, 3755 Commercial OR 97302</li>
                     @endif
 
-                    @if(!empty($settings['footer_phone_1']))
-                        <li><a href="tel:{{ $settings['footer_phone_1'] }}" class="hover:underline hover:text-white transition">{{ $settings['footer_phone_1'] }}</a></li>
+                    @if(!empty($settings['contact_phone']))
+                        <li><a href="tel:{{ $settings['contact_phone'] }}" class="hover:underline hover:text-white transition">{{ $settings['contact_phone'] }}</a></li>
                     @endif
 
-                    @if(!empty($settings['footer_phone_2']))
-                        <li><a href="tel:{{ $settings['footer_phone_2'] }}" class="hover:underline hover:text-white transition">{{ $settings['footer_phone_2'] }}</a></li>
+                    @if(!empty($settings['contact_phone_2']))
+                        <li><a href="tel:{{ $settings['contact_phone_2'] }}" class="hover:underline hover:text-white transition">{{ $settings['contact_phone_2'] }}</a></li>
                     @endif
 
-                    @if(empty($settings['footer_phone_1']) && empty($settings['footer_phone_2']))
+                    @if(empty($settings['contact_phone']) && empty($settings['contact_phone_2']))
                         <li><a href="tel:3055554446" class="hover:underline hover:text-white transition">(305) 555-4446</a></li>
                         <li><a href="tel:3055554555" class="hover:underline hover:text-white transition">(305) 555-4555</a></li>
                     @endif
 
-                    @if(!empty($settings['footer_email']))
-                        <li><a href="mailto:{{ $settings['footer_email'] }}" class="hover:underline hover:text-white transition">{{ $settings['footer_email'] }}</a></li>
+                    @if(!empty($settings['contact_email']))
+                        <li><a href="mailto:{{ $settings['contact_email'] }}" class="hover:underline hover:text-white transition">{{ $settings['contact_email'] }}</a></li>
                     @else
                         <li><a href="mailto:youremail@gmail.com" class="hover:underline hover:text-white transition">youremail@gmail.com</a></li>
                     @endif

@@ -301,7 +301,7 @@
                     <article class="property-listing-card overflow-hidden rounded border border-slate-200 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
                         <div class="relative property-listing-media">
                             <a href="{{ route('property-detail', $slug) }}" class="block">
-                                <img src="{{ $imageUrl }}" alt="{{ $property->title }}" class="h-56 w-full object-cover">
+                                <img src="{{ $imageUrl }}" alt="{{ $property->title }}" referrerpolicy="no-referrer" class="h-56 w-full object-cover">
                             </a>
                             @if ($property->featured)
                                 <div class="absolute left-3 top-3 rounded bg-emerald-500 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-white">Featured</div>

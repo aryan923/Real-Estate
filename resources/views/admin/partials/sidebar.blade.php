@@ -148,6 +148,27 @@
 
           <li>
             <a
+              href="{{ route('admin.pages') }}"
+              @click="selected = 'Manage Pages'"
+              class="menu-item group"
+              :class="(selected === 'Manage Pages' || page === 'pages') ? 'menu-item-active' : 'menu-item-inactive'"
+            >
+              <svg
+                :class="(selected === 'Manage Pages' || page === 'pages') ? 'menu-item-icon-active' : 'menu-item-icon-inactive'"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Manage Pages</span>
+            </a>
+          </li>
+
+          <li>
+            <a
               href="{{ route('admin.comments') }}"
               @click="selected = 'Manage Comments'"
               class="menu-item group"
@@ -265,7 +286,7 @@
                   fill="currentColor"
                 />
               </svg>
-              <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">General Setting</span>
+              <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Manage Contact & Footer</span>
             </a>
           </li>
         </ul>

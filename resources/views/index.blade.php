@@ -142,7 +142,7 @@
                         <article class="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg flex flex-col h-full"
                             data-purpose="{{ strtolower($prop->property_purpose) }}">
                             <a href="{{ route('property-detail', $prop->slug) }}">
-                                <img src="{{ $imageUrl }}" alt="{{ $prop->title }}" class="h-52 w-full object-cover">
+                                <img src="{{ $imageUrl }}" alt="{{ $prop->title }}" referrerpolicy="no-referrer" class="h-52 w-full object-cover">
                             </a>
                             <div class="p-4 flex flex-col flex-1">
                                 <div class="flex items-center justify-between text-[10px] font-semibold uppercase tracking-wide text-white">
@@ -251,7 +251,7 @@
                         <article class="rent-card overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm flex flex-col h-full">
                             <div class="relative">
                                 <a href="{{ route('property-detail', $prop->slug) }}">
-                                    <img src="{{ $imageUrl }}" alt="{{ $prop->title }}" class="h-56 w-full object-cover">
+                                    <img src="{{ $imageUrl }}" alt="{{ $prop->title }}" referrerpolicy="no-referrer" class="h-56 w-full object-cover">
                                 </a>
                                 @if($prop->featured)
                                     <div class="absolute left-3 top-3 flex items-center gap-1 text-[10px] font-semibold uppercase text-white">
@@ -304,17 +304,17 @@
             </div>
         </section>
 
-        <section class="bg-[#eef5fc] py-12 sm:py-16">
+        <section class="bg-[#eef5fc] py-8 sm:py-10">
             <div class="section-shell">
                 <div class="mx-auto max-w-3xl text-center">
                     <h2 class="section-title">Featured Properties</h2>
-                    <p class="section-copy mx-auto mt-4 max-w-3xl">
+                    <p class="section-copy mx-auto mt-3 max-w-3xl">
                         Here are two listings displayed with the featured property shortcode, which you
                         can use when you have some special properties to present.
                     </p>
                 </div>
 
-                <div class="mx-auto mt-8 grid max-w-6xl gap-6 lg:grid-cols-2">
+                <div class="mx-auto mt-6 grid max-w-6xl gap-6 lg:grid-cols-2">
                     @foreach($featuredProperties as $prop)
                         @php
                             $imagesList = [];
@@ -332,12 +332,12 @@
                             $imagesAttr = implode('|', $imagesList);
                             $firstImage = $imagesList[0];
                         @endphp
-                        <article class="featured-slider overflow-hidden rounded-sm bg-white shadow-sm ring-1 ring-slate-200"
+                        <article class="featured-slider overflow-hidden rounded-sm bg-white shadow-sm ring-1 ring-slate-200 h-auto md:h-[300px]"
                             data-images="{{ $imagesAttr }}">
                             <div class="grid md:grid-cols-2">
                                 <div class="relative">
                                     <a href="{{ route('property-detail', $prop->slug) }}">
-                                        <img src="{{ $firstImage }}" alt="{{ $prop->title }}" class="featured-slide-image h-full min-h-72 w-full object-cover transition-opacity duration-300">
+                                        <img src="{{ $firstImage }}" alt="{{ $prop->title }}" referrerpolicy="no-referrer" class="featured-slide-image h-full min-h-60 w-full object-cover transition-opacity duration-300">
                                     </a>
                                     @if(count($imagesList) > 1)
                                         <button type="button" class="featured-slide-prev absolute left-3 top-1/2 -translate-y-1/2 rounded bg-black/25 px-2 py-1 text-white">&lt;</button>
@@ -345,20 +345,20 @@
                                     @endif
                                     <img src="https://images.unsplash.com/photo-1545167622-3a6ac756afa4?auto=format&fit=crop&w=120&q=80" alt="Agent" class="absolute bottom-3 left-3 h-12 w-12 rounded-full border-2 border-white object-cover shadow-sm">
                                 </div>
-                                <div class="flex flex-col p-6">
-                                    <h3 class="text-xl font-semibold tracking-[-0.012em] text-[#1f2a44] sm:text-2xl hover:text-blue-600 transition">
+                                <div class="flex flex-col p-5">
+                                    <h3 class="text-lg font-semibold tracking-[-0.012em] text-[#1f2a44] sm:text-xl hover:text-blue-600 transition">
                                         <a href="{{ route('property-detail', $prop->slug) }}">
                                             {{ $prop->title }}
                                         </a>
                                     </h3>
-                                    <p class="mt-3 text-3xl font-semibold text-blue-600">{{ is_numeric($prop->price) ? format_price($prop->price) : ($prop->price ?: 'Contact for Price') }}</p>
-                                    <p class="mt-4 text-[15px] leading-7 text-[#5f6f8c] sm:text-base line-clamp-3">{{ Str::limit($prop->description, 100) }}</p>
-                                    <div class="mt-5 flex gap-2">
-                                        <span class="rounded border border-slate-200 px-3 py-2 text-slate-400">⇄</span>
-                                        <span class="rounded border border-slate-200 px-3 py-2 text-slate-400">♡</span>
+                                    <p class="mt-2 text-2xl font-semibold text-blue-600">{{ is_numeric($prop->price) ? format_price($prop->price) : ($prop->price ?: 'Contact for Price') }}</p>
+                                    <p class="mt-3 text-[14px] leading-6 text-[#5f6f8c] line-clamp-3">{{ Str::limit($prop->description, 100) }}</p>
+                                    <div class="mt-4 flex gap-2">
+                                        <span class="rounded border border-slate-200 px-3 py-1.5 text-slate-400 text-xs">⇄</span>
+                                        <span class="rounded border border-slate-200 px-3 py-1.5 text-slate-400 text-xs">♡</span>
                                     </div>
-                                    <div class="mt-auto border-t border-slate-200 pt-5 text-sm text-slate-500">
-                                        <div class="flex items-center gap-5">
+                                    <div class="mt-auto border-t border-slate-200 pt-4 text-xs text-slate-500">
+                                        <div class="flex items-center gap-4">
                                             <span>{{ $prop->bedrooms ?? 0 }} Beds</span>
                                             <span>{{ $prop->bathrooms ?? 0 }} Baths</span>
                                             <span>{{ $prop->size ? $prop->size . ' ft²' : 'N/A' }}</span>
@@ -373,6 +373,35 @@
         </section>
 
         @if($adProperty)
+        <style>
+            .ad-banner-height {
+                height: 380px;
+            }
+            .ad-banner-card {
+                position: absolute;
+                left: 1.5rem;
+                right: 1.5rem;
+                bottom: 0;
+                background-color: #ffffff;
+                padding: 1.5rem;
+                border-top-left-radius: 0.75rem;
+                border-top-right-radius: 0.75rem;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                z-index: 10;
+            }
+            @media (min-width: 768px) {
+                .ad-banner-card {
+                    left: 4rem;
+                    right: auto;
+                    width: 380px;
+                }
+            }
+            @media (min-width: 1024px) {
+                .ad-banner-height {
+                    height: 500px;
+                }
+            }
+        </style>
         <section class="w-full bg-white py-0">
             <div class="grid w-full gap-0 lg:grid-cols-2">
                 @php
@@ -389,24 +418,26 @@
                         'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=80'
                     ];
                 @endphp
-                <article class="relative min-h-[340px] overflow-hidden lg:min-h-[460px]">
-                    <img src="{{ $imageUrl }}" alt="{{ $adProperty->title }}" class="absolute inset-0 h-full w-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-r from-black/35 via-black/20 to-transparent"></div>
+                <article class="relative ad-banner-height overflow-hidden" style="position: relative; overflow: hidden;">
+                    <img src="{{ $imageUrl }}" alt="{{ $adProperty->title }}" referrerpolicy="no-referrer" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+                    <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(0,0,0,0.45), rgba(0,0,0,0.15), transparent); pointer-events: none; z-index: 5;"></div>
 
-                    <div class="absolute left-1/2 top-1/2 w-[86%] max-w-[460px] -translate-x-1/2 -translate-y-1/2 bg-white/95 p-6 shadow-xl backdrop-blur-sm sm:p-8">
-                        <p class="text-sm font-semibold text-blue-600 sm:text-base">
+                    <div class="ad-banner-card">
+                        <p class="text-xs font-semibold text-blue-600 sm:text-sm">
                             {{ $adProperty->price && is_numeric($adProperty->price) ? '$' . number_format((float) $adProperty->price) : ($adProperty->price ?: 'Contact for Price') }}{{ $adProperty->property_purpose === 'rent' ? ' / month' : '' }}
                         </p>
-                        <h3 class="mt-3 text-2xl font-bold leading-tight tracking-[-0.015em] text-[#1f2a44] sm:text-3xl">{{ $adProperty->title }}</h3>
-                        <p class="mt-3 text-xs text-slate-500 sm:text-sm">{{ $adProperty->bedrooms ?? 0 }} BD · {{ $adProperty->bathrooms ?? 0 }} BA · {{ $adProperty->size ? $adProperty->size . ' ft²' : 'N/A' }}</p>
-                        <p class="mt-4 text-[15px] leading-7 text-[#5f6f8c] sm:text-base">
-                            {{ Str::limit($adProperty->description, 180) }}
+                        <h3 class="mt-2 text-xl font-bold leading-tight tracking-[-0.015em] text-[#1f2a44] sm:text-2xl hover:text-blue-600 transition">{{ $adProperty->title }}</h3>
+                        <p class="mt-2 text-xs font-medium text-slate-400 uppercase tracking-wide">
+                            {{ $adProperty->bedrooms ?? 0 }} BD · {{ $adProperty->bathrooms ?? 0 }} BA · {{ $adProperty->size ? $adProperty->size . ' ft²' : 'N/A' }}
                         </p>
-                        <a href="{{ route('property-detail', $adProperty->slug) }}" class="mt-5 inline-flex items-center text-xs font-semibold uppercase tracking-[0.08em] text-slate-800 hover:text-blue-600 sm:text-sm">discover more <span class="ml-2">&rsaquo;</span></a>
+                        <p class="mt-3 text-sm leading-relaxed text-[#5f6f8c]">
+                            {{ Str::limit($adProperty->description, 140) }}
+                        </p>
+                        <a href="{{ route('property-detail', $adProperty->slug) }}" class="mt-4 inline-flex items-center text-xs font-bold text-slate-800 hover:text-blue-600 transition">discover more <span class="ml-1.5 text-base leading-none">&rsaquo;</span></a>
                     </div>
                 </article>
 
-                <div class="grid min-h-[340px] grid-cols-2 grid-rows-2 gap-[2px] bg-white lg:min-h-[460px]">
+                <div class="grid ad-banner-height grid-cols-2 grid-rows-2 gap-[2px] bg-white">
                     @for($i = 0; $i < 4; $i++)
                         @php
                             $imgUrl = isset($gallery[$i]) 

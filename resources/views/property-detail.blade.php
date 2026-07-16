@@ -83,7 +83,7 @@
 
             <div class="mt-5 grid gap-3 lg:grid-cols-[minmax(0,1fr)_118px]">
                 <div class="relative overflow-hidden rounded-lg border border-slate-300 bg-white">
-                    <img id="property-main-image" src="{{ $mainImageUrl }}" alt="{{ $property->title }}" class="h-[460px] w-full object-cover">
+                    <img id="property-main-image" src="{{ $mainImageUrl }}" alt="{{ $property->title }}" referrerpolicy="no-referrer" class="h-[460px] w-full object-cover">
 
                     <button type="button" id="property-prev" class="absolute left-2 top-1/2 inline-flex h-12 w-8 -translate-y-1/2 items-center justify-center rounded bg-black/45 text-white hover:bg-black/60">‹</button>
                     <button type="button" id="property-next" class="absolute right-2 top-1/2 inline-flex h-12 w-8 -translate-y-1/2 items-center justify-center rounded bg-black/45 text-white hover:bg-black/60">›</button>
@@ -96,7 +96,7 @@
                         @php
                             $thumbUrl = $image->path ? \App\Classes\ImageuploadHelper::getUploadedFileUrl($image->path) : $fallbackImage;
                         @endphp
-                        <button type="button" class="property-thumb overflow-hidden rounded border-2 {{ $index === 0 ? 'is-active border-[#1e73be]' : 'border-transparent' }}" data-image="{{ $thumbUrl }}"><img src="{{ $thumbUrl }}" alt="thumb {{ $index + 1 }}" class="h-16 w-full object-cover"></button>
+                        <button type="button" class="property-thumb overflow-hidden rounded border-2 {{ $index === 0 ? 'is-active border-[#1e73be]' : 'border-transparent' }}" data-image="{{ $thumbUrl }}"><img src="{{ $thumbUrl }}" alt="thumb {{ $index + 1 }}" referrerpolicy="no-referrer" class="h-16 w-full object-cover"></button>
                     @endforeach
                 </div>
             </div>
@@ -749,7 +749,10 @@
                                         <div class="sim-slide min-w-full grid gap-4 sm:grid-cols-2" data-slide-index="{{ $slideIndex }}">
                                             @foreach($slide as $sim)
                                                 @php
-                                                    $simImage   = $sim->images->first()?->image_url ?? 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80';
+                                                    $simPrimaryImage = $sim->images->firstWhere('is_primary', true) ?? $sim->images->first();
+                                                    $simImage = $simPrimaryImage
+                                                        ? \App\Classes\ImageuploadHelper::getUploadedFileUrl($simPrimaryImage->path)
+                                                        : 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80';
                                                     $simCity    = $sim->city?->name ?? '';
                                                     $simState   = $sim->state?->name ?? '';
                                                     $simLoc     = trim($simCity . ($simState ? ', '.$simState : ''));
@@ -766,6 +769,7 @@
                                                     <div class="relative">
                                                         <a href="{{ route('property-detail', $sim->slug) }}" class="block">
                                                             <img src="{{ $simImage }}" alt="{{ $sim->title }}"
+                                                                 referrerpolicy="no-referrer"
                                                                  onerror="this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80'"
                                                                  class="h-48 w-full object-cover">
                                                         </a>
@@ -788,7 +792,12 @@
                                                             <div class="absolute bottom-3 left-3 text-xs font-medium text-white drop-shadow-sm">{{ $simLoc }}</div>
                                                         @endif
                                                         @if($simImgCount > 0)
-                                                            <div class="absolute bottom-3 right-3 text-xs font-semibold text-white">{{ $simImgCount }}</div>
+                                                            <div class="absolute bottom-3 right-3 flex items-center gap-1 text-xs text-white">
+                                                                <span class="inline-flex items-center gap-1">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6a2 2 0 012-2h7a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm13 3h1a2 2 0 012 2v7a2 2 0 01-2 2h-1v-2h1v-7h-1V9z"/></svg>
+                                                                    {{ $simImgCount }}
+                                                                </span>
+                                                            </div>
                                                         @endif
                                                     </div>
 

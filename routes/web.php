@@ -47,6 +47,8 @@ Route::get('/about-us', [HomeController::class, 'about'])->name('about-us');
 
 Route::get('/contact-us', [HomeController::class, 'contact'])->name('contact-us');
 
+Route::get('/p/{slug}', [HomeController::class, 'showCmsPage'])->name('cms-page');
+
 Route::get('/agents', [AgentController::class, 'index'])->name('agents');
 
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
@@ -228,6 +230,18 @@ Route::prefix('admin')->name('admin.')->group(function () use ($tailAdminPages) 
               ->names([
                   'index' => 'comments',
                   'destroy' => 'comments.destroy',
+              ]);
+
+          Route::get('/pages/data', [\App\Http\Controllers\Admin\PageController::class, 'data'])->name('pages.data');
+          Route::resource('/pages', \App\Http\Controllers\Admin\PageController::class)
+              ->except(['show'])
+              ->names([
+                  'index' => 'pages',
+                  'create' => 'pages.create',
+                  'store' => 'pages.store',
+                  'edit' => 'pages.edit',
+                  'update' => 'pages.update',
+                  'destroy' => 'pages.destroy',
               ]);
          Route::get('/{page}', function (string $page) use ($tailAdminPages) {
              if (in_array($page, $tailAdminPages, true) && view()->exists("admin.pages.{$page}")) {

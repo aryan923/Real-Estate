@@ -103,11 +103,92 @@ class HomeController extends Controller
 
     public function about(): View
     {
-        return view('about-us');
+        $page = \App\Models\Page::where('slug', 'about-us')->first();
+        
+        $team = User::query()
+            ->has('agentMeta')
+            ->with('agentMeta')
+            ->latest()
+            ->take(3)
+            ->get()
+            ->map(function ($user) {
+                $listingsCount = Property::where('builder_developer', $user->name)
+                    ->where('status', 'active')
+                    ->count();
+                return [
+                    'name' => $user->name,
+                    'member_id' => $user->agentMeta?->mls_id ?? 'N/A',
+                    'bio' => $user->agentMeta?->about_me ?? '',
+                    'image' => \App\Classes\ImageuploadHelper::getUploadedFileUrl($user->profile_pic),
+                    'listings' => $listingsCount,
+                    'facebook' => $user->agentMeta?->facebook ?? '#',
+                    'twitter' => $user->agentMeta?->twitter ?? '#',
+                    'linkedin' => $user->agentMeta?->linkedin ?? '#',
+                    'instagram' => $user->agentMeta?->instagram ?? '#',
+                    'youtube' => $user->agentMeta?->youtube ?? '#',
+                    'vimeo' => $user->agentMeta?->vimeo ?? '#',
+                    'whatsapp' => $user->agentMeta?->whatsapp ?? '#',
+                    'phone' => $user->phone ?? '',
+                    'email' => $user->email ?? '',
+                ];
+            });
+
+        $testimonials = Testimonial::query()
+            ->where('status', true)
+            ->where('is_featured', true)
+            ->inRandomOrder()
+            ->take(3)
+            ->get();
+
+        return view('about-us', compact('page', 'team', 'testimonials'));
     }
 
     public function contact(): View
     {
-        return view('contact-us');
+        return view('contact-us', [
+            'settings' => \App\Models\Setting::allAsArray(),
+        ]);
+    }
+
+    public function showCmsPage(string $slug): View
+    {
+        $page = \App\Models\Page::where('slug', $slug)->firstOrFail();
+
+        $team = User::query()
+            ->has('agentMeta')
+            ->with('agentMeta')
+            ->latest()
+            ->take(3)
+            ->get()
+            ->map(function ($user) {
+                $listingsCount = Property::where('builder_developer', $user->name)
+                    ->where('status', 'active')
+                    ->count();
+                return [
+                    'name' => $user->name,
+                    'member_id' => $user->agentMeta?->mls_id ?? 'N/A',
+                    'bio' => $user->agentMeta?->about_me ?? '',
+                    'image' => \App\Classes\ImageuploadHelper::getUploadedFileUrl($user->profile_pic),
+                    'listings' => $listingsCount,
+                    'facebook' => $user->agentMeta?->facebook ?? '#',
+                    'twitter' => $user->agentMeta?->twitter ?? '#',
+                    'linkedin' => $user->agentMeta?->linkedin ?? '#',
+                    'instagram' => $user->agentMeta?->instagram ?? '#',
+                    'youtube' => $user->agentMeta?->youtube ?? '#',
+                    'vimeo' => $user->agentMeta?->vimeo ?? '#',
+                    'whatsapp' => $user->agentMeta?->whatsapp ?? '#',
+                    'phone' => $user->phone ?? '',
+                    'email' => $user->email ?? '',
+                ];
+            });
+
+        $testimonials = Testimonial::query()
+            ->where('status', true)
+            ->where('is_featured', true)
+            ->inRandomOrder()
+            ->take(3)
+            ->get();
+
+        return view('about-us', compact('page', 'team', 'testimonials'));
     }
 }
