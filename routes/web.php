@@ -46,6 +46,10 @@ Route::get('/properties', [FrontendPropertyController::class, 'index'])->name('p
 Route::get('/about-us', [HomeController::class, 'about'])->name('about-us');
 
 Route::get('/contact-us', [HomeController::class, 'contact'])->name('contact-us');
+Route::get('/list-property', [HomeController::class, 'listProperty'])->name('list-property');
+Route::post('/list-property', [HomeController::class, 'storeListProperty'])->name('list-property.store');
+Route::get('/api/states/{country}', [HomeController::class, 'getStates'])->name('api.states');
+Route::get('/api/cities/{state}', [HomeController::class, 'getCities'])->name('api.cities');
 
 Route::get('/p/{slug}', [HomeController::class, 'showCmsPage'])->name('cms-page');
 

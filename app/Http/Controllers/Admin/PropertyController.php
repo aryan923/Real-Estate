@@ -40,7 +40,7 @@ class PropertyController extends Controller
             });
         }
 
-        if ($request->filled('status_filter') && in_array($request->string('status_filter')->toString(), ['active', 'pending', 'sold', 'draft'], true)) {
+        if ($request->filled('status_filter') && in_array($request->string('status_filter')->toString(), ['active', 'pending', 'sold', 'draft', 'external_draft'], true)) {
             $query->where('status', $request->string('status_filter')->toString());
         }
 
@@ -344,7 +344,7 @@ class PropertyController extends Controller
             'price' => ['nullable', 'string', 'max:255'],
             'price_type' => ['nullable', 'string', 'max:50'],
             'price_info' => ['nullable', 'string', 'max:255'],
-            'status' => ['required', Rule::in(['active', 'pending', 'sold', 'draft'])],
+            'status' => ['required', Rule::in(['active', 'pending', 'sold', 'draft', 'external_draft'])],
             'featured' => ['nullable', 'boolean'],
             'is_advertisement' => ['nullable', 'boolean'],
             'category_id' => ['nullable', 'array'],

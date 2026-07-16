@@ -44,6 +44,7 @@
                   <option value="pending">Pending</option>
                   <option value="sold">Sold</option>
                   <option value="draft">Draft</option>
+                  <option value="external_draft">External Draft</option>
                 </select>
               </div>
             </div>

@@ -114,6 +114,9 @@
                                     <option value="draft"
                                         {{ old('status', $property['status'] ?? '') === 'draft' ? 'selected' : '' }}>
                                         Draft</option>
+                                    <option value="external_draft"
+                                        {{ old('status', $property['status'] ?? '') === 'external_draft' ? 'selected' : '' }}>
+                                        External Draft</option>
                                 </select>
                             </div>
                             <div>

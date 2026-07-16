@@ -31,5 +31,9 @@
                 {{ $label }}
             </a>
         @endforeach
+        
+        <a href="{{ route('list-property') }}" class="nav-highlight-btn mt-2 lg:mt-0 ml-0 lg:ml-2">
+            List Your Property
+        </a>
     </div>
 </nav>
