@@ -53,8 +53,11 @@ class RolePermissionSeeder extends Seeder
             }
         }
 
+
         $adminRole = Role::findOrCreate('Admin', 'web');
         $adminRole->syncPermissions(Permission::all());
+
+
 
         User::query()
             ->where('is_admin', true)
