@@ -22,7 +22,10 @@ return new class extends Migration
             $table->string('tld')->nullable();
             $table->string('native')->nullable();
             $table->string('region')->nullable();
+            $table->unsignedMediumInteger('region_id')->nullable();
             $table->string('subregion')->nullable();
+            $table->unsignedMediumInteger('subregion_id')->nullable();
+            $table->string('nationality')->nullable();
             $table->text('timezones')->nullable();
             $table->text('translations')->nullable();
             $table->decimal('latitude', 10, 8)->nullable();

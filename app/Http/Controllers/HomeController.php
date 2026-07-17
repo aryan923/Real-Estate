@@ -7,6 +7,7 @@ use App\Models\City;
 use App\Models\Property;
 use App\Models\Testimonial;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -228,7 +229,10 @@ class HomeController extends Controller
             'category_id.*' => ['integer', \Illuminate\Validation\Rule::exists('categories', 'id')],
             'price' => ['nullable', 'string', 'max:255'],
             'price_type' => ['nullable', 'string', 'max:50'],
+            'price_info' => ['nullable', 'string', 'max:255'],
             'size' => ['nullable', 'string', 'max:255'],
+            'RERA_no' => ['nullable', 'string', 'max:255'],
+            'builder_developer' => ['nullable', 'string', 'max:255'],
 
             // Location
             'address_line' => ['nullable', 'string', 'max:255'],
@@ -237,12 +241,18 @@ class HomeController extends Controller
             'state_id' => ['nullable', 'integer', \Illuminate\Validation\Rule::exists('states', 'id')],
             'city_id' => ['nullable', 'integer', \Illuminate\Validation\Rule::exists('cities', 'id')],
             'zip' => ['nullable', 'string', 'max:50'],
+            'map_latitude' => ['nullable', 'numeric', 'between:-90,90'],
+            'map_longitude' => ['nullable', 'numeric', 'between:-180,180'],
 
             // Specs
             'bedrooms' => ['nullable', 'integer', 'min:0'],
             'bathrooms' => ['nullable', 'integer', 'min:0'],
             'rooms' => ['nullable', 'integer', 'min:0'],
             'year_built' => ['nullable', 'integer', 'digits:4'],
+            'available_from' => ['nullable', 'date'],
+            'garage_size' => ['nullable', 'string', 'max:255'],
+            'exterior_material' => ['nullable', 'string', 'max:255'],
+            'structure_type' => ['nullable', 'string', 'max:255'],
 
             // Media & Features
             'feature_id' => ['nullable', 'array'],
@@ -275,6 +285,7 @@ class HomeController extends Controller
                     'description' => $request->input('description'),
                     'price' => $validated['price'] ?? null,
                     'price_type' => $validated['price_type'] ?? null,
+                    'price_info' => $validated['price_info'] ?? null,
                     'status' => 'external_draft',
                     'featured' => false,
                     'property_purpose' => $validated['property_purpose'] ?? null,
@@ -284,6 +295,14 @@ class HomeController extends Controller
                     'rooms' => $validated['rooms'] ?? null,
                     'size' => $validated['size'] ?? null,
                     'year_built' => $validated['year_built'] ?? null,
+                    'available_from' => $validated['available_from'] ?? null,
+                    'garage_size' => $validated['garage_size'] ?? null,
+                    'exterior_material' => $validated['exterior_material'] ?? null,
+                    'structure_type' => $validated['structure_type'] ?? null,
+                    'RERA_no' => $validated['RERA_no'] ?? null,
+                    'builder_developer' => ($validated['listing_type'] === 'builder') ? $validated['submitter_name'] : null,
+                    'map_latitude' => $validated['map_latitude'] ?? null,
+                    'map_longitude' => $validated['map_longitude'] ?? null,
                     'video_url' => $videoPath,
                     'floor_plan_url' => $floorPlanPath,
                     'address_line' => $validated['address_line'] ?? null,

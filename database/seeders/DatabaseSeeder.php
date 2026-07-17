@@ -19,6 +19,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AdminUserSeeder::class,
             RolePermissionSeeder::class,
+            CountrySeeder::class,
+            StateSeeder::class,
+            CitySeeder::class,
             FeatureSeeder::class,
             CategorySeeder::class,
             TestimonialSeeder::class,
@@ -26,6 +29,7 @@ class DatabaseSeeder extends Seeder
             PostSeeder::class,
             CurrencySeeder::class,
             IndianPropertySeeder::class,
+            PageSeeder::class,
         ]);
     }
 }

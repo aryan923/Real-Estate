@@ -241,17 +241,56 @@
 }
 
 /* ─── Feature checkboxes ───────────────────────────────────────── */
-.feat-item {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 13px; font-weight: 600; color: #4b6180;
-    cursor: pointer; padding: 8px 10px;
-    border-radius: 8px;
-    transition: background .15s;
+.custom-checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+    padding: 6px 4px;
+    transition: all 0.2s ease;
 }
-.feat-item:hover { background: #f0f7ff; }
-.feat-item input[type="checkbox"] {
-    width: 16px; height: 16px; accent-color: #3b82f6; cursor: pointer; flex-shrink: 0;
+.custom-checkbox input[type="checkbox"] {
+    display: none;
 }
+.custom-checkbox .checkbox-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #93c5fd; /* light blue border */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    background-color: #ffffff;
+    color: #1e73be; /* check mark color */
+    flex-shrink: 0;
+}
+.custom-checkbox input[type="checkbox"]:checked + .checkbox-circle {
+    border-color: #1e73be;
+    background-color: #eff6ff;
+}
+.custom-checkbox .checkbox-circle svg {
+    width: 12px;
+    height: 12px;
+    stroke: currentColor;
+    stroke-width: 3px;
+    fill: none;
+    transform: scale(0);
+    transition: transform 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46);
+}
+.custom-checkbox input[type="checkbox"]:checked + .checkbox-circle svg {
+    transform: scale(1);
+}
+.custom-checkbox .checkbox-label {
+    font-size: 14px;
+    color: #475569; /* text-slate-600 */
+    font-weight: 500;
+}
+.custom-checkbox:hover .checkbox-circle {
+    border-color: #1e73be;
+}
+
 
 /* ─── Review Cards ─────────────────────────────────────────────── */
 .review-card {
@@ -362,7 +401,7 @@
 </section>
 
 {{-- ─── WIZARD SECTION ───────────────────────────────────────────── --}}
-<div class="wizard-shell py-12 sm:py-16" x-data="propertyWizard()" x-cloak>
+<div id="wizard-container" class="wizard-shell py-12 sm:py-16" x-data="propertyWizard()" x-cloak>
     <div class="section-shell">
         <div class="mx-auto max-w-3xl">
 
@@ -532,7 +571,7 @@
                         </div>
 
                         {{-- Price & Price type --}}
-                        <div class="grid gap-5 sm:grid-cols-2">
+                        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                             <div>
                                 <label class="wiz-label">Listing Price <span class="req">*</span></label>
                                 <div class="relative">
@@ -552,36 +591,79 @@
                                 <label class="wiz-label">Price Suffix</label>
                                 <input type="text" x-model="formData.price_type" class="wiz-input" placeholder="e.g. / Month, Total, per sq.ft.">
                             </div>
+                            <div>
+                                <label class="wiz-label">Price Suffix Info</label>
+                                <input type="text" x-model="formData.price_info" class="wiz-input" placeholder="e.g. ₹1.5L / sq.ft., Negotiable">
+                            </div>
                         </div>
 
-                        {{-- Size --}}
-                        <div class="max-w-xs">
-                            <label class="wiz-label">Area / Size <span class="req">*</span></label>
-                            <div class="relative">
-                                <input type="number" x-model.lazy="formData.size"
-                                    @blur="validateField('size')" @input="clearErr('size')"
-                                    :class="fieldErr.size ? 'wiz-input err' : (formData.size ? 'wiz-input ok' : 'wiz-input')"
-                                    placeholder="e.g. 1800">
-                                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-slate-400">Sq. Ft.</span>
+                        <div class="grid gap-5 sm:grid-cols-2">
+                            {{-- Size --}}
+                            <div>
+                                <label class="wiz-label">Area / Size <span class="req">*</span></label>
+                                <div class="relative">
+                                    <input type="number" x-model.lazy="formData.size"
+                                        @blur="validateField('size')" @input="clearErr('size')"
+                                        :class="fieldErr.size ? 'wiz-input err' : (formData.size ? 'wiz-input ok' : 'wiz-input')"
+                                        placeholder="e.g. 1800">
+                                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-slate-400">Sq. Ft.</span>
+                                </div>
+                                <div class="wiz-err" :class="fieldErr.size ? 'show' : ''">
+                                    <svg class="h-3 w-3 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                                    <span x-text="fieldErr.size"></span>
+                                </div>
                             </div>
-                            <div class="wiz-err" :class="fieldErr.size ? 'show' : ''">
-                                <svg class="h-3 w-3 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
-                                <span x-text="fieldErr.size"></span>
+                            {{-- RERA ID --}}
+                            <div>
+                                <label class="wiz-label">RERA Number</label>
+                                <input type="text" x-model="formData.RERA_no" class="wiz-input" placeholder="e.g. PRM/KA/RERA/...">
                             </div>
                         </div>
 
                         {{-- Categories --}}
                         @if($categories->count())
-                        <div>
-                            <label class="wiz-label">Property Type / Category</label>
-                            <div class="mt-2 flex flex-wrap gap-2">
-                                @foreach($categories as $cat)
-                                <label class="cat-chip" :class="formData.category_id.includes({{ $cat->id }}) ? 'checked' : ''">
-                                    <input type="checkbox" value="{{ $cat->id }}"
-                                        @change="toggleCategory({{ $cat->id }})">
-                                    <span class="dot"></span>
-                                    {{ $cat->name }}
-                                </label>
+                        <div class="mt-8">
+                            <label class="wiz-label text-base font-bold mb-4 pb-2 border-b border-slate-200">Property Type / Category</label>
+                            
+                            <div class="space-y-8">
+                                @foreach ($categories->whereNull('parent_id') as $parentCat)
+                                    @php
+                                        // Sort child categories alphabetically
+                                        $childCats = $parentCat->children->sortBy('name');
+                                    @endphp
+                                    
+                                    @if ($childCats->isNotEmpty())
+                                        <div class="mb-6">
+                                            <div class="mb-3">
+                                                <label class="custom-checkbox inline-flex items-center">
+                                                    <input type="checkbox" 
+                                                        :checked="isParentSelected(formData.category_id, {{ $childCats->pluck('id')->toJson() }})"
+                                                        @change="toggleParent(formData.category_id, {{ $childCats->pluck('id')->toJson() }})" />
+                                                    <div class="checkbox-circle">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                                        </svg>
+                                                    </div>
+                                                    <span class="text-sm font-bold text-slate-800 tracking-wide uppercase">{{ $parentCat->name }}</span>
+                                                </label>
+                                            </div>
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-3 pl-1">
+                                                @foreach ($childCats as $child)
+                                                    <label class="custom-checkbox">
+                                                        <input type="checkbox" value="{{ $child->id }}" 
+                                                            :checked="formData.category_id.includes({{ $child->id }})"
+                                                            @change="toggleCategory({{ $child->id }})" />
+                                                        <div class="checkbox-circle">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                                            </svg>
+                                                        </div>
+                                                        <span class="checkbox-label">{{ $child->name }}</span>
+                                                    </label>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endif
                                 @endforeach
                             </div>
                         </div>
@@ -691,6 +773,18 @@
                             </div>
                         </div>
 
+                        {{-- Map Coordinates --}}
+                        <div class="grid gap-5 sm:grid-cols-2">
+                            <div>
+                                <label class="wiz-label">Map Latitude</label>
+                                <input type="number" step="any" x-model="formData.map_latitude" class="wiz-input" placeholder="e.g. 17.4123">
+                            </div>
+                            <div>
+                                <label class="wiz-label">Map Longitude</label>
+                                <input type="number" step="any" x-model="formData.map_longitude" class="wiz-input" placeholder="e.g. 78.4321">
+                            </div>
+                        </div>
+
                         {{-- Specs Counters --}}
                         <div>
                             <label class="wiz-label">Property Configuration</label>
@@ -727,6 +821,26 @@
                                     <div class="mb-2 text-[11px] font-bold text-slate-500">📅 Year Built</div>
                                     <input type="number" x-model="formData.year_built" class="wiz-input" placeholder="{{ date('Y') }}" min="1900" :max="new Date().getFullYear()">
                                 </div>
+                            </div>
+                        </div>
+
+                        {{-- Additional Specs --}}
+                        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                            <div>
+                                <label class="wiz-label">Available From</label>
+                                <input type="date" x-model="formData.available_from" class="wiz-input">
+                            </div>
+                            <div>
+                                <label class="wiz-label">Garage Size</label>
+                                <input type="text" x-model="formData.garage_size" class="wiz-input" placeholder="e.g. 2 Cars, 400 sq.ft.">
+                            </div>
+                            <div>
+                                <label class="wiz-label">Exterior Material</label>
+                                <input type="text" x-model="formData.exterior_material" class="wiz-input" placeholder="e.g. Brick, Wood, Siding">
+                            </div>
+                            <div>
+                                <label class="wiz-label">Structure Type</label>
+                                <input type="text" x-model="formData.structure_type" class="wiz-input" placeholder="e.g. Concrete, Steel, Wood Frame">
                             </div>
                         </div>
                     </div>
@@ -843,33 +957,61 @@
                             </div>
                         </div>
 
-                        {{-- Features (Styled in nested cards mimicking the requested SS layout) --}}
+                                                {{-- Features (Styled in parent/child grid with checkboxes divided into 3 or 4 columns) --}}
                         @if($features->count())
-                        <div>
-                            <label class="wiz-label mb-3">Amenities & Features</label>
-                            <div class="rounded-xl border border-slate-100 bg-slate-50/50 p-4">
-                                <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-                                    @foreach ($features->whereNull('parent_id') as $feat)
-                                        <div class="rounded-xl border border-slate-200 bg-white p-4 transition hover:border-[#1e73be]">
-                                            <label class="flex cursor-pointer items-center gap-3 text-sm font-semibold text-slate-900">
-                                                <input type="checkbox" value="{{ $feat->id }}" x-model="formData.feature_id"
-                                                       class="h-4 w-4 rounded border-gray-300 accent-[#1e73be]" />
-                                                {{ $feat->name }}
-                                            </label>
-                                            @if ($feat->children->count())
-                                                <div class="mt-3 space-y-2 pl-7 border-l border-slate-100">
-                                                    @foreach ($feat->children as $child)
-                                                        <label class="flex cursor-pointer items-center gap-3 text-xs text-slate-500 hover:text-slate-900">
-                                                            <input type="checkbox" value="{{ $child->id }}" x-model="formData.feature_id"
-                                                                   class="h-3.5 w-3.5 rounded border-gray-300 accent-[#1e73be]" />
-                                                            {{ $child->name }}
-                                                        </label>
-                                                    @endforeach
-                                                </div>
-                                            @endif
+                        <div class="mt-8">
+                            <label class="wiz-label text-base font-bold mb-4 pb-2 border-b border-slate-200">Amenities & Features</label>
+                            
+                            <div class="space-y-8">
+                                @foreach ($features->whereNull('parent_id') as $feat)
+                                    @php
+                                        // Gather all leaf features under this mega-category (Level 2 or Level 3)
+                                        $leafFeatures = collect();
+                                        foreach ($feat->children as $child) {
+                                            if ($child->children->isNotEmpty()) {
+                                                foreach ($child->children as $grandchild) {
+                                                    $leafFeatures->push($grandchild);
+                                                }
+                                            } else {
+                                                $leafFeatures->push($child);
+                                            }
+                                        }
+                                        $leafFeatures = $leafFeatures->sortBy('name');
+                                    @endphp
+                                    
+                                    @if ($leafFeatures->isNotEmpty())
+                                        <div class="mb-6">
+                                            <div class="mb-3">
+                                                <label class="custom-checkbox inline-flex items-center">
+                                                    <input type="checkbox" 
+                                                        :checked="isParentSelected(formData.feature_id, {{ $leafFeatures->pluck('id')->toJson() }})"
+                                                        @change="toggleParent(formData.feature_id, {{ $leafFeatures->pluck('id')->toJson() }})" />
+                                                    <div class="checkbox-circle">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                                        </svg>
+                                                    </div>
+                                                    <span class="text-sm font-bold text-slate-800 tracking-wide uppercase">{{ $feat->name }}</span>
+                                                </label>
+                                            </div>
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-3 pl-1">
+                                                @foreach ($leafFeatures as $leaf)
+                                                    <label class="custom-checkbox">
+                                                        <input type="checkbox" value="{{ $leaf->id }}" 
+                                                            :checked="formData.feature_id.includes({{ $leaf->id }})"
+                                                            @change="formData.feature_id.includes({{ $leaf->id }}) ? formData.feature_id.splice(formData.feature_id.indexOf({{ $leaf->id }}), 1) : formData.feature_id.push({{ $leaf->id }})" />
+                                                        <div class="checkbox-circle">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                                            </svg>
+                                                        </div>
+                                                        <span class="checkbox-label">{{ rtrim($leaf->name, '.') }}</span>
+                                                    </label>
+                                                @endforeach
+                                            </div>
                                         </div>
-                                    @endforeach
-                                </div>
+                                    @endif
+                                @endforeach
                             </div>
                         </div>
                         @endif
@@ -918,7 +1060,10 @@
                             <div class="review-row"><span class="review-lbl">Title</span><span class="review-val" x-text="formData.title || '—'"></span></div>
                             <div class="review-row"><span class="review-lbl">Purpose</span><span class="review-val capitalize" x-text="formData.property_purpose || '—'"></span></div>
                             <div class="review-row"><span class="review-lbl">Price</span><span class="review-val" x-text="formData.price ? '₹ ' + Number(formData.price).toLocaleString('en-IN') + ' ' + (formData.price_type || '') : '—'"></span></div>
+                            <div class="review-row" x-show="formData.price_info"><span class="review-lbl">Price Info</span><span class="review-val" x-text="formData.price_info"></span></div>
                             <div class="review-row"><span class="review-lbl">Area</span><span class="review-val" x-text="formData.size ? formData.size + ' Sq. Ft.' : '—'"></span></div>
+                            <div class="review-row" x-show="formData.listing_type === 'builder'"><span class="review-lbl">Builder</span><span class="review-val" x-text="formData.submitter_name"></span></div>
+                            <div class="review-row" x-show="formData.RERA_no"><span class="review-lbl">RERA ID</span><span class="review-val" x-text="formData.RERA_no"></span></div>
                         </div>
 
                         {{-- Location --}}
@@ -931,6 +1076,10 @@
                             <div class="review-row"><span class="review-lbl">Address</span><span class="review-val" x-text="formData.address_line || '—'"></span></div>
                             <div class="review-row"><span class="review-lbl">Locality</span><span class="review-val" x-text="formData.locality || '—'"></span></div>
                             <div class="review-row"><span class="review-lbl">Zip Code</span><span class="review-val" x-text="formData.zip || '—'"></span></div>
+                            <div class="review-row" x-show="formData.map_latitude || formData.map_longitude">
+                                <span class="review-lbl">Coordinates</span>
+                                <span class="review-val" x-text="(formData.map_latitude || '—') + ', ' + (formData.map_longitude || '—')"></span>
+                            </div>
                             <div class="review-row"><span class="review-lbl">Config</span>
                                 <span class="review-val">
                                     <span x-show="formData.bedrooms" x-text="formData.bedrooms + ' Bed  '"></span>
@@ -939,6 +1088,10 @@
                                     <span x-show="!formData.bedrooms && !formData.bathrooms && !formData.year_built">—</span>
                                 </span>
                             </div>
+                            <div class="review-row" x-show="formData.available_from"><span class="review-lbl">Available From</span><span class="review-val" x-text="formData.available_from"></span></div>
+                            <div class="review-row" x-show="formData.garage_size"><span class="review-lbl">Garage Size</span><span class="review-val" x-text="formData.garage_size"></span></div>
+                            <div class="review-row" x-show="formData.exterior_material"><span class="review-lbl">Exterior</span><span class="review-val" x-text="formData.exterior_material"></span></div>
+                            <div class="review-row" x-show="formData.structure_type"><span class="review-lbl">Structure</span><span class="review-val" x-text="formData.structure_type"></span></div>
                         </div>
 
                         {{-- Media --}}
@@ -1024,6 +1177,7 @@ function propertyWizard() {
             category_id: [],
             price: '',
             price_type: '',
+            price_info: '',
             size: '',
             description: '',
             country_id: '',
@@ -1036,6 +1190,14 @@ function propertyWizard() {
             bathrooms: 0,
             rooms: 0,
             year_built: '',
+            available_from: '',
+            garage_size: '',
+            exterior_material: '',
+            structure_type: '',
+            RERA_no: '',
+            builder_developer: '',
+            map_latitude: '',
+            map_longitude: '',
             feature_id: []
         },
         files: {
@@ -1107,6 +1269,25 @@ function propertyWizard() {
             else this.formData.category_id.splice(idx, 1);
         },
 
+        isParentSelected(selectedArray, childIds) {
+            return childIds.length > 0 && childIds.every(id => selectedArray.includes(id));
+        },
+
+        toggleParent(selectedArray, childIds) {
+            if (this.isParentSelected(selectedArray, childIds)) {
+                childIds.forEach(id => {
+                    const idx = selectedArray.indexOf(id);
+                    if (idx !== -1) selectedArray.splice(idx, 1);
+                });
+            } else {
+                childIds.forEach(id => {
+                    if (!selectedArray.includes(id)) {
+                        selectedArray.push(id);
+                    }
+                });
+            }
+        },
+
         handleCoverImage(e) {
             const file = e.target.files[0];
             if (!file) return;
@@ -1155,10 +1336,27 @@ function propertyWizard() {
         },
 
         // ── Navigation ───────────────────────────────────────────────
+        scrollToWizard() {
+            this.$nextTick(() => {
+                const el = document.getElementById('wizard-container');
+                if (el) {
+                    const offset = 80;
+                    const bodyRect = document.body.getBoundingClientRect().top;
+                    const elementRect = el.getBoundingClientRect().top;
+                    const elementPosition = elementRect - bodyRect;
+                    const offsetPosition = elementPosition - offset;
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        },
+
         prevStep() {
             if (this.step > 1) {
                 this.step--;
-                this.$nextTick(() => window.scrollTo({ top: 0, behavior: 'smooth' }));
+                this.scrollToWizard();
             }
         },
 
@@ -1186,7 +1384,7 @@ function propertyWizard() {
         nextStep() {
             if (!this.validateCurrentStep()) return;
             this.step++;
-            this.$nextTick(() => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            this.scrollToWizard();
         },
 
         // ── Submission ───────────────────────────────────────────────

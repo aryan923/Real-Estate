@@ -28,6 +28,7 @@ class PropertyController extends Controller
             'status' => trim((string) $request->query('status', '')),
             'floors' => is_numeric($request->query('floors')) ? (int) $request->query('floors') : null,
             'sort' => trim((string) $request->query('sort', 'newest')),
+            'features' => is_array($request->query('features')) ? array_map('intval', $request->query('features')) : [],
         ];
 
         $hasUserFilters = collect($filters)
@@ -39,11 +40,7 @@ class PropertyController extends Controller
         $propertiesQuery = Property::query()
             ->with($this->frontendPropertyRelations);
 
-        if ($filters['status'] !== '') {
-            $propertiesQuery->where('status', $filters['status']);
-        } else {
-            $propertiesQuery->where('status', 'active');
-        }
+        $propertiesQuery->where('status', 'active');
 
         if ($filters['q'] !== '') {
             $searchTerm = $filters['q'];
@@ -100,6 +97,14 @@ class PropertyController extends Controller
 
         if ($filters['floors'] !== null) {
             $propertiesQuery->where('floors', '>=', $filters['floors']);
+        }
+
+        if (!empty($filters['features'])) {
+            foreach ($filters['features'] as $featId) {
+                $propertiesQuery->whereHas('features', function ($query) use ($featId) {
+                    $query->where('features.id', $featId);
+                });
+            }
         }
 
         switch ($filters['sort']) {
@@ -183,6 +188,7 @@ class PropertyController extends Controller
         return view('properties', [
             'properties' => $properties,
             'filters' => $filters,
+            'features' => \App\Models\Feature::orderBy('name')->get(),
             'filterOptions' => [
                 'types' => $typeOptions,
                 'categories' => $categoryOptions,
@@ -198,6 +204,7 @@ class PropertyController extends Controller
         $property = Property::query()
             ->with($this->frontendPropertyRelations)
             ->where('slug', $slug)
+            ->where('status', 'active')
             ->firstOrFail();
 
         // Gather matching criteria
