@@ -773,17 +773,7 @@
                             </div>
                         </div>
 
-                        {{-- Map Coordinates --}}
-                        <div class="grid gap-5 sm:grid-cols-2">
-                            <div>
-                                <label class="wiz-label">Map Latitude</label>
-                                <input type="number" step="any" x-model="formData.map_latitude" class="wiz-input" placeholder="e.g. 17.4123">
-                            </div>
-                            <div>
-                                <label class="wiz-label">Map Longitude</label>
-                                <input type="number" step="any" x-model="formData.map_longitude" class="wiz-input" placeholder="e.g. 78.4321">
-                            </div>
-                        </div>
+
 
                         {{-- Specs Counters --}}
                         <div>
@@ -1076,10 +1066,7 @@
                             <div class="review-row"><span class="review-lbl">Address</span><span class="review-val" x-text="formData.address_line || '—'"></span></div>
                             <div class="review-row"><span class="review-lbl">Locality</span><span class="review-val" x-text="formData.locality || '—'"></span></div>
                             <div class="review-row"><span class="review-lbl">Zip Code</span><span class="review-val" x-text="formData.zip || '—'"></span></div>
-                            <div class="review-row" x-show="formData.map_latitude || formData.map_longitude">
-                                <span class="review-lbl">Coordinates</span>
-                                <span class="review-val" x-text="(formData.map_latitude || '—') + ', ' + (formData.map_longitude || '—')"></span>
-                            </div>
+
                             <div class="review-row"><span class="review-lbl">Config</span>
                                 <span class="review-val">
                                     <span x-show="formData.bedrooms" x-text="formData.bedrooms + ' Bed  '"></span>
