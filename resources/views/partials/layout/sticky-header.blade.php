@@ -14,7 +14,7 @@
                 </svg>
             </button>
 
-            <div data-menu-panel class="absolute left-0 right-0 top-[calc(100%+0.4rem)] z-40 hidden flex-col gap-1 rounded-xl border border-slate-200 bg-white p-3 text-[14px] font-semibold text-slate-600 shadow-xl md:static md:z-auto md:flex md:flex-row md:items-center md:gap-4 md:overflow-x-auto md:whitespace-nowrap md:border-0 md:bg-transparent md:p-0 md:shadow-none lg:gap-6" data-sticky-menu>
+            <div data-menu-panel class="absolute left-0 right-0 top-[calc(100%+0.4rem)] z-40 hidden flex-col gap-1 rounded-xl border border-slate-200 bg-white p-3 text-[14px] font-semibold text-slate-600 shadow-xl md:static md:z-auto md:flex md:flex-row md:items-center md:gap-4 md:whitespace-nowrap md:border-0 md:bg-transparent md:p-0 md:shadow-none lg:gap-6" data-sticky-menu>
                 @php($routes = [
                     'home' => 'Home',
                     'about-us' => 'About Us',

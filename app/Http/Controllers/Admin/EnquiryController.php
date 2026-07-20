@@ -20,6 +20,14 @@ class EnquiryController extends Controller
     {
         $query = Enquiry::with(['property', 'actionBy']);
 
+        if (!auth()->user()->can('view_all_leads')) {
+            $query->where('agent_id', auth()->id());
+        }
+
+        if (!auth()->user()->can('view_won')) {
+            $query->where('status', '!=', 'won');
+        }
+
         if ($request->filled('type')) {
             $query->where('type', $request->type);
         }
@@ -50,11 +58,25 @@ class EnquiryController extends Controller
             ->toJson();
     }
 
+    private function authorizeEnquiry(Enquiry $enquiry)
+    {
+        if (!auth()->user()->can('view_all_leads') && $enquiry->agent_id !== auth()->id()) {
+            abort(403, 'This action is unauthorized.');
+        }
+
+        if (!auth()->user()->can('view_won') && $enquiry->status === 'won') {
+            abort(403, 'This action is unauthorized.');
+        }
+    }
+
     public function show(Enquiry $enquiry): View
     {
+        $this->authorizeEnquiry($enquiry);
+
         $enquiry->load([
             'property',
             'actionBy',
+            'agent',
         ]);
 
         return view('admin.pages.enquiries.show', compact('enquiry'));
@@ -62,12 +84,21 @@ class EnquiryController extends Controller
 
     public function edit(Enquiry $enquiry): View
     {
-        return view('admin.pages.enquiries.edit', compact('enquiry'));
+        $this->authorizeEnquiry($enquiry);
+
+        $agents = \App\Models\User::has('agentMeta')->where('status', 'active')->orderBy('name', 'asc')->get();
+        return view('admin.pages.enquiries.edit', compact('enquiry', 'agents'));
     }
 
     public function update(Request $request, Enquiry $enquiry): RedirectResponse
     {
+        $this->authorizeEnquiry($enquiry);
+
         $validated = $this->validateEnquiry($request);
+
+        if ($validated['status'] === 'draft') {
+            $validated['agent_id'] = null;
+        }
 
         $validated['action_by'] = auth()->id();
         $validated['performed_at'] = now();
@@ -81,6 +112,8 @@ class EnquiryController extends Controller
 
     public function destroy(Enquiry $enquiry): RedirectResponse
     {
+        $this->authorizeEnquiry($enquiry);
+
         $enquiry->delete();
 
         return redirect()
@@ -93,11 +126,18 @@ class EnquiryController extends Controller
         return $request->validate([
             'status' => [
                 'required',
-                'in:new,contacted,interested,follow_up,site_visit,negotiation,won,lost'
+                'in:draft,new,contacted,interested,follow_up,site_visit,negotiation,won,lost'
             ],
             'note' => [
                 'nullable',
                 'string'
+            ],
+            'agent_id' => [
+                'nullable',
+                \Illuminate\Validation\Rule::exists('users', 'id')
+                    ->whereNull('deleted_at')
+                    ->where('status', 'active')
+                    ->whereIn('id', \App\Models\User::has('agentMeta')->pluck('id')->toArray()),
             ],
         ]);
     }
@@ -114,9 +154,28 @@ class EnquiryController extends Controller
             'property_id' => 'nullable|exists:properties,id',
             'tour_schedule_time' => 'nullable|date',
             'tour_type' => 'nullable|in:in_person,video_chat',
+            'agent_id' => [
+                'nullable',
+                \Illuminate\Validation\Rule::exists('users', 'id')
+                    ->whereNull('deleted_at')
+                    ->where('status', 'active')
+                    ->whereIn('id', \App\Models\User::has('agentMeta')->pluck('id')->toArray()),
+            ],
+            'status' => 'nullable|in:draft,new,contacted,interested,follow_up,site_visit,negotiation,won,lost',
         ]);
 
-        $validated['status'] = 'new';
+        $status = $request->input('status', 'new');
+        $validated['status'] = $status;
+
+        if ($status === 'draft') {
+            $validated['agent_id'] = null;
+        } else {
+            if ($request->filled('agent_id')) {
+                $validated['agent_id'] = $request->input('agent_id');
+            } else {
+                $validated['agent_id'] = Enquiry::getNextRoundRobinAgentId();
+            }
+        }
 
         $enquiry = Enquiry::create($validated);
 

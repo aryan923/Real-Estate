@@ -341,6 +341,9 @@ class HomeController extends Controller
                     }
                 }
 
+                // Sequential Round Robin assignment
+                $agentId = \App\Models\Enquiry::getNextRoundRobinAgentId();
+
                 // Create Enquiry under type 'property_submit'
                 \App\Models\Enquiry::create([
                     'type' => 'property_submit',
@@ -351,6 +354,7 @@ class HomeController extends Controller
                     'message' => $request->input('description') ?? "External property listing submission for: " . $property->title,
                     'property_id' => $property->id,
                     'status' => 'new',
+                    'agent_id' => $agentId,
                 ]);
 
                 return response()->json([

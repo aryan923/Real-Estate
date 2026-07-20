@@ -23,6 +23,7 @@ class Enquiry extends Model
         'action_by',
         'performed_at',
         'note',
+        'agent_id',
     ];
 
     protected $casts = [
@@ -38,5 +39,35 @@ class Enquiry extends Model
     public function actionBy()
     {
         return $this->belongsTo(User::class, 'action_by');
+    }
+
+    public function agent()
+    {
+        return $this->belongsTo(User::class, 'agent_id');
+    }
+
+    public static function getNextRoundRobinAgentId(): ?int
+    {
+        $agents = User::has('agentMeta')
+            ->where('status', 'active')
+            ->orderBy('id', 'asc')
+            ->pluck('id')
+            ->toArray();
+
+        if (empty($agents)) {
+            return null;
+        }
+
+        $lastEnquiry = self::whereNotNull('agent_id')
+            ->orderBy('id', 'desc')
+            ->first();
+
+        if ($lastEnquiry && in_array($lastEnquiry->agent_id, $agents)) {
+            $lastIndex = array_search($lastEnquiry->agent_id, $agents);
+            $nextIndex = ($lastIndex + 1) % count($agents);
+            return $agents[$nextIndex];
+        }
+
+        return $agents[0];
     }
 }

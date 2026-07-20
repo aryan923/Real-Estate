@@ -44,6 +44,7 @@
                   <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Title</th>
                   <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Company</th>
                   <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Featured</th>
+                  <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Status</th>
                   <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Actions</th>
                 </tr>
               </thead>
@@ -77,6 +78,7 @@
           { data: 'title', name: 'agentMeta.title' },
           { data: 'company', name: 'agentMeta.company' },
           { data: 'featured_label', name: 'agentMeta.is_featured' },
+          { data: 'status_label', name: 'is_active' },
           { data: 'action', name: 'action', orderable: false, searchable: false }
         ]
       });

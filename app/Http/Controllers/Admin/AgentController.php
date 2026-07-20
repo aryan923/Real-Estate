@@ -47,8 +47,10 @@ class AgentController extends Controller
             ->addColumn('title', fn (User $user): string => $user->agentMeta?->title ?? 'N/A')
             ->addColumn('company', fn (User $user): string => $user->agentMeta?->company ?? 'N/A')
             ->addColumn('featured_label', fn (User $user): string => $user->agentMeta?->is_featured ? 'Yes' : 'No')
+            ->addColumn('status_label', fn (User $user): string => $user->status === 'active' ? 'Active' : 'Inactive')
             ->addColumn('action', function (User $user): string {
                 return '<div class="flex flex-wrap gap-2">'
+                    . '<a href="' . route('admin.agents.show', $user) . '" class="rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:border-gray-800 dark:text-gray-200 dark:hover:bg-white/5">View</a>'
                     . '<a href="' . route('admin.agents.edit', $user) . '" class="rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:border-gray-800 dark:text-gray-200 dark:hover:bg-white/5">Edit</a>'
                     . '<form method="POST" action="' . route('admin.agents.destroy', $user) . '" class="inline-block" data-confirm="Delete this agent?">'
                     . csrf_field()
@@ -71,7 +73,6 @@ class AgentController extends Controller
         $validated = $this->validateAgent($request);
 
         $user = DB::transaction(function () use ($validated, $request) {
-            // Create user
             $user = User::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
@@ -79,6 +80,7 @@ class AgentController extends Controller
                 'password' => bcrypt($validated['password']),
                 'profile_pic' => $this->storeProfilePicture($request),
                 'is_admin' => false,
+                'status' => $validated['status'] ?? 'active',
             ]);
 
             // Create agent meta
@@ -106,12 +108,27 @@ class AgentController extends Controller
                 'is_featured' => $validated['is_featured'] ?? false,
             ]);
 
+            $user->assignRole('Agent');
+
             return $user;
         });
 
         return redirect()
             ->route('admin.agents')
             ->with('status', "Agent '{$user->name}' created successfully.");
+    }
+
+    public function show(User $agent): View
+    {
+        $user = $agent;
+        $user->load('agentMeta');
+
+        $enquiries = \App\Models\Enquiry::where('agent_id', $user->id)
+            ->with(['property'])
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+
+        return view('admin.pages.agents.show', compact('user', 'enquiries'));
     }
 
     public function edit(User $agent): View
@@ -132,6 +149,7 @@ class AgentController extends Controller
                 'name' => $validated['name'],
                 'email' => $validated['email'],
                 'phone' => $validated['phone'],
+                'status' => $validated['status'] ?? 'active',
             ];
 
             if ($request->filled('password')) {
@@ -239,6 +257,7 @@ class AgentController extends Controller
             'languages' => ['nullable', 'string', 'max:255'],
             'experience_years' => ['nullable', 'string', 'max:255'],
             'is_featured' => ['nullable', 'boolean'],
+            'status' => ['nullable', 'in:active,inactive'],
         ]);
     }
 

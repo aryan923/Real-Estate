@@ -30,6 +30,7 @@
         </h3>
 
         <ul class="mb-6 flex flex-col gap-4">
+          @can('view_dashboard')
           <li>
             <a
               href="{{ route('admin.dashboard') }}"
@@ -55,7 +56,9 @@
               <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Dashboard</span>
             </a>
           </li>
-
+          @endcan
+ 
+          @can('view_properties')
           <li>
             <a
               href="{{ route('admin.page', ['page' => 'properties']) }}"
@@ -79,7 +82,9 @@
               <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Properties</span>
             </a>
           </li>
-
+          @endcan
+ 
+          @can('view_enquiries')
           <li>
             <a
               href="{{ route('admin.enquiries.index') }}"
@@ -101,7 +106,9 @@
               <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Manage Leads</span>
             </a>
           </li>
-
+          @endcan
+ 
+          @can('view_testimonials')
           <li>
             <a
               href="{{ route('admin.testimonials') }}"
@@ -122,7 +129,9 @@
               <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Manage Testimonials</span>
             </a>
           </li>
-
+          @endcan
+ 
+          @can('view_posts')
           <li>
             <a
               href="{{ route('admin.posts') }}"
@@ -145,7 +154,9 @@
               <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Manage Blog</span>
             </a>
           </li>
-
+          @endcan
+ 
+          @can('view_pages')
           <li>
             <a
               href="{{ route('admin.pages') }}"
@@ -166,7 +177,9 @@
               <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Manage Pages</span>
             </a>
           </li>
-
+          @endcan
+ 
+          @can('view_comments')
           <li>
             <a
               href="{{ route('admin.comments') }}"
@@ -187,7 +200,9 @@
               <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Manage Comments</span>
             </a>
           </li>
-
+          @endcan
+ 
+          @can('view_agents')
           <li>
             <a
               href="{{ route('admin.agents') }}"
@@ -211,7 +226,9 @@
               <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Manage Agents</span>
             </a>
           </li>
-
+          @endcan
+ 
+          @can('view_users')
           <li>
             <a
               href="{{ route('admin.user-management') }}"
@@ -237,7 +254,9 @@
               <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">User Management</span>
             </a>
           </li>
-
+          @endcan
+ 
+          @can('view_roles')
           <li>
             <a
               href="{{ route('admin.roles-permissions') }}"
@@ -263,7 +282,9 @@
               <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Roles & Permissions</span>
             </a>
           </li>
-
+          @endcan
+ 
+          @can('view_settings')
           <li>
             <a
               href="{{ route('admin.general-setting') }}"
@@ -289,6 +310,7 @@
               <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Manage Contact & Footer</span>
             </a>
           </li>
+          @endcan
         </ul>
       </div>
 
@@ -298,6 +320,7 @@
         </h3>
 
         <ul class="mb-6 flex flex-col gap-4">
+          @can('view_categories')
           <li>
             <a
               href="{{ route('admin.categories') }}"
@@ -319,6 +342,9 @@
               <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Categories</span>
             </a>
           </li>
+          @endcan
+
+          @can('view_features')
           <li>
             <a
               href="{{ route('admin.features') }}"
@@ -339,6 +365,9 @@
               <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Features</span>
             </a>
           </li>
+          @endcan
+
+          @can('view_cities')
           <li>
             <a
               href="{{ route('admin.cities') }}"
@@ -362,6 +391,9 @@
               <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Cities</span>
             </a>
           </li>
+          @endcan
+
+          @can('view_currencies')
           <li>
             <a
               href="{{ route('admin.currencies') }}"
@@ -384,6 +416,7 @@
               <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">Currencies</span>
             </a>
           </li>
+          @endcan
         </ul>
       </div>
     </nav>

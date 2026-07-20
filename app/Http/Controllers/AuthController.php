@@ -19,14 +19,7 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
 
-        $user = User::where('email', $request->input('email'))->first();
-        if ($user && !$user->is_admin) {
-            return back()->withErrors([
-                'email' => 'You are not authorized to access the admin panel.',
-            ])->onlyInput('email');
-        }
-
-        if (Auth::attempt(array_merge($credentials, ['is_admin' => true]), $request->boolean('remember'))) {
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
 
             return redirect()->intended(route('admin.dashboard'));
@@ -51,7 +44,7 @@ class AuthController extends Controller
     {
         $request->validate(['email' => ['required', 'email']]);
 
-        $user = User::where('email', $request->input('email'))->where('is_admin', true)->first();
+        $user = User::where('email', $request->input('email'))->first();
 
         if ($user) {
             $otp = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
@@ -68,10 +61,10 @@ class AuthController extends Controller
             );
 
             Mail::raw(
-                "Your admin password reset OTP is: {$otp}. It expires in 10 minutes.",
+                "Your password reset OTP is: {$otp}. It expires in 10 minutes.",
                 function ($message) use ($user) {
                     $message->to($user->email)
-                        ->subject('Admin Password Reset OTP');
+                        ->subject('Password Reset OTP');
                 }
             );
         }

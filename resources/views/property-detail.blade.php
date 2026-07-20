@@ -892,17 +892,6 @@
 
                         {{-- ─── REQUEST INFO PANEL ─── --}}
                         <div class="scrollable-form-panel p-4 sm:p-5" data-sidebar-panel="request">
-                            <div class="flex items-center gap-3">
-                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80"
-                                     alt="Lara Black" class="h-14 w-14 rounded-full object-cover">
-                                <div>
-                                    <p class="text-lg font-bold text-[#1f2a44]">Lara Black</p>
-                                    <p class="text-sm text-slate-500">Member ID: 987654321</p>
-                                </div>
-                            </div>
-
-                            <div class="mt-4 rounded bg-[#67c47c] px-3 py-1.5 text-sm font-semibold text-white">Schedule a showing?</div>
-
                             <form id="request-info-form" class="mt-4 space-y-3" novalidate>
                                 @csrf
                                 <input type="hidden" name="type" value="info">

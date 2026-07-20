@@ -29,6 +29,7 @@
             <div>
               <label for="status" class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Lifecycle Status</label>
               <select name="status" id="status" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white">
+                <option value="draft" {{ old('status', $enquiry->status) === 'draft' ? 'selected' : '' }}>Draft</option>
                 <option value="new" {{ old('status', $enquiry->status) === 'new' ? 'selected' : '' }}>New</option>
                 <option value="contacted" {{ old('status', $enquiry->status) === 'contacted' ? 'selected' : '' }}>Contacted</option>
                 <option value="interested" {{ old('status', $enquiry->status) === 'interested' ? 'selected' : '' }}>Interested</option>
@@ -39,6 +40,22 @@
                 <option value="lost" {{ old('status', $enquiry->status) === 'lost' ? 'selected' : '' }}>Lost</option>
               </select>
               @error('status')
+                <p class="mt-1.5 text-xs text-red-600">{{ $message }}</p>
+              @enderror
+            </div>
+
+            <!-- Assigned Agent Field -->
+            <div>
+              <label for="agent_id" class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Assigned Agent</label>
+              <select name="agent_id" id="agent_id" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white">
+                <option value="">-- Unassigned --</option>
+                @foreach ($agents as $agent)
+                  <option value="{{ $agent->id }}" {{ old('agent_id', $enquiry->agent_id) == $agent->id ? 'selected' : '' }}>
+                    {{ $agent->name }}
+                  </option>
+                @endforeach
+              </select>
+              @error('agent_id')
                 <p class="mt-1.5 text-xs text-red-600">{{ $message }}</p>
               @enderror
             </div>

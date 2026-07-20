@@ -255,6 +255,7 @@
               <div class="mb-6">
                 <span class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Current Lifecycle Status</span>
                 @php($statusColors = [
+                  'draft' => 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400',
                   'new' => 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
                   'contacted' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
                   'interested' => 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400',
@@ -280,6 +281,12 @@
                   <span class="block text-xs font-semibold uppercase tracking-wider text-gray-400">Inquiry Category</span>
                   <span class="text-sm font-medium text-gray-800 dark:text-gray-200">
                     {{ $enquiry->enq_for ? ucfirst($enquiry->enq_for) : 'N/A' }}
+                  </span>
+                </div>
+                <div>
+                  <span class="block text-xs font-semibold uppercase tracking-wider text-gray-400">Assigned Agent</span>
+                  <span class="text-sm font-medium text-gray-800 dark:text-gray-200">
+                    {{ $enquiry->agent?->name ?? 'Unassigned' }}
                   </span>
                 </div>
               </div>

@@ -129,12 +129,22 @@
               </div>
             </div>
 
-            <div class="rounded-lg border border-gray-200 bg-white px-4 py-3 dark:border-gray-800 dark:bg-white/[0.03]">
-              <input type="hidden" name="is_featured" value="0" />
-              <label class="inline-flex items-center gap-2 text-sm font-semibold text-gray-750 dark:text-gray-300 cursor-pointer">
-                <input type="checkbox" name="is_featured" value="1" {{ old('is_featured', $user->agentMeta?->is_featured) ? 'checked' : '' }} class="h-4 w-4 rounded border-gray-300" />
-                Featured Agent (Show on Home Page)
-              </label>
+            <div class="grid gap-6 sm:grid-cols-2">
+              <div class="rounded-lg border border-gray-200 bg-white px-4 py-3 dark:border-gray-800 dark:bg-white/[0.03]">
+                <input type="hidden" name="is_featured" value="0" />
+                <label class="inline-flex items-center gap-2 text-sm font-semibold text-gray-750 dark:text-gray-300 cursor-pointer">
+                  <input type="checkbox" name="is_featured" value="1" {{ old('is_featured', $user->agentMeta?->is_featured) ? 'checked' : '' }} class="h-4 w-4 rounded border-gray-300" />
+                  Featured Agent (Show on Home Page)
+                </label>
+              </div>
+
+              <div class="rounded-lg border border-gray-200 bg-white px-4 py-3 dark:border-gray-800 dark:bg-white/[0.03]">
+                <input type="hidden" name="status" value="inactive" />
+                <label class="inline-flex items-center gap-2 text-sm font-semibold text-gray-750 dark:text-gray-300 cursor-pointer">
+                  <input type="checkbox" name="status" value="active" {{ old('status', $user->status) === 'active' ? 'checked' : '' }} class="h-4 w-4 rounded border-gray-300" />
+                  Active Status (Allow lead assignments)
+                </label>
+              </div>
             </div>
 
             <div>
