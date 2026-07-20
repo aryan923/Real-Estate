@@ -40,21 +40,60 @@ class EnquiryController extends Controller
             ->addColumn('property', function (Enquiry $enquiry) {
                 return $enquiry->property?->title ?? '-';
             })
-            ->addColumn('status_label', function (Enquiry $enquiry) {
-                return ucfirst(str_replace('_', ' ', $enquiry->status));
+            ->addColumn('status', function (Enquiry $enquiry) {
+                $status = $enquiry->status;
+                $label = ucfirst(str_replace('_', ' ', $status));
+
+                switch ($status) {
+                    case 'won':
+                        $color = '#10b981'; // green
+                        break;
+                    case 'lost':
+                        $color = '#ef4444'; // red
+                        break;
+                    case 'new':
+                        $color = '#3b82f6'; // blue
+                        break;
+                    case 'contacted':
+                        $color = '#f59e0b'; // amber
+                        break;
+                    case 'interested':
+                        $color = '#8b5cf6'; // purple
+                        break;
+                    case 'follow_up':
+                        $color = '#6366f1'; // indigo
+                        break;
+                    case 'site_visit':
+                        $color = '#06b6d4'; // cyan
+                        break;
+                    case 'negotiation':
+                        $color = '#f97316'; // orange
+                        break;
+                    default: // 'draft'
+                        $color = '#6b7280'; // gray
+                        break;
+                }
+
+                return '<span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-bold uppercase tracking-wide" style="background-color: ' . $color . '; color: #ffffff;">' . $label . '</span>';
             })
             ->addColumn('action', function (Enquiry $enquiry) {
                 return '<div class="flex flex-wrap gap-2">'
-                    . '<a href="' . route('admin.enquiries.show', $enquiry) . '" class="rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-700">View</a>'
-                    . '<a href="' . route('admin.enquiries.edit', $enquiry) . '" class="rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-700">Edit</a>'
+                    . '<a href="' . route('admin.enquiries.show', $enquiry) . '" class="inline-flex items-center justify-center rounded-lg border border-gray-200 p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-800 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-white" title="View">'
+                    . '<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>'
+                    . '</a>'
+                    . '<a href="' . route('admin.enquiries.edit', $enquiry) . '" class="inline-flex items-center justify-center rounded-lg border border-gray-200 p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-800 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-white" title="Edit">'
+                    . '<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>'
+                    . '</a>'
                     . '<form method="POST" action="' . route('admin.enquiries.destroy', $enquiry) . '" class="inline-block" data-confirm="Delete this enquiry?">'
                     . csrf_field()
                     . method_field('DELETE')
-                    . '<button type="submit" class="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm font-medium text-red-700">Delete</button>'
+                    . '<button type="submit" class="inline-flex items-center justify-center rounded-lg border border-red-200 bg-red-50 p-2 text-red-600 hover:bg-red-100 dark:border-red-600/30 dark:bg-red-500/10 dark:text-red-400 dark:hover:bg-red-500/20" title="Delete">'
+                    . '<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>'
+                    . '</button>'
                     . '</form>'
                     . '</div>';
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'status'])
             ->toJson();
     }
 

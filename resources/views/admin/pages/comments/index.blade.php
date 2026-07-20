@@ -16,13 +16,11 @@
         <div class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
           <div>
             <h1 class="text-xl font-semibold text-gray-900 dark:text-white">Blog Comments</h1>
-            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Moderate, approve, and delete comments left by readers on your blog articles.</p>
           </div>
         </div>
 
         <section class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
-          <div class="mb-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-            <div class="text-sm text-gray-500 dark:text-gray-400">Filter comments by approval status.</div>
+          <div class="mb-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-end">
             <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
               <div class="flex items-center gap-2">
                 <label for="comments-status-filter" class="text-sm font-medium text-gray-600 dark:text-gray-300">Status</label>

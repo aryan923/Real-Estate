@@ -66,7 +66,7 @@ class RolePermissionController extends Controller
         $role->syncPermissions(array_map('intval', $validated['permissions'] ?? []));
 
         return redirect()
-            ->route('admin.roles-permissions.edit', $role)
+            ->route('admin.roles-permissions')
             ->with('status', 'Role updated successfully.');
     }
 

@@ -14,17 +14,15 @@
     <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
       <div class="grid grid-cols-1 gap-4 md:gap-6">
         <div class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
-          <div class="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+          <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <h1 class="text-xl font-semibold text-gray-900 dark:text-white">Manage Leads</h1>
-              <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">View and manage customer enquiries and tour requests.</p>
             </div>
           </div>
         </div>
 
         <section class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
-          <div class="mb-4 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div class="text-sm text-gray-500 dark:text-gray-400">Filter and manage your incoming leads using the filters below.</div>
+          <div class="mb-4 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-end">
             <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
               <div class="flex items-center gap-2">
                 <label for="leads-purpose-filter" class="text-sm font-medium text-gray-600 dark:text-gray-300">Purpose</label>
@@ -126,20 +124,7 @@
               return data.charAt(0).toUpperCase() + data.slice(1);
             }
           },
-          { 
-            data: 'status_label', 
-            name: 'status',
-            render: function(data, type, row) {
-              let color = 'bg-gray-100 text-gray-800';
-              if (row.status === 'new') color = 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400';
-              else if (row.status === 'contacted') color = 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400';
-              else if (row.status === 'interested') color = 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400';
-              else if (row.status === 'won') color = 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400';
-              else if (row.status === 'lost') color = 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400';
-              
-              return `<span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${color}">${data}</span>`;
-            }
-          },
+          { data: 'status', name: 'status' },
           { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
         pageLength: 10,

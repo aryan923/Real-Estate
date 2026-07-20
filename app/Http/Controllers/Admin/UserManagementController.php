@@ -56,7 +56,11 @@ class UserManagementController extends Controller
                 return '<img src="' . $imageUrl . '" alt="' . $alt . '" class="h-10 w-10 rounded-full border border-gray-200 object-cover dark:border-gray-700" />';
             })
             ->addColumn('role', fn (User $user): string => $user->roles->first()?->name ?? 'No role')
-            ->addColumn('admin_status', fn (User $user): string => $user->is_admin ? 'Yes' : 'No')
+            ->addColumn('admin_status', function (User $user): string {
+                return $user->is_admin
+                    ? '<span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-bold uppercase tracking-wide" style="background-color: #10b981; color: #ffffff;">Yes</span>'
+                    : '<span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-bold uppercase tracking-wide" style="background-color: #6b7280; color: #ffffff;">No</span>';
+            })
             ->addColumn('action', function (User $user): string {
                 return view('admin.pages.partials.user-management-action-buttons', [
                     'user' => $user,
@@ -67,7 +71,7 @@ class UserManagementController extends Controller
                     $roleQuery->where('name', 'like', '%' . $keyword . '%');
                 });
             })
-            ->rawColumns(['photo', 'action'])
+            ->rawColumns(['photo', 'action', 'admin_status'])
             ->toJson();
     }
 
@@ -133,7 +137,7 @@ class UserManagementController extends Controller
         $this->syncRole($user, $validated['role_id'] ?? null);
 
         return redirect()
-            ->route('admin.user-management.edit', $user)
+            ->route('admin.user-management')
             ->with('status', 'User updated successfully.');
     }
 

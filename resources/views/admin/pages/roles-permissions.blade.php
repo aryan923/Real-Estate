@@ -15,11 +15,10 @@
       <div class="pointer-events-none absolute inset-x-0 -top-6 -z-10 mx-auto h-48 max-w-4xl rounded-full bg-gradient-to-r from-sky-200/40 via-brand-200/40 to-emerald-200/40 blur-3xl dark:from-sky-500/10 dark:via-brand-500/10 dark:to-emerald-500/10"></div>
       <div class="grid grid-cols-1 gap-4 md:gap-6">
         <div class="col-span-1 overflow-hidden rounded-3xl border border-gray-200 bg-gradient-to-br from-white via-sky-50/50 to-brand-50/30 p-6 shadow-sm dark:border-gray-800 dark:bg-gradient-to-br dark:from-white/[0.04] dark:via-sky-500/5 dark:to-brand-500/5">
-          <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <span class="inline-flex items-center rounded-full border border-brand-200/70 bg-white/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-brand-700 dark:border-brand-500/30 dark:bg-brand-500/10 dark:text-brand-300">Access Control</span>
               <h1 class="mt-3 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Roles & Permissions</h1>
-              <p class="mt-2 max-w-2xl text-sm text-gray-600 dark:text-gray-300">Manage roles from this listing and open dedicated pages to add or edit role permissions with grouped access controls.</p>
             </div>
             <div class="flex items-center gap-3">
               <div class="rounded-2xl border border-brand-100 bg-white/80 px-4 py-3 text-sm font-medium text-brand-700 shadow-sm dark:border-brand-500/20 dark:bg-brand-500/10 dark:text-brand-300">
@@ -48,12 +47,10 @@
           <div class="mb-5 flex items-center justify-between gap-3">
             <div>
               <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Role Listing</h2>
-              <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Search, sort, and jump to clean edit screens.</p>
             </div>
           </div>
 
-          <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div class="text-sm text-gray-500 dark:text-gray-400">Use table search and filters to find roles quickly.</div>
+          <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
             <div class="flex items-center gap-2">
               <label for="roles-permission-filter" class="text-sm font-medium text-gray-600 dark:text-gray-300">Permission Filter</label>
               <select id="roles-permission-filter" class="h-10 rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-700 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200">
@@ -80,25 +77,35 @@
                   <tr class="border-b border-gray-100 transition hover:bg-sky-50/40 last:border-b-0 dark:border-gray-800 dark:hover:bg-sky-500/5">
                     <td class="px-5 py-4 text-sm font-semibold text-gray-800 dark:text-white/90">{{ $role->name }}</td>
                     <td class="px-5 py-4 text-sm text-gray-500 dark:text-gray-400" data-permissions="{{ $role->permissions_count }}">
-                      <span class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-600 dark:bg-gray-800 dark:text-gray-300">{{ $role->permissions_count }} Assigned</span>
+                      @if ($role->permissions_count > 0)
+                        <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-bold uppercase tracking-wide" style="background-color: #3b82f6; color: #ffffff;">{{ $role->permissions_count }} Assigned</span>
+                      @else
+                        <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-bold uppercase tracking-wide" style="background-color: #6b7280; color: #ffffff;">0 Assigned</span>
+                      @endif
                     </td>
                     <td class="px-5 py-4 text-sm text-gray-500 dark:text-gray-400">{{ $role->created_at?->format('d M Y') }}</td>
                     <td class="px-5 py-4 text-sm text-gray-500 dark:text-gray-400">
                       <div class="flex flex-wrap items-center gap-2">
                         <a
                           href="{{ route('admin.roles-permissions.edit', $role) }}"
-                          class="inline-flex items-center rounded-lg border border-brand-200 px-3 py-2 text-xs font-semibold text-brand-600 transition hover:border-brand-300 hover:bg-brand-50 dark:border-brand-500/30 dark:text-brand-400"
+                          class="inline-flex items-center justify-center rounded-lg border border-gray-200 p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-800 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-white"
+                          title="Edit"
                         >
-                          Edit
+                          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                          </svg>
                         </a>
-                        <form method="POST" action="{{ route('admin.roles-permissions.destroy', $role) }}" data-confirm="Delete this role?">
+                        <form method="POST" action="{{ route('admin.roles-permissions.destroy', $role) }}" class="inline-block" data-confirm="Delete this role?">
                           @csrf
                           @method('DELETE')
                           <button
                             type="submit"
-                            class="inline-flex items-center rounded-lg border border-red-200 px-3 py-2 text-xs font-semibold text-red-600 transition hover:border-red-300 hover:bg-red-50 dark:border-red-500/30 dark:text-red-400"
+                            class="inline-flex items-center justify-center rounded-lg border border-red-200 bg-red-50 p-2 text-red-600 hover:bg-red-100 dark:border-red-600/30 dark:bg-red-500/10 dark:text-red-400 dark:hover:bg-red-500/20"
+                            title="Delete"
                           >
-                            Delete
+                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
                           </button>
                         </form>
                       </div>

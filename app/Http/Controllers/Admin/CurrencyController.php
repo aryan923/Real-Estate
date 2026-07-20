@@ -26,19 +26,31 @@ class CurrencyController extends Controller
         }
 
         return DataTables::eloquent($query)
-            ->addColumn('default_label', fn (Currency $currency): string => $currency->is_default ? 'Yes (Base)' : 'No')
-            ->addColumn('status_label', fn (Currency $currency): string => $currency->status ? 'Active' : 'Inactive')
+            ->addColumn('default_label', function (Currency $currency): string {
+                return $currency->is_default
+                    ? '<span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-bold uppercase tracking-wide" style="background-color: #3b82f6; color: #ffffff;">Yes (Base)</span>'
+                    : '<span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-bold uppercase tracking-wide" style="background-color: #6b7280; color: #ffffff;">No</span>';
+            })
+            ->addColumn('status_label', function (Currency $currency): string {
+                return $currency->status
+                    ? '<span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-bold uppercase tracking-wide" style="background-color: #10b981; color: #ffffff;">Active</span>'
+                    : '<span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-bold uppercase tracking-wide" style="background-color: #6b7280; color: #ffffff;">Inactive</span>';
+            })
             ->addColumn('action', function (Currency $currency): string {
                 return '<div class="flex flex-wrap gap-2">'
-                    . '<a href="' . route('admin.currencies.edit', $currency) . '" class="rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:border-gray-800 dark:text-gray-200 dark:hover:bg-white/5">Edit</a>'
+                    . '<a href="' . route('admin.currencies.edit', $currency) . '" class="inline-flex items-center justify-center rounded-lg border border-gray-200 p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-800 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-white" title="Edit">'
+                    . '<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>'
+                    . '</a>'
                     . '<form method="POST" action="' . route('admin.currencies.destroy', $currency) . '" class="inline-block" data-confirm="Delete this currency?">'
                     . csrf_field()
                     . method_field('DELETE')
-                    . '<button type="submit" class="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-100 dark:border-red-600 dark:bg-red-500/10 dark:text-red-200 dark:hover:bg-red-500/20">Delete</button>'
+                    . '<button type="submit" class="inline-flex items-center justify-center rounded-lg border border-red-200 bg-red-50 p-2 text-red-600 hover:bg-red-100 dark:border-red-600/30 dark:bg-red-500/10 dark:text-red-400 dark:hover:bg-red-500/20" title="Delete">'
+                    . '<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>'
+                    . '</button>'
                     . '</form>'
                     . '</div>';
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'status_label', 'default_label'])
             ->toJson();
     }
 
