@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Enquiry;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -116,9 +117,148 @@ class EnquiryController extends Controller
             'property',
             'actionBy',
             'agent',
+            'followUps.creator',
+            'siteVisits.assignedExecutive',
+            'siteVisits.property',
         ]);
 
-        return view('admin.pages.enquiries.show', compact('enquiry'));
+        $agents = User::where('status', 'active')->orderBy('name')->get();
+
+        // Build Unified Activity Timeline
+        $timelineEvents = collect();
+
+        // 1. Initial Enquiry Creation Event
+        $timelineEvents->push([
+            'type' => 'enquiry_created',
+            'title' => 'Inquiry Registered',
+            'description' => 'Lead inquiry registered via ' . ($enquiry->type === 'contact' ? 'Contact Form' : ($enquiry->type === 'info' ? 'Info Request' : ($enquiry->type === 'tour' ? 'Schedule Tour' : ucfirst($enquiry->type)))),
+            'badge' => 'Initial Lead',
+            'badge_color' => 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-400',
+            'icon_bg' => 'bg-blue-500',
+            'timestamp' => $enquiry->created_at,
+            'author' => 'System',
+        ]);
+
+        // 2. Follow-up Events
+        foreach ($enquiry->followUps as $fu) {
+            $timelineEvents->push([
+                'type' => 'follow_up',
+                'title' => 'Follow-up Call ' . ($fu->status === 'completed' ? '(' . str_replace('_', ' ', ucfirst($fu->outcome ?: 'Completed')) . ')' : '(Scheduled)'),
+                'description' => $fu->call_notes ?: ($fu->note ?: 'Follow-up interaction logged.'),
+                'badge' => 'Follow-up ' . ucfirst($fu->status),
+                'badge_color' => $fu->status === 'completed' ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-400' : 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-400',
+                'icon_bg' => $fu->status === 'completed' ? 'bg-emerald-500' : 'bg-amber-500',
+                'timestamp' => $fu->scheduled_at ?? $fu->created_at,
+                'author' => $fu->creator?->name ?: 'Staff',
+            ]);
+        }
+
+        // 3. Site Visit Events
+        foreach ($enquiry->siteVisits as $sv) {
+            $timelineEvents->push([
+                'type' => 'site_visit',
+                'title' => 'Site Tour ' . ucfirst($sv->status),
+                'description' => $sv->feedback ?: ($sv->notes ?: 'Site visit scheduled for ' . ($sv->property?->title ?? 'Property')),
+                'badge' => 'Site Visit ' . ucfirst($sv->status),
+                'badge_color' => $sv->status === 'visited' ? 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900/40 dark:text-cyan-400' : 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-400',
+                'icon_bg' => 'bg-cyan-500',
+                'timestamp' => $sv->visit_date ? \Carbon\Carbon::parse($sv->visit_date) : $sv->created_at,
+                'author' => $sv->assignedExecutive?->name ?: 'Executive',
+            ]);
+        }
+
+        // 4. Bookings & Payments (matching customer email/phone)
+        if ($enquiry->email || $enquiry->phone) {
+            $customer = \App\Models\Customer::where('email', $enquiry->email)
+                ->orWhere('phone', $enquiry->phone)
+                ->first();
+
+            if ($customer) {
+                $bookings = \App\Models\Booking::where('customer_id', $customer->id)->with(['unit', 'payments'])->get();
+                foreach ($bookings as $b) {
+                    $timelineEvents->push([
+                        'type' => 'booking',
+                        'title' => 'Booking Confirmed - Unit ' . ($b->unit?->unit_number ?? '#' . $b->id),
+                        'description' => 'Agreed Price: ₹' . number_format($b->agreed_price) . ' | Status: ' . ucfirst($b->status),
+                        'badge' => 'Booking ' . ucfirst($b->status),
+                        'badge_color' => 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-400',
+                        'icon_bg' => 'bg-purple-500',
+                        'timestamp' => $b->created_at,
+                        'author' => 'Accounts / Sales',
+                    ]);
+
+                    foreach ($b->payments as $p) {
+                        $timelineEvents->push([
+                            'type' => 'payment',
+                            'title' => 'Payment Receipt Issued - ₹' . number_format($p->amount),
+                            'description' => 'Receipt #' . $p->receipt_number . ' paid via ' . strtoupper($p->payment_method) . ' (' . ucfirst($p->status) . ')',
+                            'badge' => 'Payment ' . ucfirst($p->status),
+                            'badge_color' => 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-400',
+                            'icon_bg' => 'bg-emerald-600',
+                            'timestamp' => $p->payment_date ? \Carbon\Carbon::parse($p->payment_date) : $p->created_at,
+                            'author' => 'Accounts',
+                        ]);
+                    }
+                }
+            }
+        }
+
+        // Sort chronologically ascending for the horizontal graph
+        $chronoEvents = $timelineEvents->sortBy('timestamp')->values();
+        $totalCount = $chronoEvents->count();
+
+        if ($totalCount > 0) {
+            $chronoEvents->transform(function ($item, $key) use ($totalCount) {
+                if ($totalCount === 1) {
+                    $item['percent'] = 50;
+                } else {
+                    $item['percent'] = round(10 + ($key * (80 / ($totalCount - 1))), 2);
+                }
+                return $item;
+            });
+        }
+
+        // Collect All Historical Notes
+        $allNotes = collect();
+
+        if ($enquiry->note) {
+            $allNotes->push([
+                'source' => 'Lead Status Note',
+                'source_badge' => 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-400',
+                'note' => $enquiry->note,
+                'author' => $enquiry->actionBy?->name ?: 'Staff',
+                'timestamp' => $enquiry->performed_at ?: $enquiry->updated_at,
+            ]);
+        }
+
+        if ($enquiry->message) {
+            $allNotes->push([
+                'source' => 'Initial Inquiry Message',
+                'source_badge' => 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-400',
+                'note' => $enquiry->message,
+                'author' => $enquiry->name,
+                'timestamp' => $enquiry->created_at,
+            ]);
+        }
+
+        foreach ($enquiry->followUps as $fu) {
+            if (!empty($fu->call_notes) || !empty($fu->note)) {
+                $allNotes->push([
+                    'source' => 'Follow-up Call (' . str_replace('_', ' ', ucfirst($fu->status)) . ')',
+                    'source_badge' => $fu->status === 'completed' ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-400' : 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-400',
+                    'note' => $fu->call_notes ?: $fu->note,
+                    'author' => $fu->creator?->name ?: 'Staff',
+                    'timestamp' => $fu->updated_at ?: ($fu->scheduled_at ?: $fu->created_at),
+                ]);
+            }
+        }
+
+        $allNotes = $allNotes->sortByDesc('timestamp')->values();
+
+        $activityTimeline = $timelineEvents->sortByDesc('timestamp')->values();
+        $graphTimeline = $chronoEvents;
+
+        return view('admin.pages.enquiries.show', compact('enquiry', 'agents', 'activityTimeline', 'graphTimeline', 'allNotes'));
     }
 
     public function edit(Enquiry $enquiry): View
@@ -145,7 +285,7 @@ class EnquiryController extends Controller
         $enquiry->update($validated);
 
         return redirect()
-            ->route('admin.enquiries.index')
+            ->route('admin.enquiries.show', $enquiry)
             ->with('status', 'Enquiry updated successfully.');
     }
 

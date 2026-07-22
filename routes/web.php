@@ -13,6 +13,15 @@ use App\Http\Controllers\PropertyController as FrontendPropertyController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\Admin\CurrencyController;
+use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\InventoryController;
+use App\Http\Controllers\Admin\SiteVisitController;
+use App\Http\Controllers\Admin\FollowUpController;
+use App\Http\Controllers\Admin\BookingController;
+use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\DocumentController;
+use App\Http\Controllers\Admin\ReportController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -106,7 +115,7 @@ Route::prefix('admin')->name('admin.')->group(function () use ($tailAdminPages) 
      Route::get('/signup', fn () => redirect()->route('admin.login'))->name('signup');
  
      Route::middleware('auth')->group(function () use ($tailAdminPages) {
-         Route::view('/dashboard', 'admin.pages.dashboard')->name('dashboard')->middleware('can:view_dashboard');
+         Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard')->middleware('can:view_dashboard');
          Route::view('/404', 'admin.pages.404')->name('not-found');
 
          // Profile Routes
@@ -298,7 +307,98 @@ Route::prefix('admin')->name('admin.')->group(function () use ($tailAdminPages) 
                      'destroy' => 'pages.destroy',
                  ]);
          });
-         Route::get('/{page}', function (string $page) use ($tailAdminPages) {
+          // Projects
+          Route::get('/projects/data', [ProjectController::class, 'data'])->name('projects.data');
+          Route::resource('/projects', ProjectController::class)->names([
+              'index' => 'projects.index',
+              'create' => 'projects.create',
+              'store' => 'projects.store',
+              'show' => 'projects.show',
+              'edit' => 'projects.edit',
+              'update' => 'projects.update',
+              'destroy' => 'projects.destroy',
+          ]);
+
+          // Customers
+          Route::get('/customers/data', [CustomerController::class, 'data'])->name('customers.data');
+          Route::resource('/customers', CustomerController::class)->names([
+              'index' => 'customers.index',
+              'create' => 'customers.create',
+              'store' => 'customers.store',
+              'show' => 'customers.show',
+              'edit' => 'customers.edit',
+              'update' => 'customers.update',
+              'destroy' => 'customers.destroy',
+          ]);
+
+          // Inventory
+          Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index');
+          Route::get('/inventory/unit/{unit}', [InventoryController::class, 'showUnit'])->name('inventory.unit.show');
+          Route::post('/inventory/reserve/{unit}', [InventoryController::class, 'reserveUnit'])->name('inventory.unit.reserve');
+
+          // Follow-ups
+          Route::get('/follow-ups', fn() => redirect()->route('admin.enquiries.index'))->name('follow-ups.index');
+          Route::resource('/follow-ups', FollowUpController::class)->except(['index', 'show'])->names([
+              'create' => 'follow-ups.create',
+              'store' => 'follow-ups.store',
+              'edit' => 'follow-ups.edit',
+              'update' => 'follow-ups.update',
+              'destroy' => 'follow-ups.destroy',
+          ]);
+          Route::post('/follow-ups/{followUp}/log', [FollowUpController::class, 'logOutcome'])->name('follow-ups.log-outcome');
+
+          // Site Visits
+          Route::get('/site-visits/data', [SiteVisitController::class, 'data'])->name('site-visits.data');
+          Route::resource('/site-visits', SiteVisitController::class)->names([
+              'index' => 'site-visits.index',
+              'create' => 'site-visits.create',
+              'store' => 'site-visits.store',
+              'show' => 'site-visits.show',
+              'edit' => 'site-visits.edit',
+              'update' => 'site-visits.update',
+              'destroy' => 'site-visits.destroy',
+          ]);
+          Route::post('/site-visits/{siteVisit}/log', [SiteVisitController::class, 'logFeedback'])->name('site-visits.log-feedback');
+
+          // Bookings
+          Route::get('/bookings/data', [BookingController::class, 'data'])->name('bookings.data');
+          Route::resource('/bookings', BookingController::class)->names([
+              'index' => 'bookings.index',
+              'create' => 'bookings.create',
+              'store' => 'bookings.store',
+              'show' => 'bookings.show',
+              'edit' => 'bookings.edit',
+              'update' => 'bookings.update',
+              'destroy' => 'bookings.destroy',
+          ]);
+          Route::post('/bookings/{booking}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
+          Route::post('/bookings/{booking}/generate-installments', [PaymentController::class, 'generateMilestones'])->name('bookings.generate-installments');
+
+          // Payments
+          Route::get('/payments/data', [PaymentController::class, 'data'])->name('payments.data');
+          Route::resource('/payments', PaymentController::class)->names([
+              'index' => 'payments.index',
+              'create' => 'payments.create',
+              'store' => 'payments.store',
+              'show' => 'payments.show',
+              'edit' => 'payments.edit',
+              'update' => 'payments.update',
+              'destroy' => 'payments.destroy',
+          ]);
+          Route::get('/payments/{payment}/receipt', [PaymentController::class, 'generateReceipt'])->name('payments.receipt');
+
+          // Documents
+          Route::resource('/documents', DocumentController::class)->only(['index', 'store', 'destroy'])->names([
+              'index' => 'documents.index',
+              'store' => 'documents.store',
+              'destroy' => 'documents.destroy',
+          ]);
+
+          // Reports
+          Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+          Route::get('/reports/{report}/export', [ReportController::class, 'export'])->name('reports.export');
+
+          Route::get('/{page}', function (string $page) use ($tailAdminPages) {
              if (in_array($page, $tailAdminPages, true) && view()->exists("admin.pages.{$page}")) {
                  return view("admin.pages.{$page}");
              }

@@ -41,6 +41,16 @@ class SettingController extends Controller
             'smtp_username' => ['nullable', 'string', 'max:255'],
             'smtp_password' => ['nullable', 'string', 'max:255'],
             'smtp_from_address' => ['nullable', 'email', 'max:255'],
+            'lead_sources' => ['nullable', 'string', 'max:1000'],
+            'template_welcome_email' => ['nullable', 'string', 'max:2000'],
+            'template_whatsapp_welcome' => ['nullable', 'string', 'max:2000'],
+            'template_site_visit_reminder' => ['nullable', 'string', 'max:2000'],
+            'tax_cgst' => ['nullable', 'numeric', 'min:0'],
+            'tax_sgst' => ['nullable', 'numeric', 'min:0'],
+            'tax_rera_fees' => ['nullable', 'numeric', 'min:0'],
+            'company_name' => ['nullable', 'string', 'max:255'],
+            'company_gstin' => ['nullable', 'string', 'max:50'],
+            'company_address' => ['nullable', 'string', 'max:500'],
         ]);
 
         if (request()->hasFile('site_logo')) {

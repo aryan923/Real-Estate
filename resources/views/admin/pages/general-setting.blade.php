@@ -49,6 +49,9 @@
               <button type="button" @click="tab='contact'" class="rounded-lg px-4 py-2 text-sm font-medium transition" :class="tab==='contact' ? 'bg-brand-500 text-white' : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-200'">Contact Settings</button>
               <button type="button" @click="tab='footer'" class="rounded-lg px-4 py-2 text-sm font-medium transition" :class="tab==='footer' ? 'bg-brand-500 text-white' : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-200'">Footer Settings</button>
               <button type="button" @click="tab='smtp'" class="rounded-lg px-4 py-2 text-sm font-medium transition" :class="tab==='smtp' ? 'bg-brand-500 text-white' : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-200'">SMTP Settings</button>
+              <button type="button" @click="tab='crm'" class="rounded-lg px-4 py-2 text-sm font-medium transition" :class="tab==='crm' ? 'bg-brand-500 text-white' : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-200'">CRM Settings</button>
+              <button type="button" @click="tab='taxes'" class="rounded-lg px-4 py-2 text-sm font-medium transition" :class="tab==='taxes' ? 'bg-brand-500 text-white' : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-200'">Taxes Settings</button>
+              <button type="button" @click="tab='company'" class="rounded-lg px-4 py-2 text-sm font-medium transition" :class="tab==='company' ? 'bg-brand-500 text-white' : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-200'">Company Details</button>
             </div>
 
             <form action="{{ route('admin.general-setting.update') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
@@ -178,6 +181,58 @@
                 <div>
                   <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">From Address</label>
                   <input type="email" name="smtp_from_address" value="{{ old('smtp_from_address', $settings['smtp_from_address'] ?? '') }}" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
+                </div>
+              </div>
+
+              <!-- Tab 5: CRM Settings -->
+              <div x-show="tab === 'crm'" x-cloak class="space-y-6">
+                <div>
+                  <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Lead Sources (Comma-separated list)</label>
+                  <input type="text" name="lead_sources" value="{{ old('lead_sources', $settings['lead_sources'] ?? '') }}" placeholder="e.g. Website, Facebook Ads, Google Ads, Referrals" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
+                </div>
+                <div>
+                  <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Welcome Email Template</label>
+                  <textarea name="template_welcome_email" rows="4" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white" placeholder="Hello {name}, Welcome to our property portal...">{{ old('template_welcome_email', $settings['template_welcome_email'] ?? '') }}</textarea>
+                </div>
+                <div>
+                  <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">WhatsApp Welcome Template</label>
+                  <textarea name="template_whatsapp_welcome" rows="4" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white" placeholder="Dear {name}, thank you for registering with us...">{{ old('template_whatsapp_welcome', $settings['template_whatsapp_welcome'] ?? '') }}</textarea>
+                </div>
+                <div>
+                  <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Site Visit Reminder Template</label>
+                  <textarea name="template_site_visit_reminder" rows="4" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white" placeholder="Reminder: Your site visit for {project} is scheduled at {time}...">{{ old('template_site_visit_reminder', $settings['template_site_visit_reminder'] ?? '') }}</textarea>
+                </div>
+              </div>
+
+              <!-- Tab 6: Taxes Settings -->
+              <div x-show="tab === 'taxes'" x-cloak class="grid grid-cols-1 gap-6 md:grid-cols-3">
+                <div>
+                  <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">CGST (%)</label>
+                  <input type="number" name="tax_cgst" step="0.01" value="{{ old('tax_cgst', $settings['tax_cgst'] ?? '') }}" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
+                </div>
+                <div>
+                  <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">SGST (%)</label>
+                  <input type="number" name="tax_sgst" step="0.01" value="{{ old('tax_sgst', $settings['tax_sgst'] ?? '') }}" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
+                </div>
+                <div>
+                  <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">RERA Registration Fees (₹)</label>
+                  <input type="number" name="tax_rera_fees" step="0.01" value="{{ old('tax_rera_fees', $settings['tax_rera_fees'] ?? '') }}" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
+                </div>
+              </div>
+
+              <!-- Tab 7: Company Details -->
+              <div x-show="tab === 'company'" x-cloak class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div>
+                  <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Company Legal Name</label>
+                  <input type="text" name="company_name" value="{{ old('company_name', $settings['company_name'] ?? '') }}" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
+                </div>
+                <div>
+                  <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Company GSTIN</label>
+                  <input type="text" name="company_gstin" value="{{ old('company_gstin', $settings['company_gstin'] ?? '') }}" placeholder="e.g. 07AAAAA1111A1Z1" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
+                </div>
+                <div class="md:col-span-2">
+                  <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Corporate Address</label>
+                  <textarea name="company_address" rows="3" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white">{{ old('company_address', $settings['company_address'] ?? '') }}</textarea>
                 </div>
               </div>
 

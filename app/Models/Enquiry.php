@@ -24,6 +24,7 @@ class Enquiry extends Model
         'performed_at',
         'note',
         'agent_id',
+        'lead_score',
     ];
 
     protected $casts = [
@@ -44,6 +45,16 @@ class Enquiry extends Model
     public function agent()
     {
         return $this->belongsTo(User::class, 'agent_id');
+    }
+
+    public function followUps()
+    {
+        return $this->hasMany(FollowUp::class);
+    }
+
+    public function siteVisits()
+    {
+        return $this->hasMany(SiteVisit::class);
     }
 
     public static function getNextRoundRobinAgentId(): ?int

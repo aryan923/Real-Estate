@@ -12,6 +12,7 @@
     <link href="{{ asset('vendor/tailadmin/style.css') }}" rel="stylesheet">
     @stack('styles')
     <style>
+      [x-cloak] { display: none !important; }
       /* DataTables Dark Mode Overrides */
       .dark .dataTables_wrapper {
         color: #cbd5e1 !important;

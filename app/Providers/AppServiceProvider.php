@@ -26,6 +26,11 @@ class AppServiceProvider extends ServiceProvider
             return $user->hasRole('Admin') ? true : null;
         });
 
+        // Register CRM Lifecycle Automation Observers
+        \App\Models\Booking::observe(\App\Observers\BookingObserver::class);
+        \App\Models\SiteVisit::observe(\App\Observers\SiteVisitObserver::class);
+        \App\Models\FollowUp::observe(\App\Observers\FollowUpObserver::class);
+
         View::composer('*', function ($view) {
             $settings = Setting::allAsArray();
 

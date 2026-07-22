@@ -45,6 +45,13 @@ class Property extends Model
         'zip',
         'country_id',
         'is_advertisement',
+        'project_id',
+        'tower',
+        'floor',
+        'unit_number',
+        'inventory_status',
+        'facing',
+        'parking_slots',
     ];
 
     protected $casts = [
@@ -54,6 +61,11 @@ class Property extends Model
         'map_latitude' => 'decimal:7',
         'map_longitude' => 'decimal:7',
     ];
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
 
     public function categories()
     {

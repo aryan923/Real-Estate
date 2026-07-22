@@ -190,6 +190,95 @@
         </button>
         <!-- Dark Mode Toggler -->
 
+        <!-- Quick Add Action Button -->
+        <div
+          class="relative"
+          x-data="{ dropdownOpen: false }"
+          @click.outside="dropdownOpen = false"
+        >
+          <button
+            class="hover:text-dark-900 relative flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
+            @click.prevent="dropdownOpen = ! dropdownOpen"
+          >
+            <svg
+              class="fill-current text-gray-500 dark:text-gray-400"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M10 4.25c.414 0 .75.336.75.75v4.25H15c.414 0 .75.336.75.75s-.336.75-.75.75h-4.25V15c0 .414-.336.75-.75.75s-.75-.336-.75-.75v-4.25H5c-.414 0-.75-.336-.75-.75s.336-.75.75-.75h4.25V5c0-.414.336-.75.75-.75z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+
+          <!-- Dropdown Start -->
+          <div
+            x-show="dropdownOpen"
+            x-transition
+            class="shadow-theme-lg dark:bg-gray-dark absolute right-0 mt-[17px] flex w-[220px] flex-col rounded-2xl border border-gray-200 bg-white p-2 dark:border-gray-800"
+            style="display: none;"
+          >
+            <div class="px-3 py-2 border-b border-gray-100 dark:border-gray-800 mb-1">
+              <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Quick Actions</span>
+            </div>
+            
+            <a
+              href="{{ route('admin.enquiries.index') }}"
+              class="text-theme-sm flex items-center gap-3 rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
+            >
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+              </svg>
+              <span>Add New Lead</span>
+            </a>
+
+            <a
+              href="{{ route('admin.customers.create') }}"
+              class="text-theme-sm flex items-center gap-3 rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
+            >
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span>Add Customer</span>
+            </a>
+
+            <a
+              href="{{ route('admin.bookings.create') }}"
+              class="text-theme-sm flex items-center gap-3 rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
+            >
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              <span>New Booking</span>
+            </a>
+
+            <a
+              href="{{ route('admin.payments.create') }}"
+              class="text-theme-sm flex items-center gap-3 rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
+            >
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" />
+              </svg>
+              <span>Record Payment</span>
+            </a>
+
+            <a
+              href="{{ route('admin.follow-ups.create') }}"
+              class="text-theme-sm flex items-center gap-3 rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
+            >
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>Schedule Follow-up</span>
+            </a>
+          </div>
+          <!-- Dropdown End -->
+        </div>
+
         <!-- Notification Menu Area -->
         <div
           class="relative"
