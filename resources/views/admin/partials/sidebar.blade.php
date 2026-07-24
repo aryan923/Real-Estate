@@ -1,6 +1,6 @@
 <aside
   :class="sidebarToggle ? 'translate-x-0 lg:w-[90px]' : '-translate-x-full'"
-  class="sidebar fixed left-0 top-0 z-9999 flex h-screen w-[290px] flex-col overflow-y-hidden border-r border-gray-200 bg-white px-5 duration-300 ease-linear dark:border-gray-800 dark:bg-black lg:static lg:translate-x-0"
+  class="sidebar fixed left-0 top-0 z-9999 flex h-screen w-[220px] lg:w-[220px] flex-col overflow-y-hidden border-r border-gray-200 bg-white px-4 duration-300 ease-linear dark:border-gray-800 dark:bg-black lg:static lg:translate-x-0"
   @click.outside="sidebarToggle = false"
 >
   <div

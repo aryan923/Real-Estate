@@ -14,18 +14,69 @@ class EnquiryController extends Controller
 {
     public function index(): View
     {
-        return view('admin.pages.enquiries.index');
+        $baseQuery = Enquiry::query();
+        if (!auth()->user()->can('view_all_leads')) {
+            $baseQuery->where('agent_id', auth()->id());
+        }
+
+        $totalCount = (clone $baseQuery)->count();
+        $newCount = (clone $baseQuery)->where('status', 'new')->count();
+        $qualifiedCount = (clone $baseQuery)->whereIn('status', ['interested', 'follow_up', 'site_visit', 'negotiation'])->count();
+        $wonCount = (clone $baseQuery)->where('status', 'won')->count();
+        $conversionRate = $totalCount > 0 ? round(($wonCount / $totalCount) * 100, 2) : 0;
+
+        $stats = [
+            'total' => $totalCount,
+            'new' => $newCount,
+            'qualified' => $qualifiedCount,
+            'converted' => $wonCount,
+            'conversion_rate' => $conversionRate,
+        ];
+
+        $statusCounts = [
+            'all' => $totalCount,
+            'new' => $newCount,
+            'contacted' => (clone $baseQuery)->where('status', 'contacted')->count(),
+            'interested' => (clone $baseQuery)->where('status', 'interested')->count(),
+            'qualified' => $qualifiedCount,
+            'site_visit' => (clone $baseQuery)->where('status', 'site_visit')->count(),
+            'negotiation' => (clone $baseQuery)->where('status', 'negotiation')->count(),
+            'won' => $wonCount,
+              'lost' => (clone $baseQuery)->where('status', 'lost')->count(),
+        ];
+
+        $agents = User::where('status', 'active')->orderBy('name')->get();
+        
+        $sources = Enquiry::whereNotNull('lead_source')
+            ->distinct()
+            ->pluck('lead_source')
+            ->toArray();
+        if (empty($sources)) {
+            $sources = ['Website', 'Google Ads', 'Referral', 'Facebook Ad', 'Justdial', 'Walk-in', 'Contact Form'];
+        }
+
+        $locations = Enquiry::whereNotNull('location')
+            ->distinct()
+            ->pluck('location')
+            ->filter()
+            ->values()
+            ->toArray();
+        if (empty($locations)) {
+            $locations = ['Gurgaon', 'Noida', 'Delhi', 'Greater Noida', 'Mumbai', 'Bangalore'];
+        }
+
+        return view('admin.pages.enquiries.index', compact('stats', 'statusCounts', 'agents', 'sources', 'locations'));
     }
 
     public function data(Request $request)
     {
-        $query = Enquiry::with(['property', 'actionBy']);
+        $query = Enquiry::with(['property', 'agent', 'actionBy']);
 
-        if (!auth()->user()->can('view_all_leads')) {
+        if (auth()->check() && !auth()->user()->can('view_all_leads')) {
             $query->where('agent_id', auth()->id());
         }
 
-        if (!auth()->user()->can('view_won')) {
+        if (auth()->check() && !auth()->user()->can('view_won')) {
             $query->where('status', '!=', 'won');
         }
 
@@ -33,69 +84,143 @@ class EnquiryController extends Controller
             $query->where('type', $request->type);
         }
 
-        if ($request->filled('status')) {
+        if ($request->filled('status') && $request->status !== 'all') {
             $query->where('status', $request->status);
         }
 
+        if ($request->filled('lead_source')) {
+            $query->where('lead_source', $request->lead_source);
+        }
+
+        if ($request->filled('agent_id')) {
+            $query->where('agent_id', $request->agent_id);
+        }
+
+        if ($request->filled('location')) {
+            $query->where('location', 'like', '%' . $request->location . '%');
+        }
+
+        if ($request->filled('search_query')) {
+            $search = $request->search_query;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('phone', 'like', "%{$search}%")
+                  ->orWhere('message', 'like', "%{$search}%")
+                  ->orWhere('location', 'like', "%{$search}%");
+            });
+        }
+
         return DataTables::eloquent($query)
-            ->addColumn('property', function (Enquiry $enquiry) {
-                return $enquiry->property?->title ?? '-';
+            ->addColumn('property_title', function (Enquiry $enquiry) {
+                return $enquiry->property?->title ?: ($enquiry->type === 'tour' ? 'Schedule Tour' : ($enquiry->type === 'info' ? 'Request Info' : 'Property Lead'));
             })
-            ->addColumn('status', function (Enquiry $enquiry) {
-                $status = $enquiry->status;
-                $label = ucfirst(str_replace('_', ' ', $status));
-
-                switch ($status) {
-                    case 'won':
-                        $color = '#10b981'; // green
-                        break;
-                    case 'lost':
-                        $color = '#ef4444'; // red
-                        break;
-                    case 'new':
-                        $color = '#3b82f6'; // blue
-                        break;
-                    case 'contacted':
-                        $color = '#f59e0b'; // amber
-                        break;
-                    case 'interested':
-                        $color = '#8b5cf6'; // purple
-                        break;
-                    case 'follow_up':
-                        $color = '#6366f1'; // indigo
-                        break;
-                    case 'site_visit':
-                        $color = '#06b6d4'; // cyan
-                        break;
-                    case 'negotiation':
-                        $color = '#f97316'; // orange
-                        break;
-                    default: // 'draft'
-                        $color = '#6b7280'; // gray
-                        break;
-                }
-
-                return '<span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-bold uppercase tracking-wide" style="background-color: ' . $color . '; color: #ffffff;">' . $label . '</span>';
+            ->addColumn('agent_name', function (Enquiry $enquiry) {
+                return $enquiry->agent?->name ?: 'Unassigned';
             })
-            ->addColumn('action', function (Enquiry $enquiry) {
-                return '<div class="flex flex-wrap gap-2">'
-                    . '<a href="' . route('admin.enquiries.show', $enquiry) . '" class="inline-flex items-center justify-center rounded-lg border border-gray-200 p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-800 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-white" title="View">'
-                    . '<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>'
-                    . '</a>'
-                    . '<a href="' . route('admin.enquiries.edit', $enquiry) . '" class="inline-flex items-center justify-center rounded-lg border border-gray-200 p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-800 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-white" title="Edit">'
-                    . '<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>'
-                    . '</a>'
-                    . '<form method="POST" action="' . route('admin.enquiries.destroy', $enquiry) . '" class="inline-block" data-confirm="Delete this enquiry?">'
-                    . csrf_field()
-                    . method_field('DELETE')
-                    . '<button type="submit" class="inline-flex items-center justify-center rounded-lg border border-red-200 bg-red-50 p-2 text-red-600 hover:bg-red-100 dark:border-red-600/30 dark:bg-red-500/10 dark:text-red-400 dark:hover:bg-red-500/20" title="Delete">'
-                    . '<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>'
-                    . '</button>'
-                    . '</form>'
-                    . '</div>';
+            ->addColumn('agent_initials', function (Enquiry $enquiry) {
+                if (!$enquiry->agent) return 'U';
+                $words = explode(' ', $enquiry->agent->name);
+                return strtoupper(substr($words[0], 0, 1) . (isset($words[1]) ? substr($words[1], 0, 1) : ''));
             })
-            ->rawColumns(['action', 'status'])
+            ->addColumn('lead_initials', function (Enquiry $enquiry) {
+                $words = explode(' ', $enquiry->name);
+                return strtoupper(substr($words[0], 0, 1) . (isset($words[1]) ? substr($words[1], 0, 1) : ''));
+            })
+            ->addColumn('relative_time', function (Enquiry $enquiry) {
+                $time = $enquiry->updated_at ?: $enquiry->created_at;
+                return $time->diffForHumans();
+            })
+            ->addColumn('show_url', function (Enquiry $enquiry) {
+                return route('admin.enquiries.show', $enquiry);
+            })
+            ->addColumn('edit_url', function (Enquiry $enquiry) {
+                return route('admin.enquiries.edit', $enquiry);
+            })
+            ->addColumn('destroy_url', function (Enquiry $enquiry) {
+                return route('admin.enquiries.destroy', $enquiry);
+            })
+            ->addColumn('csrf_token', function () {
+                return csrf_token();
+            })
             ->toJson();
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'csv_file' => 'required|file|mimes:csv,txt|max:5120',
+        ]);
+
+        $file = $request->file('csv_file');
+        $handle = fopen($file->getRealPath(), 'r');
+        $header = fgetcsv($handle);
+
+        $imported = 0;
+        while (($row = fgetcsv($handle)) !== false) {
+            if (count($row) < 2) continue;
+
+            $name = trim($row[0] ?? '');
+            $email = trim($row[1] ?? '');
+            $phone = trim($row[2] ?? '');
+            $message = trim($row[3] ?? '');
+            $source = trim($row[4] ?? 'Website');
+            $status = trim($row[5] ?? 'new');
+            $location = trim($row[6] ?? '');
+
+            if (empty($name) || empty($email)) continue;
+
+            Enquiry::create([
+                'name' => $name,
+                'email' => $email,
+                'phone' => $phone,
+                'message' => $message,
+                'lead_source' => $source,
+                'type' => 'info',
+                'status' => in_array($status, ['new','contacted','interested','site_visit','negotiation','won','lost']) ? $status : 'new',
+                'location' => $location,
+                'agent_id' => Enquiry::getNextRoundRobinAgentId(),
+            ]);
+            $imported++;
+        }
+        fclose($handle);
+
+        return response()->json([
+            'success' => true,
+            'message' => "Successfully imported {$imported} leads.",
+        ]);
+    }
+
+    public function bulkAction(Request $request)
+    {
+        $validated = $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'exists:enquiries,id',
+            'action' => 'required|in:delete,update_status,assign_agent',
+            'value' => 'nullable|string',
+        ]);
+
+        $query = Enquiry::whereIn('id', $validated['ids']);
+
+        if (!auth()->user()->can('view_all_leads')) {
+            $query->where('agent_id', auth()->id());
+        }
+
+        if ($validated['action'] === 'delete') {
+            $query->delete();
+            $msg = 'Selected leads deleted successfully.';
+        } elseif ($validated['action'] === 'update_status') {
+            $query->update(['status' => $validated['value']]);
+            $msg = 'Status updated for selected leads.';
+        } elseif ($validated['action'] === 'assign_agent') {
+            $query->update(['agent_id' => $validated['value']]);
+            $msg = 'Agent assigned for selected leads.';
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => $msg ?? 'Bulk action completed.',
+        ]);
     }
 
     private function authorizeEnquiry(Enquiry $enquiry)
@@ -119,6 +244,7 @@ class EnquiryController extends Controller
             'agent',
             'followUps.creator',
             'siteVisits.assignedExecutive',
+            'siteVisits.project',
             'siteVisits.property',
         ]);
 
@@ -155,14 +281,15 @@ class EnquiryController extends Controller
 
         // 3. Site Visit Events
         foreach ($enquiry->siteVisits as $sv) {
+            $siteTitle = $sv->project?->name ?: ($sv->property?->title ?: ($enquiry->property?->title ?: 'Property'));
             $timelineEvents->push([
                 'type' => 'site_visit',
                 'title' => 'Site Tour ' . ucfirst($sv->status),
-                'description' => $sv->feedback ?: ($sv->notes ?: 'Site visit scheduled for ' . ($sv->property?->title ?? 'Property')),
+                'description' => $sv->feedback ?: ($sv->notes ?? 'Site visit scheduled for ' . $siteTitle),
                 'badge' => 'Site Visit ' . ucfirst($sv->status),
                 'badge_color' => $sv->status === 'visited' ? 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900/40 dark:text-cyan-400' : 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-400',
                 'icon_bg' => 'bg-cyan-500',
-                'timestamp' => $sv->visit_date ? \Carbon\Carbon::parse($sv->visit_date) : $sv->created_at,
+                'timestamp' => $sv->scheduled_at ?? $sv->created_at,
                 'author' => $sv->assignedExecutive?->name ?: 'Executive',
             ]);
         }
@@ -269,20 +396,39 @@ class EnquiryController extends Controller
         return view('admin.pages.enquiries.edit', compact('enquiry', 'agents'));
     }
 
-    public function update(Request $request, Enquiry $enquiry): RedirectResponse
+    public function update(Request $request, Enquiry $enquiry)
     {
         $this->authorizeEnquiry($enquiry);
 
-        $validated = $this->validateEnquiry($request);
+        $validated = $request->validate([
+            'name' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            'lead_source' => 'nullable|string|max:100',
+            'location' => 'nullable|string|max:100',
+            'budget' => 'nullable|string|max:100',
+            'message' => 'nullable|string',
+            'note' => 'nullable|string',
+            'agent_id' => 'nullable|exists:users,id',
+            'status' => 'nullable|in:draft,new,contacted,interested,follow_up,site_visit,negotiation,won,lost',
+        ]);
 
-        if ($validated['status'] === 'draft') {
+        if (isset($validated['status']) && $validated['status'] === 'draft') {
             $validated['agent_id'] = null;
         }
 
         $validated['action_by'] = auth()->id();
         $validated['performed_at'] = now();
 
-        $enquiry->update($validated);
+        $enquiry->update(array_filter($validated, function ($val) { return !is_null($val); }));
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Lead updated successfully.',
+                'data' => $enquiry,
+            ]);
+        }
 
         return redirect()
             ->route('admin.enquiries.show', $enquiry)
@@ -324,44 +470,37 @@ class EnquiryController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'type' => 'required|in:contact,info,tour,agent',
-            'enq_for' => 'nullable|string|max:100',
+            'type' => 'nullable|in:contact,info,tour,agent',
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'nullable|string|max:20',
             'message' => 'nullable|string',
+            'lead_source' => 'nullable|string|max:100',
+            'location' => 'nullable|string|max:100',
+            'budget' => 'nullable|string|max:100',
             'property_id' => 'nullable|exists:properties,id',
-            'tour_schedule_time' => 'nullable|date',
-            'tour_type' => 'nullable|in:in_person,video_chat',
-            'agent_id' => [
-                'nullable',
-                \Illuminate\Validation\Rule::exists('users', 'id')
-                    ->whereNull('deleted_at')
-                    ->where('status', 'active')
-                    ->whereIn('id', \App\Models\User::has('agentMeta')->pluck('id')->toArray()),
-            ],
+            'agent_id' => 'nullable|exists:users,id',
             'status' => 'nullable|in:draft,new,contacted,interested,follow_up,site_visit,negotiation,won,lost',
         ]);
 
-        $status = $request->input('status', 'new');
-        $validated['status'] = $status;
+        $validated['type'] = $validated['type'] ?? 'info';
+        $validated['status'] = $validated['status'] ?? 'new';
+        $validated['lead_source'] = $validated['lead_source'] ?? 'Contact Form';
 
-        if ($status === 'draft') {
-            $validated['agent_id'] = null;
-        } else {
-            if ($request->filled('agent_id')) {
-                $validated['agent_id'] = $request->input('agent_id');
-            } else {
-                $validated['agent_id'] = Enquiry::getNextRoundRobinAgentId();
-            }
+        if (empty($validated['agent_id'])) {
+            $validated['agent_id'] = Enquiry::getNextRoundRobinAgentId();
         }
 
         $enquiry = Enquiry::create($validated);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Enquiry submitted successfully.',
-            'data' => $enquiry,
-        ]);
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Lead created successfully.',
+                'data' => $enquiry,
+            ]);
+        }
+
+        return redirect()->route('admin.enquiries.show', $enquiry)->with('success', 'Lead created successfully.');
     }
 }

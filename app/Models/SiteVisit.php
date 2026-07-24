@@ -42,4 +42,9 @@ class SiteVisit extends Model
     {
         return $this->belongsTo(User::class, 'assigned_executive_id');
     }
+
+    public function property()
+    {
+        return $this->belongsTo(Property::class, 'project_id');
+    }
 }

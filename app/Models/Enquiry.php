@@ -11,6 +11,7 @@ class Enquiry extends Model
 
     protected $fillable = [
         'type',
+        'lead_source',
         'enq_for',
         'name',
         'email',
@@ -19,6 +20,9 @@ class Enquiry extends Model
         'tour_schedule_time',
         'tour_type',
         'property_id',
+        'location',
+        'budget',
+        'tags',
         'status',
         'action_by',
         'performed_at',

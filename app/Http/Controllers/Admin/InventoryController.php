@@ -33,8 +33,16 @@ class InventoryController extends Controller
             $selectedTower = $towers->first();
         }
 
+        $statusCounts = [
+            'total' => $properties->count(),
+            'available' => $properties->where('inventory_status', 'available')->count(),
+            'sold' => $properties->where('inventory_status', 'sold')->count(),
+            'reserved' => $properties->where('inventory_status', 'reserved')->count(),
+            'blocked' => $properties->where('inventory_status', 'blocked')->count(),
+        ];
+
         return view('admin.pages.inventory.index', compact(
-            'projects', 'selectedProjectId', 'selectedProject', 'towers', 'selectedTower', 'properties'
+            'projects', 'selectedProjectId', 'selectedProject', 'towers', 'selectedTower', 'properties', 'statusCounts'
         ));
     }
 
@@ -68,7 +76,7 @@ class InventoryController extends Controller
                 'customer_name' => $booking->customer?->name,
                 'customer_id' => $booking->customer_id,
                 'booking_date' => $booking->booking_date ? $booking->booking_date->format('d M Y') : null,
-                'status' => $booking->booking_status,
+                'status' => $booking->status,
             ] : null
         ]);
     }
@@ -80,9 +88,12 @@ class InventoryController extends Controller
         if ($action === 'reserve') {
             $unit->update(['inventory_status' => 'reserved']);
             return response()->json(['success' => true, 'message' => 'Unit reserved successfully.']);
-        } elseif ($action === 'release') {
+        } elseif ($action === 'release' || $action === 'unblock') {
             $unit->update(['inventory_status' => 'available']);
-            return response()->json(['success' => true, 'message' => 'Unit released back to inventory.']);
+            return response()->json(['success' => true, 'message' => 'Unit status updated to available.']);
+        } elseif ($action === 'block') {
+            $unit->update(['inventory_status' => 'blocked']);
+            return response()->json(['success' => true, 'message' => 'Unit blocked successfully.']);
         }
 
         return response()->json(['success' => false, 'message' => 'Invalid action.']);

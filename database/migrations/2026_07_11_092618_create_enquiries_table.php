@@ -33,6 +33,10 @@ return new class extends Migration
                   ->nullable()
                   ->constrained('properties')
                   ->nullOnDelete();
+            $table->string('lead_source')->nullable()->default('Website');
+            $table->string('location')->nullable();
+            $table->string('budget')->nullable();
+            $table->string('tags')->nullable();
             // Tour specific
             $table->dateTime('tour_schedule_time')->nullable();
             $table->enum('tour_type', [

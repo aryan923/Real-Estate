@@ -229,6 +229,9 @@ Route::prefix('admin')->name('admin.')->group(function () use ($tailAdminPages) 
              Route::prefix('enquiries')->name('enquiries.')->group(function () {
                  Route::get('/', [EnquiryController::class, 'index'])->name('index');
                  Route::get('/data', [EnquiryController::class, 'data'])->name('data');
+                 Route::post('/', [EnquiryController::class, 'store'])->name('store');
+                 Route::post('/import', [EnquiryController::class, 'import'])->name('import');
+                 Route::post('/bulk-action', [EnquiryController::class, 'bulkAction'])->name('bulk-action');
                  Route::get('/{enquiry}', [EnquiryController::class, 'show'])->name('show');
                  Route::get('/{enquiry}/edit', [EnquiryController::class, 'edit'])->name('edit');
                  Route::put('/{enquiry}', [EnquiryController::class, 'update'])->name('update');
