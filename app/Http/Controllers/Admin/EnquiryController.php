@@ -385,7 +385,76 @@ class EnquiryController extends Controller
         $activityTimeline = $timelineEvents->sortByDesc('timestamp')->values();
         $graphTimeline = $chronoEvents;
 
-        return view('admin.pages.enquiries.show', compact('enquiry', 'agents', 'activityTimeline', 'graphTimeline', 'allNotes'));
+        // Load linked customer and documents if existing
+        $customer = null;
+        $documents = collect();
+        if ($enquiry->email || $enquiry->phone) {
+            $customer = \App\Models\Customer::where('email', $enquiry->email)
+                ->orWhere('phone', $enquiry->phone)
+                ->first();
+            if ($customer) {
+                $documents = $customer->documents()->get();
+            }
+        }
+
+        // Calculate dynamic Lead Score text and comment
+        $score = $enquiry->lead_score > 0 ? $enquiry->lead_score : 72; // default 72 for demo if not explicitly set
+        if ($score >= 75) {
+            $scoreComment = 'High Potential';
+            $scoreSubtitle = 'Strong purchase intent & active engagement. Excellent conversion probability.';
+        } elseif ($score >= 50) {
+            $scoreComment = 'Good Potential';
+            $scoreSubtitle = 'Engagement is above average. Act now to convert this lead.';
+        } else {
+            $scoreComment = 'Needs Nurturing';
+            $scoreSubtitle = 'Lead shows early stage interest. Schedule a follow-up call.';
+        }
+        $leadScoreInfo = [
+            'score' => $score,
+            'comment' => $scoreComment,
+            'subtitle' => $scoreSubtitle,
+        ];
+
+        return view('admin.pages.enquiries.show', compact('enquiry', 'agents', 'activityTimeline', 'graphTimeline', 'allNotes', 'customer', 'documents', 'leadScoreInfo'));
+    }
+
+    public function convertToClient(Enquiry $enquiry): RedirectResponse
+    {
+        $this->authorizeEnquiry($enquiry);
+
+        $existingCustomer = \App\Models\Customer::where('email', $enquiry->email)
+            ->orWhere('phone', $enquiry->phone)
+            ->first();
+
+        if ($existingCustomer) {
+            $enquiry->update([
+                'status' => 'won',
+                'action_by' => auth()->id(),
+                'performed_at' => now(),
+                'note' => trim(($enquiry->note ? $enquiry->note . "\n" : '') . "Converted to existing client #" . $existingCustomer->id . " on " . now()->format('Y-m-d H:i'))
+            ]);
+
+            return redirect()->route('admin.customers.show', $existingCustomer)
+                ->with('success', 'Lead was already connected to client profile #' . $existingCustomer->id);
+        }
+
+        $customer = \App\Models\Customer::create([
+            'name' => $enquiry->name,
+            'email' => $enquiry->email,
+            'phone' => $enquiry->phone,
+            'budget_range' => $enquiry->budget,
+            'interested_projects' => $enquiry->property?->project_id ? [$enquiry->property->project_id] : [],
+        ]);
+
+        $enquiry->update([
+            'status' => 'won',
+            'action_by' => auth()->id(),
+            'performed_at' => now(),
+            'note' => trim(($enquiry->note ? $enquiry->note . "\n" : '') . "Converted to new client #" . $customer->id . " on " . now()->format('Y-m-d H:i'))
+        ]);
+
+        return redirect()->route('admin.customers.show', $customer)
+            ->with('success', 'Lead successfully converted to Client profile!');
     }
 
     public function edit(Enquiry $enquiry): View
@@ -407,10 +476,23 @@ class EnquiryController extends Controller
             'lead_source' => 'nullable|string|max:100',
             'location' => 'nullable|string|max:100',
             'budget' => 'nullable|string|max:100',
+            'budget_type' => 'nullable|string|max:100',
+            'payment_mode' => 'nullable|string|max:100',
+            'loan_required' => 'nullable|boolean',
+            'loan_amount' => 'nullable|numeric',
+            'down_payment' => 'nullable|numeric',
+            'preferred_type' => 'nullable|string|max:100',
+            'bhk' => 'nullable|string|max:50',
+            'carpet_area' => 'nullable|string|max:100',
+            'floor_preference' => 'nullable|string|max:100',
+            'furnishing' => 'nullable|string|max:100',
+            'amenities' => 'nullable|array',
+            'other_preferences' => 'nullable|string',
             'message' => 'nullable|string',
             'note' => 'nullable|string',
             'agent_id' => 'nullable|exists:users,id',
             'status' => 'nullable|in:draft,new,contacted,interested,follow_up,site_visit,negotiation,won,lost',
+            'lead_score' => 'nullable|integer|min:0|max:100',
         ]);
 
         if (isset($validated['status']) && $validated['status'] === 'draft') {

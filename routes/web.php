@@ -235,6 +235,7 @@ Route::prefix('admin')->name('admin.')->group(function () use ($tailAdminPages) 
                  Route::get('/{enquiry}', [EnquiryController::class, 'show'])->name('show');
                  Route::get('/{enquiry}/edit', [EnquiryController::class, 'edit'])->name('edit');
                  Route::put('/{enquiry}', [EnquiryController::class, 'update'])->name('update');
+                 Route::post('/{enquiry}/convert-to-client', [EnquiryController::class, 'convertToClient'])->name('convert-to-client');
                  Route::delete('/{enquiry}', [EnquiryController::class, 'destroy'])->name('destroy');
              });
          });

@@ -22,6 +22,18 @@ class Enquiry extends Model
         'property_id',
         'location',
         'budget',
+        'budget_type',
+        'payment_mode',
+        'loan_required',
+        'loan_amount',
+        'down_payment',
+        'preferred_type',
+        'bhk',
+        'carpet_area',
+        'floor_preference',
+        'furnishing',
+        'amenities',
+        'other_preferences',
         'tags',
         'status',
         'action_by',
@@ -34,6 +46,10 @@ class Enquiry extends Model
     protected $casts = [
         'tour_schedule_time' => 'datetime',
         'performed_at' => 'datetime',
+        'loan_required' => 'boolean',
+        'loan_amount' => 'decimal:2',
+        'down_payment' => 'decimal:2',
+        'amenities' => 'array',
     ];
 
     public function property()
