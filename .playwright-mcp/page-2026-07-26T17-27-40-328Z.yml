@@ -1,0 +1,333 @@
+- generic [ref=f6e4]:
+  - complementary [ref=f6e5]:
+    - link "Logo PropDesk" [ref=f6e7] [cursor=pointer]:
+      - /url: http://localhost:8000/admin/dashboard
+      - img "Logo" [ref=f6e8]
+      - generic [ref=f6e9]: PropDesk
+    - navigation [ref=f6e11]:
+      - generic [ref=f6e12]:
+        - heading "MENU" [level=3] [ref=f6e13]
+        - list [ref=f6e14]:
+          - listitem [ref=f6e15]:
+            - link "Dashboard" [ref=f6e16] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/dashboard
+          - listitem [ref=f6e20]:
+            - link "Leads" [ref=f6e21] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/enquiries
+          - listitem [ref=f6e25]:
+            - link "Customers" [ref=f6e26] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/customers
+          - listitem [ref=f6e30]:
+            - link "Projects" [ref=f6e31] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/projects
+          - listitem [ref=f6e35]:
+            - link "Inventory" [ref=f6e36] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/inventory
+          - listitem [ref=f6e40]:
+            - link "Site Visits" [ref=f6e41] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/site-visits
+          - listitem [ref=f6e45]:
+            - link "Bookings" [ref=f6e46] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/bookings
+          - listitem [ref=f6e50]:
+            - link "Payments" [ref=f6e51] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/payments
+          - listitem [ref=f6e55]:
+            - link "Documents" [ref=f6e56] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/documents
+          - listitem [ref=f6e60]:
+            - link "Reports" [ref=f6e61] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/reports
+          - listitem [ref=f6e65]:
+            - link "Users" [ref=f6e66] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/user-management
+          - listitem [ref=f6e70]:
+            - link "Settings" [ref=f6e71] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/general-setting
+      - generic [ref=f6e76]:
+        - heading "CMS & MASTER" [level=3] [ref=f6e77]
+        - list [ref=f6e78]:
+          - listitem [ref=f6e79]:
+            - link "Properties" [ref=f6e80] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/properties
+          - listitem [ref=f6e84]:
+            - link "Categories" [ref=f6e85] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/categories
+          - listitem [ref=f6e89]:
+            - link "Features" [ref=f6e90] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/features
+          - listitem [ref=f6e94]:
+            - link "Cities" [ref=f6e95] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/cities
+          - listitem [ref=f6e100]:
+            - link "Currencies" [ref=f6e101] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/currencies
+          - listitem [ref=f6e105]:
+            - link "Testimonials" [ref=f6e106] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/testimonials
+          - listitem [ref=f6e110]:
+            - link "Agents" [ref=f6e111] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/agents
+          - listitem [ref=f6e116]:
+            - link "Blog" [ref=f6e117] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/posts
+          - listitem [ref=f6e121]:
+            - link "Pages" [ref=f6e122] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/pages
+          - listitem [ref=f6e126]:
+            - link "Comments" [ref=f6e127] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/comments
+          - listitem [ref=f6e131]:
+            - link "Roles" [ref=f6e132] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/roles-permissions
+  - generic [ref=f6e136]:
+    - banner [ref=f6e137]:
+      - generic [ref=f6e138]:
+        - generic [ref=f6e139]:
+          - button [ref=f6e140] [cursor=pointer]
+          - generic [ref=f6e145]:
+            - textbox "Search or type command..." [ref=f6e149]
+            - button "⌘ K" [ref=f6e150] [cursor=pointer]:
+              - generic [ref=f6e151]: ⌘
+              - generic [ref=f6e152]: K
+        - generic [ref=f6e153]:
+          - generic [ref=f6e154]:
+            - button [ref=f6e155] [cursor=pointer]
+            - button [ref=f6e159] [cursor=pointer]
+            - button [ref=f6e163] [cursor=pointer]
+          - link "User Admin User" [ref=f6e169] [cursor=pointer]:
+            - /url: "#"
+            - img "User" [ref=f6e171]
+            - generic [ref=f6e172]: Admin User
+    - main [ref=f6e175]:
+      - generic [ref=f6e176]:
+        - generic [ref=f6e177]:
+          - generic [ref=f6e178]:
+            - link "Leads" [ref=f6e179] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/enquiries
+            - generic [ref=f6e182]: /
+            - generic [ref=f6e183]: Lead Details
+          - generic [ref=f6e184]:
+            - button "Convert to Client" [ref=f6e185] [cursor=pointer]
+            - link "Edit Lead" [ref=f6e188] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/enquiries/1/edit
+            - button "More Actions" [ref=f6e191] [cursor=pointer]
+        - generic [ref=f6e195]:
+          - generic [ref=f6e196]:
+            - generic [ref=f6e197]: AS
+            - generic [ref=f6e198]:
+              - generic [ref=f6e199]:
+                - heading "Ananya Sen" [level=1] [ref=f6e200]
+                - generic [ref=f6e201]: New
+              - paragraph [ref=f6e202]:
+                - generic [ref=f6e203]: Looking for 3 BHK Apartment in Gurgaon
+              - generic [ref=f6e204]:
+                - link "+91 99999 88888" [ref=f6e208] [cursor=pointer]:
+                  - /url: tel:+91 99999 88888
+                - link "ananya.sen@example.com" [ref=f6e212] [cursor=pointer]:
+                  - /url: mailto:ananya.sen@example.com
+                - button "Send WhatsApp" [ref=f6e213] [cursor=pointer]
+          - generic [ref=f6e216]:
+            - generic [ref=f6e217]:
+              - generic [ref=f6e218]: Lead ID
+              - generic [ref=f6e219]: "#L-0001"
+            - generic [ref=f6e220]:
+              - generic [ref=f6e221]: Lead Source
+              - generic [ref=f6e222]: Website
+            - generic [ref=f6e223]:
+              - generic [ref=f6e224]: Created On
+              - generic [ref=f6e225]: 26 Jul, 2026 10:04 AM
+            - generic [ref=f6e226]:
+              - generic [ref=f6e227]: Assigned To
+              - generic [ref=f6e228]:
+                - generic [ref=f6e229]: U
+                - generic [ref=f6e230]: Unassigned
+            - generic [ref=f6e231]:
+              - generic [ref=f6e232]: Last Contact
+              - generic [ref=f6e233]: 26 Jul, 2026 10:04 AM
+        - generic [ref=f6e235]:
+          - generic [ref=f6e236]:
+            - generic [ref=f6e241]:
+              - generic [ref=f6e242]: Requirement
+              - generic "3 BHK Apartment" [ref=f6e243]
+            - generic [ref=f6e248]:
+              - generic [ref=f6e249]: Budget
+              - generic [ref=f6e250]: ₹1.2 Cr
+            - generic [ref=f6e256]:
+              - generic [ref=f6e257]: Location
+              - generic "Gurgaon" [ref=f6e258]
+            - generic [ref=f6e263]:
+              - generic [ref=f6e264]: Possession
+              - generic [ref=f6e265]: Within 6 Mos
+            - generic [ref=f6e270]:
+              - generic [ref=f6e271]: Purpose
+              - generic [ref=f6e272]: Sale
+            - generic [ref=f6e277]:
+              - generic [ref=f6e278]: Status
+              - generic [ref=f6e279]: New
+          - generic [ref=f6e281]:
+            - button "Overview" [ref=f6e282] [cursor=pointer]
+            - button "Activities / Timeline" [ref=f6e283] [cursor=pointer]
+            - button "Notes (1)" [ref=f6e284] [cursor=pointer]
+            - button "Tasks (1)" [ref=f6e285] [cursor=pointer]
+            - button "Follow Ups (1)" [ref=f6e286] [cursor=pointer]
+            - button "Site Visits (1)" [ref=f6e287] [cursor=pointer]
+            - button "Documents (0)" [ref=f6e288] [cursor=pointer]
+          - generic [ref=f6e289]:
+            - generic [ref=f6e290]:
+              - generic [ref=f6e291]:
+                - heading "Lead Information" [level=3] [ref=f6e293]
+                - table [ref=f6e294]:
+                  - rowgroup [ref=f6e295]:
+                    - row [ref=f6e296]:
+                      - cell "Full Name" [ref=f6e297]
+                      - cell "Ananya Sen" [ref=f6e298]
+                    - row [ref=f6e299]:
+                      - cell "Phone" [ref=f6e300]
+                      - cell "+91 99999 88888" [ref=f6e301]:
+                        - generic [ref=f6e302]:
+                          - generic [ref=f6e303]: +91 99999 88888
+                          - link "Call" [ref=f6e304] [cursor=pointer]:
+                            - /url: tel:+91 99999 88888
+                          - button "WhatsApp" [ref=f6e307] [cursor=pointer]
+                    - row [ref=f6e310]:
+                      - cell "Email" [ref=f6e311]
+                      - cell "ananya.sen@example.com" [ref=f6e312]
+                    - row [ref=f6e313]:
+                      - cell "Alt Phone" [ref=f6e314]
+                      - cell "+91 98765 43210" [ref=f6e315]
+                    - row [ref=f6e316]:
+                      - cell "Location" [ref=f6e317]
+                      - cell "Gurgaon" [ref=f6e318]
+                    - row [ref=f6e319]:
+                      - cell "Lead Source" [ref=f6e320]
+                      - cell "Website" [ref=f6e321]
+                    - row [ref=f6e322]:
+                      - cell "Referred By" [ref=f6e323]
+                      - cell "N/A" [ref=f6e324]
+                    - row [ref=f6e325]:
+                      - cell "Pref. Areas" [ref=f6e326]
+                      - cell "Gurgaon" [ref=f6e327]
+              - generic [ref=f6e328]:
+                - heading "Requirement Details" [level=3] [ref=f6e330]
+                - table [ref=f6e331]:
+                  - rowgroup [ref=f6e332]:
+                    - row [ref=f6e333]:
+                      - cell "Type" [ref=f6e334]
+                      - cell "Apartment" [ref=f6e335]
+                    - row [ref=f6e336]:
+                      - cell "BHK" [ref=f6e337]
+                      - cell "3 BHK" [ref=f6e338]
+                    - row [ref=f6e339]:
+                      - cell "Carpet Area" [ref=f6e340]
+                      - cell "1400 - 1800 sq.ft." [ref=f6e341]
+                    - row [ref=f6e342]:
+                      - cell "Floor Pref." [ref=f6e343]
+                      - cell "Any" [ref=f6e344]
+                    - row [ref=f6e345]:
+                      - cell "Furnishing" [ref=f6e346]
+                      - cell "Semi Furnished" [ref=f6e347]
+                    - row [ref=f6e348]:
+                      - cell "Amenities" [ref=f6e349]
+                      - cell "Gym, Clubhouse, Power Backup, 24x7 Security" [ref=f6e350]
+                    - row [ref=f6e351]:
+                      - cell "Preferences" [ref=f6e352]
+                      - cell "Near Metro, Good Connectivity" [ref=f6e353]
+              - generic [ref=f6e354]:
+                - heading "Budget & Financial" [level=3] [ref=f6e356]
+                - table [ref=f6e357]:
+                  - rowgroup [ref=f6e358]:
+                    - row [ref=f6e359]:
+                      - cell "Budget" [ref=f6e360]
+                      - cell "₹1.2 Cr" [ref=f6e361]
+                    - row [ref=f6e362]:
+                      - cell "Budget Type" [ref=f6e363]
+                      - cell "Negotiable" [ref=f6e364]
+                    - row [ref=f6e365]:
+                      - cell "Payment Mode" [ref=f6e366]
+                      - cell "Loan + Self" [ref=f6e367]
+                    - row [ref=f6e368]:
+                      - cell "Loan Req." [ref=f6e369]
+                      - cell "Yes" [ref=f6e370]
+                    - row [ref=f6e371]:
+                      - cell "Loan Amount" [ref=f6e372]
+                      - cell "₹80 L" [ref=f6e373]
+                    - row [ref=f6e374]:
+                      - cell "Down Payment" [ref=f6e375]
+                      - cell "₹40 L" [ref=f6e376]
+                    - row [ref=f6e377]:
+                      - cell "Expected ROI" [ref=f6e378]
+                      - cell "N/A" [ref=f6e379]
+            - generic [ref=f6e380]:
+              - generic [ref=f6e381]:
+                - heading "Communication History" [level=3] [ref=f6e382]
+                - button "View Timeline" [ref=f6e383] [cursor=pointer]
+              - table [ref=f6e385]:
+                - rowgroup [ref=f6e386]:
+                  - row [ref=f6e387]:
+                    - columnheader "Type" [ref=f6e388]
+                    - columnheader "From" [ref=f6e389]
+                    - columnheader "Subject / Preview" [ref=f6e390]
+                    - columnheader "Date & Time" [ref=f6e391]
+                    - columnheader "Channel" [ref=f6e392]
+                - rowgroup [ref=f6e393]:
+                  - row [ref=f6e394]:
+                    - cell "Email" [ref=f6e395]
+                    - cell "Staff" [ref=f6e397]
+                    - cell "3 BHK options in Gurgaon" [ref=f6e398]
+                    - cell "26 Jul, 2026 10:04 AM" [ref=f6e399]
+                    - cell "Email" [ref=f6e400]
+                  - row [ref=f6e401]:
+                    - cell "WhatsApp" [ref=f6e402]
+                    - cell "Ananya Sen" [ref=f6e404]
+                    - cell "Looking forward to seeing site visit options" [ref=f6e405]
+                    - cell "26 Jul, 2026 10:04 AM" [ref=f6e406]
+                    - cell "WhatsApp" [ref=f6e407]
+                  - row [ref=f6e408]:
+                    - cell "Call" [ref=f6e409]
+                    - cell "Staff" [ref=f6e411]
+                    - cell "Follow-up call discussed requirements and timeline" [ref=f6e412]
+                    - cell "26 Jul, 2026 10:04 AM" [ref=f6e413]
+                    - cell "Call" [ref=f6e414]
+      - generic [ref=f6e415]:
+        - generic "Click to view score details" [ref=f6e416] [cursor=pointer]:
+          - generic [ref=f6e417]:
+            - heading "Lead Score Analysis" [level=3] [ref=f6e418]
+            - generic [ref=f6e419]: High Potential
+          - generic [ref=f6e420]:
+            - generic [ref=f6e421]: "85"
+            - generic [ref=f6e426]:
+              - generic [ref=f6e427]: High Potential
+              - paragraph [ref=f6e428]: Strong purchase intent & active engagement. Excellent conversion probability.
+        - generic [ref=f6e429]:
+          - generic [ref=f6e430]:
+            - heading "Tasks (1)" [level=3] [ref=f6e431]
+            - button "View All" [ref=f6e432] [cursor=pointer]
+          - generic [ref=f6e433]:
+            - generic [ref=f6e434]:
+              - checkbox [ref=f6e435]
+              - generic [ref=f6e436]:
+                - generic [ref=f6e437]: Share property options
+                - generic [ref=f6e438]: "Due: 27 Jul, 2026 11:00 PMJul"
+            - generic [ref=f6e439]: Pending
+        - generic [ref=f6e441]:
+          - generic [ref=f6e442]:
+            - heading "Follow Ups (1)" [level=3] [ref=f6e443]
+            - button "View All" [ref=f6e444] [cursor=pointer]
+          - generic [ref=f6e445]:
+            - generic [ref=f6e446]:
+              - generic [ref=f6e447]: Follow up call
+              - generic [ref=f6e451]: 25 Julpm26, 2026 11:00 PMJul
+            - generic [ref=f6e452]:
+              - generic [ref=f6e453]: WhatsApp follow up
+              - generic [ref=f6e457]: 26 Julpm26, 2026 05:00 +00:00Jul
+        - generic [ref=f6e458]:
+          - generic [ref=f6e459]:
+            - heading "Deals / Interested Unit" [level=3] [ref=f6e460]
+            - generic [ref=f6e461]: Active
+          - generic [ref=f6e462]: No specific property linked.
+        - generic [ref=f6e463]:
+          - generic [ref=f6e464]:
+            - heading "Documents (0)" [level=3] [ref=f6e465]
+            - button "View All" [ref=f6e466] [cursor=pointer]
+          - paragraph [ref=f6e467]: No documents attached.

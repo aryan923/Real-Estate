@@ -214,7 +214,7 @@
 
       <!-- ===== Content Area Start ===== -->
       <div
-        class="relative flex flex-col flex-1 overflow-x-hidden overflow-y-auto"
+        class="relative flex flex-col flex-1 overflow-x-auto overflow-y-auto"
       >
         <!-- Small Device Overlay Start -->
         <div

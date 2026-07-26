@@ -30,6 +30,13 @@ class DatabaseSeeder extends Seeder
             CurrencySeeder::class,
             IndianPropertySeeder::class,
             PageSeeder::class,
+            ProjectSeeder::class,
+            CustomerSeeder::class,
+            FollowUpSeeder::class,
+            SiteVisitSeeder::class,
+            BookingSeeder::class,
+            PaymentSeeder::class,
+            DocumentSeeder::class,
         ]);
     }
 }

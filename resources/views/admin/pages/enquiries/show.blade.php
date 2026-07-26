@@ -119,7 +119,7 @@
         ];
       @endphp
 
-      <div class="rounded-2xl border border-gray-200/80 bg-white pl-1.5 pr-3.5 py-4 sm:pl-2 sm:pr-4 sm:py-4.5 my-1.5 shadow-2xs dark:border-gray-800 dark:bg-gray-900">
+      <div class="rounded-2xl border border-gray-200/80 bg-white pl-1.5 pr-3.5 py-4 sm:pl-2 sm:pr-4 sm:py-4.5 shadow-2xs dark:border-gray-800 dark:bg-gray-900">
         <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4 sm:gap-5">
           
           <!-- Left: Lead Avatar & Identity Info -->
@@ -211,118 +211,95 @@
         </div>
       </div>
 
-      <!-- MULTIPLE INFO METRIC CARDS & LEAD SCORE BAR -->
-      <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-top: 6px; margin-bottom: 6px;">
-        <!-- Left Metric Cards -->
-        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
-          <!-- 1. Requirement Card -->
-          <div class="rounded-xl border border-gray-200/80 bg-white shadow-2xs dark:border-gray-800 dark:bg-gray-900" style="display: inline-flex; align-items: center; gap: 8px; padding: 11px 15px 11px 9px; width: fit-content;">
-            <div class="rounded-lg bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400" style="display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; flex-shrink: 0;">
-              <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-            </div>
-            <div>
-              <span class="block font-semibold text-gray-400 uppercase tracking-wider whitespace-nowrap" style="font-size: 9.5px; line-height: 1;">Requirement</span>
-              <span class="font-bold text-gray-800 dark:text-white whitespace-nowrap block" style="font-size: 11.5px; line-height: 1.2; margin-top: 5px;">
-                {{ $reqBhk }} {{ $reqType }}
-              </span>
-            </div>
-          </div>
-
-          <!-- 2. Budget Card -->
-          <div class="rounded-xl border border-gray-200/80 bg-white shadow-2xs dark:border-gray-800 dark:bg-gray-900" style="display: inline-flex; align-items: center; gap: 8px; padding: 11px 15px 11px 9px; width: fit-content;">
-            <div class="rounded-lg bg-purple-50 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400" style="display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; flex-shrink: 0;">
-              <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            </div>
-            <div>
-              <span class="block font-semibold text-gray-400 uppercase tracking-wider whitespace-nowrap" style="font-size: 9.5px; line-height: 1;">Budget</span>
-              <span class="font-bold text-gray-800 dark:text-white whitespace-nowrap block" style="font-size: 11.5px; line-height: 1.2; margin-top: 5px;">
-                {{ $enquiry->budget ? '₹' . $enquiry->budget : '₹1.2 Cr' }} <span class="text-gray-400 font-normal" style="font-size: 9px;">({{ $enquiry->budget_type ?: 'Neg.' }})</span>
-              </span>
-            </div>
-          </div>
-
-          <!-- 3. Preferred Location Card -->
-          <div class="rounded-xl border border-gray-200/80 bg-white shadow-2xs dark:border-gray-800 dark:bg-gray-900" style="display: inline-flex; align-items: center; gap: 8px; padding: 11px 15px 11px 9px; width: fit-content;">
-            <div class="rounded-lg bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400" style="display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; flex-shrink: 0;">
-              <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-            </div>
-            <div>
-              <span class="block font-semibold text-gray-400 uppercase tracking-wider whitespace-nowrap" style="font-size: 9.5px; line-height: 1;">Location</span>
-              <span class="font-bold text-gray-800 dark:text-white whitespace-nowrap block" style="font-size: 11.5px; line-height: 1.2; margin-top: 5px;">
-                {{ $reqLoc }}
-              </span>
-            </div>
-          </div>
-
-          <!-- 4. Possession Card -->
-          <div class="rounded-xl border border-gray-200/80 bg-white shadow-2xs dark:border-gray-800 dark:bg-gray-900" style="display: inline-flex; align-items: center; gap: 8px; padding: 11px 15px 11px 9px; width: fit-content;">
-            <div class="rounded-lg bg-amber-50 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400" style="display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; flex-shrink: 0;">
-              <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-            </div>
-            <div>
-              <span class="block font-semibold text-gray-400 uppercase tracking-wider whitespace-nowrap" style="font-size: 9.5px; line-height: 1;">Possession</span>
-              <span class="font-bold text-gray-800 dark:text-white whitespace-nowrap block" style="font-size: 11.5px; line-height: 1.2; margin-top: 5px;">
-                Within 6 Mos
-              </span>
-            </div>
-          </div>
-
-          <!-- 5. Purpose Card -->
-          <div class="rounded-xl border border-gray-200/80 bg-white shadow-2xs dark:border-gray-800 dark:bg-gray-900" style="display: inline-flex; align-items: center; gap: 8px; padding: 11px 15px 11px 9px; width: fit-content;">
-            <div class="rounded-lg bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400" style="display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; flex-shrink: 0;">
-              <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-            </div>
-            <div>
-              <span class="block font-semibold text-gray-400 uppercase tracking-wider whitespace-nowrap" style="font-size: 9.5px; line-height: 1;">Purpose</span>
-              <span class="font-bold text-gray-800 dark:text-white whitespace-nowrap block" style="font-size: 11.5px; line-height: 1.2; margin-top: 5px;">
-                {{ $enquiry->enq_for ? ucfirst($enquiry->enq_for) : 'Self Use' }}
-              </span>
-            </div>
-          </div>
-
-          <!-- 6. Status Card -->
-          <div class="rounded-xl border border-gray-200/80 bg-white shadow-2xs dark:border-gray-800 dark:bg-gray-900" style="display: inline-flex; align-items: center; gap: 8px; padding: 11px 15px 11px 9px; width: fit-content;">
-            <div class="rounded-lg bg-cyan-50 text-cyan-600 dark:bg-cyan-900/30 dark:text-cyan-400" style="display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; flex-shrink: 0;">
-              <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"/></svg>
-            </div>
-            <div>
-              <span class="block font-semibold text-gray-400 uppercase tracking-wider whitespace-nowrap" style="font-size: 9.5px; line-height: 1;">Status</span>
-              <span class="font-bold text-gray-800 dark:text-white whitespace-nowrap block" style="font-size: 11.5px; line-height: 1.2; margin-top: 5px;">
-                {{ ucfirst(str_replace('_', ' ', $enquiry->status)) }}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Side: Lead Score Card (Exact same height, padding & font scale as other metric cards) -->
-        <div class="rounded-xl border border-gray-200/80 bg-white shadow-2xs dark:border-gray-800 dark:bg-gray-900 cursor-pointer hover:border-emerald-500 transition" @click="openTimelineModal = true" style="display: inline-flex; align-items: center; gap: 8px; padding: 11px 15px 11px 9px; width: fit-content;" title="Click to view score details">
-          <div class="relative flex items-center justify-center shrink-0" style="width: 26px; height: 26px;">
-            <svg style="width: 26px; height: 26px;" class="transform -rotate-90">
-              <circle cx="13" cy="13" r="10" stroke="currentColor" stroke-width="2" class="text-gray-100 dark:text-gray-800" fill="transparent" />
-              <circle cx="13" cy="13" r="10" stroke="currentColor" stroke-width="2" class="text-emerald-500" fill="transparent"
-                      stroke-dasharray="62.8"
-                      stroke-dashoffset="{{ 62.8 - (62.8 * $leadScoreInfo['score']) / 100 }}"
-                      stroke-linecap="round" />
-            </svg>
-            <span class="absolute font-extrabold text-gray-900 dark:text-white" style="font-size: 9px;">{{ $leadScoreInfo['score'] }}</span>
-          </div>
-          <div>
-            <span class="block font-semibold text-gray-400 uppercase tracking-wider whitespace-nowrap" style="font-size: 9.5px; line-height: 1;">Lead Score</span>
-            <span class="font-bold text-emerald-600 dark:text-emerald-400 whitespace-nowrap block" style="font-size: 11.5px; line-height: 1.2; margin-top: 5px;">
-              {{ $leadScoreInfo['comment'] }}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <!-- MAIN 2-COLUMN RESPONSIVE LAYOUT (Left 70%, Right 30%) -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
+      <!-- MAIN 2-COLUMN RESPONSIVE LAYOUT (Left Column 837px, Right Sidebar 250px side-by-side) -->
+      <div class="flex flex-row flex-nowrap gap-4 items-start pb-4">
         
-        <!-- LEFT COLUMN (70% - 8 cols out of 12) -->
-        <div class="lg:col-span-8 space-y-4">
+        <!-- LEFT COLUMN (837px width, reference layout) -->
+        <div class="shrink-0 space-y-4" style="width: 837px; min-width: 837px;">
+
+          <!-- MULTIPLE INFO METRIC CARDS (Fixed w-[133px], gap-2 in a w-[837px] container, single horizontal line) -->
+          <div class="w-[837px] flex flex-nowrap items-center gap-2">
+            <!-- 1. Requirement Card -->
+            <div class="rounded-xl border border-gray-200/80 bg-white shadow-2xs dark:border-gray-800 dark:bg-gray-900 w-[133px]" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 7px; width: 133px; min-width: 133px;">
+              <div class="rounded-lg bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400" style="display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; flex-shrink: 0;">
+                <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+              </div>
+              <div>
+                <span class="block font-semibold text-gray-400 uppercase tracking-wider whitespace-nowrap" style="font-size: 9.5px; line-height: 1;">Requirement</span>
+                <span class="font-bold text-gray-800 dark:text-white whitespace-nowrap block truncate max-w-[95px]" style="font-size: 11.5px; line-height: 1.2; margin-top: 5px;" title="{{ $reqBhk }} {{ $reqType }}">
+                  {{ $reqBhk }} {{ $reqType }}
+                </span>
+              </div>
+            </div>
+
+            <!-- 2. Budget Card -->
+            <div class="rounded-xl border border-gray-200/80 bg-white shadow-2xs dark:border-gray-800 dark:bg-gray-900 w-[133px]" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 7px; width: 133px; min-width: 133px;">
+              <div class="rounded-lg bg-purple-50 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400" style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0;">
+                <svg style="width: 13px; height: 13px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <div>
+                <span class="block font-semibold text-gray-400 uppercase tracking-wider whitespace-nowrap" style="font-size: 9px; line-height: 1;">Budget</span>
+                <span class="font-bold text-gray-800 dark:text-white whitespace-nowrap block truncate max-w-[80px]" style="font-size: 11px; line-height: 1.2; margin-top: 4px;">
+                  {{ $enquiry->budget ? '₹' . $enquiry->budget : '₹1.2 Cr' }}
+                </span>
+              </div>
+            </div>
+
+            <!-- 3. Preferred Location Card -->
+            <div class="rounded-xl border border-gray-200/80 bg-white shadow-2xs dark:border-gray-800 dark:bg-gray-900 w-[133px]" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 7px; width: 133px; min-width: 133px;">
+              <div class="rounded-lg bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400" style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0;">
+                <svg style="width: 13px; height: 13px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              </div>
+              <div>
+                <span class="block font-semibold text-gray-400 uppercase tracking-wider whitespace-nowrap" style="font-size: 9px; line-height: 1;">Location</span>
+                <span class="font-bold text-gray-800 dark:text-white whitespace-nowrap block truncate max-w-[80px]" style="font-size: 11px; line-height: 1.2; margin-top: 4px;" title="{{ $reqLoc }}">
+                  {{ $reqLoc }}
+                </span>
+              </div>
+            </div>
+
+            <!-- 4. Possession Card -->
+            <div class="rounded-xl border border-gray-200/80 bg-white shadow-2xs dark:border-gray-800 dark:bg-gray-900 w-[133px]" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 7px; width: 133px; min-width: 133px;">
+              <div class="rounded-lg bg-amber-50 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400" style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0;">
+                <svg style="width: 13px; height: 13px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              </div>
+              <div>
+                <span class="block font-semibold text-gray-400 uppercase tracking-wider whitespace-nowrap" style="font-size: 9px; line-height: 1;">Possession</span>
+                <span class="font-bold text-gray-800 dark:text-white whitespace-nowrap block truncate max-w-[80px]" style="font-size: 11px; line-height: 1.2; margin-top: 4px;">
+                  Within 6 Mos
+                </span>
+              </div>
+            </div>
+
+            <!-- 5. Purpose Card -->
+            <div class="rounded-xl border border-gray-200/80 bg-white shadow-2xs dark:border-gray-800 dark:bg-gray-900 w-[133px]" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 7px; width: 133px; min-width: 133px;">
+              <div class="rounded-lg bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400" style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0;">
+                <svg style="width: 13px; height: 13px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+              </div>
+              <div>
+                <span class="block font-semibold text-gray-400 uppercase tracking-wider whitespace-nowrap" style="font-size: 9px; line-height: 1;">Purpose</span>
+                <span class="font-bold text-gray-800 dark:text-white whitespace-nowrap block truncate max-w-[80px]" style="font-size: 11px; line-height: 1.2; margin-top: 4px;">
+                  {{ $enquiry->enq_for ? ucfirst($enquiry->enq_for) : 'Self Use' }}
+                </span>
+              </div>
+            </div>
+
+            <!-- 6. Status Card -->
+            <div class="rounded-xl border border-gray-200/80 bg-white shadow-2xs dark:border-gray-800 dark:bg-gray-900 w-[133px]" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 7px; width: 133px; min-width: 133px;">
+              <div class="rounded-lg bg-cyan-50 text-cyan-600 dark:bg-cyan-900/30 dark:text-cyan-400" style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0;">
+                <svg style="width: 13px; height: 13px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"/></svg>
+              </div>
+              <div>
+                <span class="block font-semibold text-gray-400 uppercase tracking-wider whitespace-nowrap" style="font-size: 9px; line-height: 1;">Status</span>
+                <span class="font-bold text-gray-800 dark:text-white whitespace-nowrap block truncate max-w-[80px]" style="font-size: 11px; line-height: 1.2; margin-top: 4px;">
+                  {{ ucfirst(str_replace('_', ' ', $enquiry->status)) }}
+                </span>
+              </div>
+            </div>
+          </div>
 
           <!-- TAB NAVIGATION BAR (Clean Title Case, aligned with cards below) -->
-          <div class="border-b border-gray-200/80 dark:border-gray-800 pb-0.5 mb-4">
+          <div class="border-b border-gray-200/80 dark:border-gray-800 pb-0.5 mb-4 w-[837px]">
             <div class="flex overflow-x-auto no-scrollbar gap-2 sm:gap-3 items-center">
               
               <button type="button" @click="activeTab = 'overview'" :class="activeTab === 'overview' ? 'border-brand-500 text-brand-600 dark:text-brand-400 font-bold' : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 font-medium'" class="border-b-2 transition whitespace-nowrap cursor-pointer text-xs py-1.5 px-2.5">
@@ -359,108 +336,108 @@
               <!-- 1. OVERVIEW TAB -->
               <div x-show="activeTab === 'overview'" class="space-y-6">
                 
-                <!-- Overview Cards Stack (Horizontal side-by-side compact 310px cards with gap-2 between cards) -->
-                <div class="flex flex-wrap items-start gap-2">
+                <!-- Overview Cards Stack (Horizontal side-by-side compact 275px cards with gap-2 between cards, total 837px) -->
+                <div class="flex flex-nowrap items-start gap-2 w-[837px]">
                   
                   <!-- Lead Information Card -->
-                  <div class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-3 shadow-2xs w-[310px]">
-                    <div class="border-b border-gray-100 pb-2.5 dark:border-gray-800">
+                  <div class="rounded-xl border border-gray-200/80 bg-white p-3.5 dark:border-gray-800 dark:bg-gray-900 space-y-3 shadow-2xs w-[275px]" style="width: 275px; min-width: 275px;">
+                    <div class="border-b border-gray-100 pb-2 dark:border-gray-800">
                       <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">Lead Information</h3>
                     </div>
 
                     <table class="w-full text-xs">
                       <tbody>
                         <tr>
-                          <td class="py-1.5 pr-3 text-gray-400 font-normal whitespace-nowrap align-top w-24">Full Name</td>
-                          <td class="py-1.5 font-bold text-gray-900 dark:text-white align-top">{{ $enquiry->name }}</td>
+                          <td class="py-1 pr-2 text-gray-400 font-normal whitespace-nowrap align-top w-20">Full Name</td>
+                          <td class="py-1 font-bold text-gray-900 dark:text-white align-top">{{ $enquiry->name }}</td>
                         </tr>
                         <tr>
-                          <td class="py-1.5 pr-3 text-gray-400 font-normal whitespace-nowrap align-top w-24">Phone</td>
-                          <td class="py-1.5 font-bold text-gray-900 dark:text-white align-top">
-                            <div class="flex items-center gap-1.5">
+                          <td class="py-1 pr-2 text-gray-400 font-normal whitespace-nowrap align-top w-20">Phone</td>
+                          <td class="py-1 font-bold text-gray-900 dark:text-white align-top">
+                            <div class="flex items-center gap-1">
                               <span>{{ $enquiry->phone ?: 'N/A' }}</span>
                               @if($enquiry->phone)
                                 <a href="tel:{{ $enquiry->phone }}" class="text-gray-400 hover:text-brand-500 ml-1" title="Call">
-                                  <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                                  <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                                 </a>
                                 <button type="button" @click="openWhatsappModal = true" class="text-emerald-500 hover:text-emerald-600 transition" title="WhatsApp">
-                                  <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008 0c3.202.001 6.212 1.248 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.864-9.864.002-2.637-1.03-5.114-2.905-6.99C16.557 1.875 14.09 1.843 11.473.841 6.037.843 1.62 5.261 1.615 10.7c-.001 1.689.444 3.337 1.288 4.78l-.997 3.637 3.734-.979zm11.385-6.52c-.27-.135-1.602-.79-1.85-.88-.25-.09-.43-.135-.61.135-.18.27-.694.88-.85 1.055-.157.18-.314.2-.584.065-2.636-1.319-3.722-2.28-5.263-4.912-.13-.223-.01-.343.1-.453.1-.1.222-.26.333-.39.11-.13.15-.22.223-.37.074-.15.037-.28-.018-.39-.056-.113-.43-1.03-.59-1.41-.15-.37-.33-.32-.45-.32h-.39c-.135 0-.356.05-.54.25-.186.2-.71.694-.71 1.693s.73 1.96 1.03 2.1c.3.14 2.893 4.417 6.13 5.82 2.7.17 3.2.13 3.79-.1.583-.22 1.602-.65 1.83-1.28.226-.63.226-1.17.157-1.28-.07-.11-.27-.2-.54-.335z"/></svg>
+                                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008 0c3.202.001 6.212 1.248 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.953-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.864-9.864.002-2.637-1.03-5.114-2.905-6.99C16.557 1.875 14.09 1.843 11.473.841 6.037.843 1.62 5.261 1.615 10.7c-.001 1.689.444 3.337 1.288 4.78l-.997 3.637 3.734-.979zm11.385-6.52c-.27-.135-1.602-.79-1.85-.88-.25-.09-.43-.135-.61.135-.18.27-.694.88-.85 1.055-.157.18-.314.2-.584.065-2.636-1.319-3.722-2.28-5.263-4.912-.13-.223-.01-.343.1-.453.1-.1.222-.26.333-.39.11-.13.15-.22.223-.37.074-.15.037-.28-.018-.39-.056-.113-.43-1.03-.59-1.41-.15-.37-.33-.32-.45-.32h-.39c-.135 0-.356.05-.54.25-.186.2-.71.694-.71 1.693s.73 1.96 1.03 2.1c.3.14 2.893 4.417 6.13 5.82 2.7.17 3.2.13 3.79-.1.583-.22 1.602-.65 1.83-1.28.226-.63.226-1.17.157-1.28-.07-.11-.27-.2-.54-.335z"/></svg>
                                 </button>
                               @endif
                             </div>
                           </td>
                         </tr>
                         <tr>
-                          <td class="py-1.5 pr-3 text-gray-400 font-normal whitespace-nowrap align-top w-24">Email</td>
-                          <td class="py-1.5 font-bold text-gray-900 dark:text-white align-top break-all">{{ $enquiry->email }}</td>
+                          <td class="py-1 pr-2 text-gray-400 font-normal whitespace-nowrap align-top w-20">Email</td>
+                          <td class="py-1 font-bold text-gray-900 dark:text-white align-top break-all text-[11px]">{{ $enquiry->email }}</td>
                         </tr>
                         <tr>
-                          <td class="py-1.5 pr-3 text-gray-400 font-normal whitespace-nowrap align-top w-24">Alt Phone</td>
-                          <td class="py-1.5 font-bold text-gray-900 dark:text-white align-top">+91 98765 43210</td>
+                          <td class="py-1 pr-2 text-gray-400 font-normal whitespace-nowrap align-top w-20">Alt Phone</td>
+                          <td class="py-1 font-bold text-gray-900 dark:text-white align-top">+91 98765 43210</td>
                         </tr>
                         <tr>
-                          <td class="py-1.5 pr-3 text-gray-400 font-normal whitespace-nowrap align-top w-24">Location</td>
-                          <td class="py-1.5 font-bold text-gray-900 dark:text-white align-top">{{ $enquiry->location ?: 'Gurgaon' }}</td>
+                          <td class="py-1 pr-2 text-gray-400 font-normal whitespace-nowrap align-top w-20">Location</td>
+                          <td class="py-1 font-bold text-gray-900 dark:text-white align-top">{{ $enquiry->location ?: 'Gurgaon' }}</td>
                         </tr>
                         <tr>
-                          <td class="py-1.5 pr-3 text-gray-400 font-normal whitespace-nowrap align-top w-24">Lead Source</td>
-                          <td class="py-1.5 font-bold text-gray-900 dark:text-white align-top">{{ $enquiry->lead_source ?: 'Website' }}</td>
+                          <td class="py-1 pr-2 text-gray-400 font-normal whitespace-nowrap align-top w-20">Lead Source</td>
+                          <td class="py-1 font-bold text-gray-900 dark:text-white align-top">{{ $enquiry->lead_source ?: 'Website' }}</td>
                         </tr>
                         <tr>
-                          <td class="py-1.5 pr-3 text-gray-400 font-normal whitespace-nowrap align-top w-24">Referred By</td>
-                          <td class="py-1.5 font-bold text-gray-900 dark:text-white align-top">N/A</td>
+                          <td class="py-1 pr-2 text-gray-400 font-normal whitespace-nowrap align-top w-20">Referred By</td>
+                          <td class="py-1 font-bold text-gray-900 dark:text-white align-top">N/A</td>
                         </tr>
                         <tr>
-                          <td class="py-1.5 pr-3 text-gray-400 font-normal whitespace-nowrap align-top w-24">Pref. Areas</td>
-                          <td class="py-1.5 font-bold text-gray-900 dark:text-white align-top">{{ $reqLoc }}</td>
+                          <td class="py-1 pr-2 text-gray-400 font-normal whitespace-nowrap align-top w-20">Pref. Areas</td>
+                          <td class="py-1 font-bold text-gray-900 dark:text-white align-top">{{ $reqLoc }}</td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
 
                   <!-- Requirement Details Card -->
-                  <div class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-3 shadow-2xs w-[310px]">
-                    <div class="border-b border-gray-100 pb-2.5 dark:border-gray-800">
+                  <div class="rounded-xl border border-gray-200/80 bg-white p-3.5 dark:border-gray-800 dark:bg-gray-900 space-y-3 shadow-2xs w-[275px]" style="width: 275px; min-width: 275px;">
+                    <div class="border-b border-gray-100 pb-2 dark:border-gray-800">
                       <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">Requirement Details</h3>
                     </div>
 
                     <table class="w-full text-xs">
                       <tbody>
                         <tr>
-                          <td class="py-1.5 pr-3 text-gray-400 font-normal whitespace-nowrap align-top w-24">Type</td>
-                          <td class="py-1.5 font-bold text-gray-900 dark:text-white align-top">{{ $enquiry->preferred_type ?: 'Apartment' }}</td>
+                          <td class="py-1 pr-2 text-gray-400 font-normal whitespace-nowrap align-top w-20">Type</td>
+                          <td class="py-1 font-bold text-gray-900 dark:text-white align-top">{{ $enquiry->preferred_type ?: 'Apartment' }}</td>
                         </tr>
                         <tr>
-                          <td class="py-1.5 pr-3 text-gray-400 font-normal whitespace-nowrap align-top w-24">BHK</td>
-                          <td class="py-1.5 font-bold text-gray-900 dark:text-white align-top">{{ $enquiry->bhk ?: '3 BHK' }}</td>
+                          <td class="py-1 pr-2 text-gray-400 font-normal whitespace-nowrap align-top w-20">BHK</td>
+                          <td class="py-1 font-bold text-gray-900 dark:text-white align-top">{{ $enquiry->bhk ?: '3 BHK' }}</td>
                         </tr>
                         <tr>
-                          <td class="py-1.5 pr-3 text-gray-400 font-normal whitespace-nowrap align-top w-24">Carpet Area</td>
-                          <td class="py-1.5 font-bold text-gray-900 dark:text-white align-top">{{ $enquiry->carpet_area ?: '1400 - 1800 sq.ft.' }}</td>
+                          <td class="py-1 pr-2 text-gray-400 font-normal whitespace-nowrap align-top w-20">Carpet Area</td>
+                          <td class="py-1 font-bold text-gray-900 dark:text-white align-top">{{ $enquiry->carpet_area ?: '1400 - 1800 sq.ft.' }}</td>
                         </tr>
                         <tr>
-                          <td class="py-1.5 pr-3 text-gray-400 font-normal whitespace-nowrap align-top w-24">Floor Pref.</td>
-                          <td class="py-1.5 font-bold text-gray-900 dark:text-white align-top">{{ $enquiry->floor_preference ?: 'Any' }}</td>
+                          <td class="py-1 pr-2 text-gray-400 font-normal whitespace-nowrap align-top w-20">Floor Pref.</td>
+                          <td class="py-1 font-bold text-gray-900 dark:text-white align-top">{{ $enquiry->floor_preference ?: 'Any' }}</td>
                         </tr>
                         <tr>
-                          <td class="py-1.5 pr-3 text-gray-400 font-normal whitespace-nowrap align-top w-24">Furnishing</td>
-                          <td class="py-1.5 font-bold text-gray-900 dark:text-white align-top">{{ $enquiry->furnishing ?: 'Semi Furnished' }}</td>
+                          <td class="py-1 pr-2 text-gray-400 font-normal whitespace-nowrap align-top w-20">Furnishing</td>
+                          <td class="py-1 font-bold text-gray-900 dark:text-white align-top">{{ $enquiry->furnishing ?: 'Semi Furnished' }}</td>
                         </tr>
                         <tr>
-                          <td class="py-1.5 pr-3 text-gray-400 font-normal whitespace-nowrap align-top w-24">Amenities</td>
-                          <td class="py-1.5 font-bold text-gray-900 dark:text-white align-top leading-snug break-words">Gym, Clubhouse, Power Backup, 24x7 Security</td>
+                          <td class="py-1 pr-2 text-gray-400 font-normal whitespace-nowrap align-top w-20">Amenities</td>
+                          <td class="py-1 font-bold text-gray-900 dark:text-white align-top leading-snug break-words text-[11px]">Gym, Clubhouse, Backup, 24x7 Security</td>
                         </tr>
                         <tr>
-                          <td class="py-1.5 pr-3 text-gray-400 font-normal whitespace-nowrap align-top w-24">Preferences</td>
-                          <td class="py-1.5 font-bold text-gray-900 dark:text-white align-top leading-snug break-words">{{ $enquiry->other_preferences ?: 'Near Metro, Good Connectivity' }}</td>
+                          <td class="py-1 pr-2 text-gray-400 font-normal whitespace-nowrap align-top w-20">Preferences</td>
+                          <td class="py-1 font-bold text-gray-900 dark:text-white align-top leading-snug break-words text-[11px]">{{ $enquiry->other_preferences ?: 'Near Metro, Connectivity' }}</td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
 
                   <!-- Budget & Financial Card -->
-                  <div class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-3 shadow-2xs w-[310px]">
-                    <div class="border-b border-gray-100 pb-2.5 dark:border-gray-800">
+                  <div class="rounded-xl border border-gray-200/80 bg-white p-3.5 dark:border-gray-800 dark:bg-gray-900 space-y-3 shadow-2xs w-[275px]" style="width: 275px; min-width: 275px;">
+                    <div class="border-b border-gray-100 pb-2 dark:border-gray-800">
                       <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">Budget & Financial</h3>
                     </div>
 
@@ -500,44 +477,12 @@
 
                 </div>
 
-                <!-- Timeline / Activity Summary Section -->
-                <div class="rounded-xl border border-gray-100 bg-white p-5 dark:border-gray-800 dark:bg-gray-900/40 space-y-4">
-                  <div class="flex items-center justify-between border-b border-gray-100 pb-3 dark:border-gray-800">
-                    <h3 class="text-sm font-bold text-gray-900 dark:text-white">Timeline / Activity Summary</h3>
-                    <button type="button" @click="activeTab = 'activities'" class="text-xs font-semibold text-brand-500 hover:underline">View All Activities</button>
+                <!-- Communication History Table (Resized to 837px matching Overview reference width) -->
+                <div class="rounded-xl border border-gray-200/80 bg-white p-4 shadow-2xs dark:border-gray-800 dark:bg-gray-900 w-[837px] space-y-3" style="width: 837px; min-width: 837px;">
+                  <div class="flex items-center justify-between border-b border-gray-100 pb-2.5 dark:border-gray-800">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">Communication History</h3>
+                    <button type="button" @click="activeTab = 'activities'" class="text-xs font-semibold text-brand-500 hover:underline">View Timeline</button>
                   </div>
-
-                  @if($activityTimeline->isEmpty())
-                    <p class="text-xs text-gray-400 italic text-center py-4">No activity events recorded yet.</p>
-                  @else
-                    <div class="relative pl-6 border-l border-gray-200 dark:border-gray-800 space-y-4 ml-2">
-                      @foreach($activityTimeline->take(4) as $event)
-                        <div class="relative">
-                          <div class="absolute -left-[31px] top-1 flex h-4 w-4 items-center justify-center rounded-full {{ $event['icon_bg'] }} text-white text-[10px] font-bold">
-                            &bull;
-                          </div>
-
-                          <div class="text-xs space-y-0.5">
-                            <div class="flex items-center justify-between gap-2">
-                              <span class="font-bold text-gray-900 dark:text-white">{{ $event['title'] }}</span>
-                              <span class="text-[10px] text-gray-400 font-medium">{{ $event['timestamp'] ? \Carbon\Carbon::parse($event['timestamp'])->format('d M, Y h:i A') : '' }}</span>
-                            </div>
-                            @if(!empty($event['author']))
-                              <span class="text-[11px] text-gray-500 font-medium">By {{ $event['author'] }}</span>
-                            @endif
-                            @if(!empty($event['description']))
-                              <p class="text-xs text-gray-600 dark:text-gray-400 mt-1 leading-relaxed">{{ $event['description'] }}</p>
-                            @endif
-                          </div>
-                        </div>
-                      @endforeach
-                    </div>
-                  @endif
-                </div>
-
-                <!-- Communication History Table -->
-                <div class="rounded-xl border border-gray-100 bg-white p-5 dark:border-gray-800 dark:bg-gray-900/40 space-y-4">
-                  <h3 class="text-sm font-bold text-gray-900 dark:text-white border-b border-gray-100 pb-3 dark:border-gray-800">Communication History</h3>
                   
                   <div class="overflow-x-auto">
                     <table class="w-full text-xs text-left">
@@ -586,8 +531,10 @@
               </div>
 
               <!-- 2. ACTIVITIES TAB -->
-              <div x-show="activeTab === 'activities'" class="space-y-4">
-                <h3 class="text-sm font-bold text-gray-900 dark:text-white border-b border-gray-100 pb-3 dark:border-gray-800">All Activity Log History</h3>
+              <div x-show="activeTab === 'activities'" class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-4 shadow-2xs w-[837px]" style="width: 837px; min-width: 837px;">
+                <div class="border-b border-gray-100 pb-2.5 dark:border-gray-800">
+                  <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">All Activity Log History</h3>
+                </div>
                 
                 @if($activityTimeline->isEmpty())
                   <p class="text-xs text-gray-400 italic text-center py-6">No timeline activity logged.</p>
@@ -615,9 +562,9 @@
               </div>
 
               <!-- 3. NOTES TAB -->
-              <div x-show="activeTab === 'notes'" class="space-y-4">
-                <div class="flex items-center justify-between border-b border-gray-100 pb-3 dark:border-gray-800">
-                  <h3 class="text-sm font-bold text-gray-900 dark:text-white">Internal Discussion Notes</h3>
+              <div x-show="activeTab === 'notes'" class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-4 shadow-2xs w-[837px]" style="width: 837px; min-width: 837px;">
+                <div class="flex items-center justify-between border-b border-gray-100 pb-2.5 dark:border-gray-800">
+                  <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">Internal Discussion Notes</h3>
                   <button type="button" @click="openNotesModal = true" class="text-xs font-semibold text-brand-500 hover:underline cursor-pointer">+ Add New Note</button>
                 </div>
 
@@ -644,9 +591,9 @@
               </div>
 
               <!-- 4. TASKS TAB -->
-              <div x-show="activeTab === 'tasks'" class="space-y-4">
-                <div class="flex items-center justify-between border-b border-gray-100 pb-3 dark:border-gray-800">
-                  <h3 class="text-sm font-bold text-gray-900 dark:text-white">Assigned Tasks</h3>
+              <div x-show="activeTab === 'tasks'" class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-4 shadow-2xs w-[837px]" style="width: 837px; min-width: 837px;">
+                <div class="flex items-center justify-between border-b border-gray-100 pb-2.5 dark:border-gray-800">
+                  <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">Assigned Tasks</h3>
                   <button type="button" @click="openCreateFollowUpModal = true" class="text-xs font-semibold text-brand-500 hover:underline cursor-pointer">+ Add Task</button>
                 </div>
 
@@ -665,10 +612,10 @@
               </div>
 
               <!-- 5. FOLLOW UPS TAB -->
-              <div x-show="activeTab === 'follow_ups'" class="space-y-4">
-                <div class="flex items-center justify-between border-b border-gray-100 pb-3 dark:border-gray-800">
-                  <h3 class="text-sm font-bold text-gray-900 dark:text-white">Follow-up History</h3>
-                  <button type="button" @click="openCreateFollowUpModal = true" class="rounded-lg bg-brand-500 hover:bg-brand-600 px-3 py-1.5 text-xs font-semibold text-white cursor-pointer">+ Schedule Follow-up</button>
+              <div x-show="activeTab === 'follow_ups'" class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-4 shadow-2xs w-[837px]" style="width: 837px; min-width: 837px;">
+                <div class="flex items-center justify-between border-b border-gray-100 pb-2.5 dark:border-gray-800">
+                  <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">Follow-up History</h3>
+                  <button type="button" @click="openCreateFollowUpModal = true" class="text-xs font-semibold text-brand-500 hover:underline cursor-pointer">+ Schedule Follow-up</button>
                 </div>
 
                 @if($enquiry->followUps->isEmpty())
@@ -717,9 +664,9 @@
               </div>
 
               <!-- 6. SITE VISITS TAB -->
-              <div x-show="activeTab === 'site_visits'" class="space-y-4">
-                <div class="flex items-center justify-between border-b border-gray-100 pb-3 dark:border-gray-800">
-                  <h3 class="text-sm font-bold text-gray-900 dark:text-white">Scheduled Site Visits</h3>
+              <div x-show="activeTab === 'site_visits'" class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-4 shadow-2xs w-[837px]" style="width: 837px; min-width: 837px;">
+                <div class="flex items-center justify-between border-b border-gray-100 pb-2.5 dark:border-gray-800">
+                  <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">Scheduled Site Visits</h3>
                 </div>
 
                 @if($enquiry->siteVisits->isEmpty())
@@ -757,12 +704,10 @@
               </div>
 
               <!-- 7. BUDGET & FINANCIAL TAB -->
-              <div x-show="activeTab === 'financial'" class="space-y-4">
-                <div class="border-b border-gray-100 pb-3 dark:border-gray-800">
-                  <h3 class="text-sm font-bold text-gray-900 dark:text-white">Budget & Financial Breakdown</h3>
+              <div x-show="activeTab === 'financial'" class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-4 shadow-2xs w-[837px]" style="width: 837px; min-width: 837px;">
+                <div class="border-b border-gray-100 pb-2.5 dark:border-gray-800">
+                  <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">Budget & Financial Breakdown</h3>
                 </div>
-
-                <div class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-3 shadow-2xs max-w-md">
                   <table class="w-full text-xs">
                     <tbody>
                       <tr>
@@ -791,16 +736,13 @@
                       </tr>
                     </tbody>
                   </table>
-                </div>
               </div>
 
               <!-- 8. REQUIREMENT DETAILS TAB -->
-              <div x-show="activeTab === 'requirement'" class="space-y-4">
-                <div class="border-b border-gray-100 pb-3 dark:border-gray-800">
-                  <h3 class="text-sm font-bold text-gray-900 dark:text-white">Full Client Requirement Specifications</h3>
+              <div x-show="activeTab === 'requirement'" class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-4 shadow-2xs w-[837px]" style="width: 837px; min-width: 837px;">
+                <div class="border-b border-gray-100 pb-2.5 dark:border-gray-800">
+                  <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">Full Client Requirement Specifications</h3>
                 </div>
-
-                <div class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-3 shadow-2xs max-w-md">
                   <table class="w-full text-xs">
                     <tbody>
                       <tr>
@@ -833,13 +775,12 @@
                       </tr>
                     </tbody>
                   </table>
-                </div>
               </div>
 
               <!-- 9. DOCUMENTS TAB -->
-              <div x-show="activeTab === 'documents'" class="space-y-4">
-                <div class="flex items-center justify-between border-b border-gray-100 pb-3 dark:border-gray-800">
-                  <h3 class="text-sm font-bold text-gray-900 dark:text-white">Customer Documents</h3>
+              <div x-show="activeTab === 'documents'" class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-4 shadow-2xs w-[837px]" style="width: 837px; min-width: 837px;">
+                <div class="flex items-center justify-between border-b border-gray-100 pb-2.5 dark:border-gray-800">
+                  <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">Customer Documents</h3>
                 </div>
 
                 @if($documents->isEmpty())
@@ -867,11 +808,43 @@
 
         </div>
 
-        <!-- RIGHT SIDEBAR COLUMN (30% - 4 cols out of 12) -->
-        <div class="lg:col-span-4 space-y-4">
+        <!-- RIGHT SIDEBAR COLUMN (250px width, sits right next to Budget & Financial card, zero horizontal scroll) -->
+        <div class="shrink-0 flex flex-col gap-4 w-[250px]" style="width: 250px; min-width: 250px;">
+
+          <!-- LEAD SCORE SUMMARY CARD -->
+          <div class="rounded-2xl border border-gray-200/80 bg-white p-4 shadow-xs dark:border-gray-800 dark:bg-gray-900 space-y-3 cursor-pointer hover:border-emerald-500 transition" @click="openTimelineModal = true" title="Click to view score details">
+            <div class="border-b border-gray-100 pb-2.5 dark:border-gray-800 flex items-center justify-between">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">Lead Score Analysis</h3>
+              <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full dark:bg-emerald-900/40 dark:text-emerald-400">High Potential</span>
+            </div>
+            
+            <div class="flex items-center gap-3.5 pt-1">
+              <!-- Score Ring -->
+              <div class="relative flex items-center justify-center shrink-0" style="width: 48px; height: 48px; position: relative;">
+                <svg style="width: 48px; height: 48px;" class="transform -rotate-90">
+                  <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" class="text-gray-100 dark:text-gray-800" fill="transparent" />
+                  <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="3" class="text-emerald-500" fill="transparent"
+                          stroke-dasharray="119.3"
+                          stroke-dashoffset="{{ 119.3 - (119.3 * $leadScoreInfo['score']) / 100 }}"
+                          stroke-linecap="round" />
+                </svg>
+                <span class="absolute font-extrabold text-gray-900 dark:text-white text-xs" style="position: absolute;">{{ $leadScoreInfo['score'] }}</span>
+              </div>
+
+              <!-- Left Nurturing Green Line & Text -->
+              <div style="border-left: 3px solid #10b981; padding-left: 10px;">
+                <span class="font-bold text-emerald-600 dark:text-emerald-400 text-xs block" style="display: block; font-weight: 700; color: #059669;">
+                  {{ $leadScoreInfo['comment'] }}
+                </span>
+                <p class="text-[10.5px] text-gray-500 dark:text-gray-400 font-medium leading-tight mt-0.5" style="font-size: 10.5px; line-height: 1.3; color: #6b7280; margin-top: 2px;">
+                  {{ $leadScoreInfo['subtitle'] }}
+                </p>
+              </div>
+            </div>
+          </div>
 
           <!-- 1. TASKS SUMMARY CARD -->
-          <div class="rounded-2xl border border-gray-200/80 bg-white p-5 shadow-xs dark:border-gray-800 dark:bg-gray-900 space-y-3">
+          <div class="rounded-2xl border border-gray-200/80 bg-white p-3.5 shadow-xs dark:border-gray-800 dark:bg-gray-900 space-y-3">
             <div class="flex items-center justify-between border-b border-gray-100 pb-2.5 dark:border-gray-800">
               <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">Tasks (1)</h3>
               <button type="button" @click="activeTab = 'tasks'" class="text-[11px] font-semibold text-brand-500 hover:underline">View All</button>
@@ -892,7 +865,7 @@
           </div>
 
           <!-- 3. FOLLOW UPS SUMMARY CARD -->
-          <div class="rounded-2xl border border-gray-200/80 bg-white p-5 shadow-xs dark:border-gray-800 dark:bg-gray-900 space-y-3">
+          <div class="rounded-2xl border border-gray-200/80 bg-white p-3.5 shadow-xs dark:border-gray-800 dark:bg-gray-900 space-y-3">
             <div class="flex items-center justify-between border-b border-gray-100 pb-2.5 dark:border-gray-800">
               <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">Follow Ups ({{ $enquiry->followUps->count() }})</h3>
               <button type="button" @click="activeTab = 'follow_ups'" class="text-[11px] font-semibold text-brand-500 hover:underline">View All</button>
@@ -918,7 +891,7 @@
           </div>
 
           <!-- 4. ASSOCIATED PROPERTY / DEAL CARD -->
-          <div class="rounded-2xl border border-gray-200/80 bg-white p-5 shadow-xs dark:border-gray-800 dark:bg-gray-900 space-y-3">
+          <div class="rounded-2xl border border-gray-200/80 bg-white p-3.5 shadow-xs dark:border-gray-800 dark:bg-gray-900 space-y-3">
             <div class="flex items-center justify-between border-b border-gray-100 pb-2.5 dark:border-gray-800">
               <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">Deals / Interested Unit</h3>
               <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full dark:bg-emerald-900/40 dark:text-emerald-400">Active</span>
@@ -950,7 +923,7 @@
           </div>
 
           <!-- 5. DOCUMENTS SUMMARY CARD -->
-          <div class="rounded-2xl border border-gray-200/80 bg-white p-5 shadow-xs dark:border-gray-800 dark:bg-gray-900 space-y-3">
+          <div class="rounded-2xl border border-gray-200/80 bg-white p-3.5 shadow-xs dark:border-gray-800 dark:bg-gray-900 space-y-3">
             <div class="flex items-center justify-between border-b border-gray-100 pb-2.5 dark:border-gray-800">
               <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">Documents ({{ $documents->count() }})</h3>
               <button type="button" @click="activeTab = 'documents'" class="text-[11px] font-semibold text-brand-500 hover:underline">View All</button>
