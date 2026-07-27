@@ -236,9 +236,15 @@ Route::prefix('admin')->name('admin.')->group(function () use ($tailAdminPages) 
                  Route::get('/{enquiry}/edit', [EnquiryController::class, 'edit'])->name('edit');
                  Route::put('/{enquiry}', [EnquiryController::class, 'update'])->name('update');
                  Route::post('/{enquiry}/convert-to-client', [EnquiryController::class, 'convertToClient'])->name('convert-to-client');
+                 Route::post('/{enquiry}/documents', [EnquiryController::class, 'uploadDocument'])->name('upload-document');
                  Route::delete('/{enquiry}', [EnquiryController::class, 'destroy'])->name('destroy');
              });
          });
+          // Tasks
+          Route::post('/tasks', [\App\Http\Controllers\Admin\TaskController::class, 'store'])->name('tasks.store');
+          Route::put('/tasks/{task}', [\App\Http\Controllers\Admin\TaskController::class, 'update'])->name('tasks.update');
+          Route::post('/tasks/{task}/toggle', [\App\Http\Controllers\Admin\TaskController::class, 'toggle'])->name('tasks.toggle');
+          Route::delete('/tasks/{task}', [\App\Http\Controllers\Admin\TaskController::class, 'destroy'])->name('tasks.destroy');
 
          // Testimonials
          Route::middleware('can:view_testimonials')->group(function () {

@@ -1,0 +1,216 @@
+- generic [ref=e2]:
+  - generic [ref=e4]:
+    - generic [ref=e5]: Internal Server Error
+    - button "Copy as Markdown" [ref=e11] [cursor=pointer]
+  - generic [ref=e19]:
+    - generic [ref=e20]:
+      - heading "Illuminate\\Database\\QueryException" [level=1] [ref=e21]
+      - generic [ref=e22]: vendor/laravel/framework/src/Illuminate/Database/Connection.php:838
+      - paragraph [ref=e24]: "SQLSTATE[42S01]: Base table or view already exists: 1050 Table 'tasks' already exists (Connection: mysql, Host: mysql, Port: 3306, Database: Real_estate, SQL: create table `tasks` (`id` bigint unsigned not null auto_increment primary key, `enquiry_id` bigint unsigned null, `follow_up_id` bigint unsigned null, `assigned_to` bigint unsigned null, `created_by` bigint unsigned null, `title` varchar(255) not null, `description` text null, `due_date` datetime null, `priority` enum('low', 'medium', 'high', 'urgent') not null default 'medium', `status` enum('pending', 'in_progress', 'completed', 'cancelled') not null default 'pending', `completed_at` datetime null, `created_at` timestamp null, `updated_at` timestamp null) default character set utf8mb4 collate 'utf8mb4_unicode_ci')"
+    - generic [ref=e25]:
+      - generic [ref=e26]:
+        - generic [ref=e27]:
+          - generic [ref=e28]: LARAVEL
+          - generic [ref=e29]: 12.62.0
+        - generic [ref=e30]:
+          - generic [ref=e31]: PHP
+          - generic [ref=e32]: 8.3.32
+      - generic [ref=e33]: UNHANDLED
+      - generic [ref=e38]: CODE 42S01
+    - generic [ref=e40]:
+      - generic [ref=e41]: "500"
+      - generic [ref=e46]: GET
+      - generic [ref=e50]: http://localhost:8000/dev/run-migrations
+      - button [ref=e51] [cursor=pointer]
+  - generic [ref=e57]:
+    - generic [ref=e58]:
+      - heading "Exception trace" [level=3] [ref=e65]
+      - generic [ref=e66]:
+        - generic [ref=e68] [cursor=pointer]:
+          - generic [ref=e73]: 7 vendor frames
+          - button [ref=e74]
+        - generic [ref=e80]:
+          - generic [ref=e81] [cursor=pointer]:
+            - generic [ref=e84]:
+              - code [ref=e88]:
+                - generic [ref=e89]: Illuminate\Support\Facades\Facade::__callStatic(string, array)
+              - generic [ref=e90]: database/migrations/2026_07_27_120000_create_tasks_table.php:14
+            - button [ref=e93]
+          - code [ref=e103]:
+            - generic [ref=e104]: 9 /**
+            - generic [ref=e105]: 10 * Run the migrations.
+            - generic [ref=e106]: 11 */
+            - generic [ref=e107]: "12 public function up(): void"
+            - generic [ref=e108]: "13 {"
+            - generic [ref=e109]: "14 Schema::create('tasks', function (Blueprint $table) {"
+            - generic [ref=e110]: 15 $table->id();
+            - generic [ref=e111]: 16 $table->foreignId('enquiry_id')
+            - generic [ref=e112]: 17 ->nullable()
+            - generic [ref=e113]: 18 ->constrained('enquiries')
+            - generic [ref=e114]: 19 ->cascadeOnDelete();
+            - generic [ref=e115]: 20 $table->foreignId('follow_up_id')
+            - generic [ref=e116]: 21 ->nullable()
+            - generic [ref=e117]: 22 ->constrained('follow_ups')
+            - generic [ref=e118]: 23 ->nullOnDelete();
+            - generic [ref=e119]: 24 $table->foreignId('assigned_to')
+            - generic [ref=e120]: 25 ->nullable()
+            - generic [ref=e121]: "26"
+        - generic [ref=e123] [cursor=pointer]:
+          - generic [ref=e128]: 27 vendor frames
+          - button [ref=e129]
+        - generic [ref=e136] [cursor=pointer]:
+          - generic [ref=e139]:
+            - code [ref=e143]:
+              - generic [ref=e144]: Illuminate\Support\Facades\Facade::__callStatic(string, array)
+            - generic [ref=e145]: routes/web.php:24
+          - button [ref=e148]
+        - generic [ref=e155] [cursor=pointer]:
+          - generic [ref=e160]: 47 vendor frames
+          - button [ref=e161]
+        - generic [ref=e168] [cursor=pointer]:
+          - generic [ref=e171]:
+            - code [ref=e175]:
+              - generic [ref=e176]: Illuminate\Foundation\Application->handleRequest(object(Illuminate\Http\Request))
+            - generic [ref=e177]: public/index.php:20
+          - button [ref=e180]
+    - generic [ref=e186]:
+      - generic [ref=e187]:
+        - heading "Queries" [level=3] [ref=e192]
+        - generic [ref=e193]: 1-10 of 100
+      - generic [ref=e197]:
+        - generic [ref=e198]:
+          - generic [ref=e199]:
+            - generic [ref=e200]: mysql
+            - code [ref=e207]:
+              - generic [ref=e208]: "select * from `sessions` where `id` = 'JjbJY72KqyGxsr4K7DPk0Ss6AsRE1xzwgBAdwKgM' limit 1"
+          - generic [ref=e209]: 6.38ms
+        - generic [ref=e210]:
+          - generic [ref=e211]:
+            - generic [ref=e212]: mysql
+            - code [ref=e219]:
+              - generic [ref=e220]: "select exists (select 1 from information_schema.tables where table_schema = schema() and table_name = 'migrations' and table_type in ('BASE TABLE', 'SYSTEM VERSIONED')) as `exists`"
+          - generic [ref=e221]: 25.89ms
+        - generic [ref=e222]:
+          - generic [ref=e223]:
+            - generic [ref=e224]: mysql
+            - code [ref=e231]:
+              - generic [ref=e232]: "select exists (select 1 from information_schema.tables where table_schema = schema() and table_name = 'migrations' and table_type in ('BASE TABLE', 'SYSTEM VERSIONED')) as `exists`"
+          - generic [ref=e233]: 1.35ms
+        - generic [ref=e234]:
+          - generic [ref=e235]:
+            - generic [ref=e236]: mysql
+            - code [ref=e243]:
+              - generic [ref=e244]: "select `migration` from `migrations` order by `batch` asc, `migration` asc"
+          - generic [ref=e245]: 2.36ms
+        - generic [ref=e246]:
+          - generic [ref=e247]:
+            - generic [ref=e248]: mysql
+            - code [ref=e255]:
+              - generic [ref=e256]: "select `migration` from `migrations` order by `batch` asc, `migration` asc"
+          - generic [ref=e257]: 0.43ms
+        - generic [ref=e258]:
+          - generic [ref=e259]:
+            - generic [ref=e260]: mysql
+            - code [ref=e267]:
+              - generic [ref=e268]: "select max(`batch`) as aggregate from `migrations`"
+          - generic [ref=e269]: 0.57ms
+        - generic [ref=e270]:
+          - generic [ref=e271]:
+            - generic [ref=e272]: mysql
+            - code [ref=e279]:
+              - generic [ref=e280]: "select * from `users` where `id` = 1 and `users`.`deleted_at` is null limit 1"
+          - generic [ref=e281]: 0.5ms
+        - generic [ref=e282]:
+          - generic [ref=e283]:
+            - generic [ref=e284]: mysql
+            - code [ref=e291]:
+              - generic [ref=e292]: "select `value`, `key` from `settings`"
+          - generic [ref=e293]: 0.4ms
+        - generic [ref=e294]:
+          - generic [ref=e295]:
+            - generic [ref=e296]: mysql
+            - code [ref=e303]:
+              - generic [ref=e304]: "select `value`, `key` from `settings`"
+          - generic [ref=e305]: 0.67ms
+        - generic [ref=e306]:
+          - generic [ref=e307]:
+            - generic [ref=e308]: mysql
+            - code [ref=e315]:
+              - generic [ref=e316]: "select `value`, `key` from `settings`"
+          - generic [ref=e317]: 0.53ms
+      - generic [ref=e318]:
+        - button [disabled] [ref=e319]
+        - button [disabled] [ref=e323]
+        - button "1" [ref=e327] [cursor=pointer]
+        - button "2" [ref=e329] [cursor=pointer]
+        - button "3" [ref=e331] [cursor=pointer]
+        - button "4" [ref=e333] [cursor=pointer]
+        - button "5" [ref=e335] [cursor=pointer]
+        - generic [ref=e336]: ...
+        - button "10" [ref=e339] [cursor=pointer]
+        - button [ref=e340] [cursor=pointer]
+        - button [ref=e343] [cursor=pointer]
+  - generic [ref=e348]:
+    - generic [ref=e349]:
+      - heading "Headers" [level=2] [ref=e350]
+      - generic [ref=e351]:
+        - generic [ref=e352]:
+          - generic [ref=e353]: cookie
+          - generic [ref=e355]: XSRF-TOKEN=eyJpdiI6IlFCR3ZGenpvQkVWekYyUXNBbmk1TWc9PSIsInZhbHVlIjoiYzZKa0dHamtIbmNqUnNnUkRrVWg2ZXNhTWNGWEN1b0ZrdkFBdXprTFJTWHNrYURjbDVJT2NOZ2VGeC9uWVF4d2ZDV1U0elBnMUMxV2xKRTVCUllQK3VKVE1yczNadE1BMldMRmswN2ZwbEhIcFRyQkN4RTBrcUJXWVY5TVdwWlciLCJtYWMiOiI3YzhiMjE3N2QzYzAyY2RlNzY2MTRhYjBmNzc2MTQ4OTljNmMwNzY5MjlkNTdkYWYwMDhjOTZjYzRhMzcyNDBkIiwidGFnIjoiIn0%3D; laravel-session=eyJpdiI6Im8zZkNkYVFFc2VnNVZTQy9Nam0ycUE9PSIsInZhbHVlIjoiRkZMVGhIYmprOXZ1TGFxaFB3R1RsWUhvbTA0YzU0Q3ladHFMNHVDTWMzajIvV1FOUzlFckNQWmxMOWZIc2czdGlEYlNkM3FwcGtIN3RzWWtYeWRvb2k3UTJocXdlS3o5MXV0VmlRZDI0MHp6UUtPeXZIMWwzaXNLR1UrOVY0QnAiLCJtYWMiOiJmMDc5YTc2YTBjY2UxMGRlN2NlNWFhYjdhYWI0OTlkNTk3ZGIwYWFjMDAwNDU4ODQzZTA5MGMxYWE4MGYyZmUwIiwidGFnIjoiIn0%3D
+        - generic [ref=e356]:
+          - generic [ref=e357]: accept-language
+          - generic [ref=e359]: en-GB,en-US;q=0.9,en;q=0.8
+        - generic [ref=e360]:
+          - generic [ref=e361]: accept-encoding
+          - generic [ref=e363]: gzip, deflate, br, zstd
+        - generic [ref=e364]:
+          - generic [ref=e365]: sec-fetch-dest
+          - generic [ref=e367]: document
+        - generic [ref=e368]:
+          - generic [ref=e369]: sec-fetch-user
+          - generic [ref=e371]: "?1"
+        - generic [ref=e372]:
+          - generic [ref=e373]: sec-fetch-mode
+          - generic [ref=e375]: navigate
+        - generic [ref=e376]:
+          - generic [ref=e377]: sec-fetch-site
+          - generic [ref=e379]: none
+        - generic [ref=e380]:
+          - generic [ref=e381]: accept
+          - generic [ref=e383]: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        - generic [ref=e384]:
+          - generic [ref=e385]: user-agent
+          - generic [ref=e387]: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+        - generic [ref=e388]:
+          - generic [ref=e389]: upgrade-insecure-requests
+          - generic [ref=e391]: "1"
+        - generic [ref=e392]:
+          - generic [ref=e393]: sec-ch-ua-platform
+          - generic [ref=e395]: "\"Linux\""
+        - generic [ref=e396]:
+          - generic [ref=e397]: sec-ch-ua-mobile
+          - generic [ref=e399]: "?0"
+        - generic [ref=e400]:
+          - generic [ref=e401]: sec-ch-ua
+          - generic [ref=e403]: "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\""
+        - generic [ref=e404]:
+          - generic [ref=e405]: connection
+          - generic [ref=e407]: keep-alive
+        - generic [ref=e408]:
+          - generic [ref=e409]: host
+          - generic [ref=e411]: localhost:8000
+    - generic [ref=e412]:
+      - heading "Body" [level=2] [ref=e413]
+      - generic [ref=e414]: // No request body
+    - generic [ref=e415]:
+      - heading "Routing" [level=2] [ref=e416]
+      - generic [ref=e417]:
+        - generic [ref=e418]:
+          - generic [ref=e419]: controller
+          - generic [ref=e421]: Closure
+        - generic [ref=e422]:
+          - generic [ref=e423]: middleware
+          - generic [ref=e425]: web
+    - generic [ref=e426]:
+      - heading "Routing parameters" [level=2] [ref=e427]
+      - generic [ref=e428]: // No routing parameters

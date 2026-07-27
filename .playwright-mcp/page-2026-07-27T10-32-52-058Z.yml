@@ -1,0 +1,298 @@
+- generic [ref=e4]:
+  - complementary [ref=e5]:
+    - link "Logo Laravel" [ref=e7] [cursor=pointer]:
+      - /url: http://localhost:8000/admin/dashboard
+      - img "Logo" [ref=e8]
+      - generic [ref=e9]: Laravel
+    - navigation [ref=e11]:
+      - generic [ref=e12]:
+        - heading "MENU" [level=3] [ref=e13]
+        - list [ref=e14]:
+          - listitem [ref=e15]:
+            - link "Dashboard" [ref=e16] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/dashboard
+          - listitem [ref=e20]:
+            - link "Leads" [ref=e21] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/enquiries
+          - listitem [ref=e25]:
+            - link "Customers" [ref=e26] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/customers
+          - listitem [ref=e30]:
+            - link "Projects" [ref=e31] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/projects
+          - listitem [ref=e35]:
+            - link "Inventory" [ref=e36] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/inventory
+          - listitem [ref=e40]:
+            - link "Site Visits" [ref=e41] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/site-visits
+          - listitem [ref=e45]:
+            - link "Bookings" [ref=e46] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/bookings
+          - listitem [ref=e50]:
+            - link "Payments" [ref=e51] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/payments
+          - listitem [ref=e55]:
+            - link "Documents" [ref=e56] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/documents
+          - listitem [ref=e60]:
+            - link "Reports" [ref=e61] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/reports
+          - listitem [ref=e65]:
+            - link "Users" [ref=e66] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/user-management
+          - listitem [ref=e70]:
+            - link "Settings" [ref=e71] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/general-setting
+      - generic [ref=e76]:
+        - heading "CMS & MASTER" [level=3] [ref=e77]
+        - list [ref=e78]:
+          - listitem [ref=e79]:
+            - link "Properties" [ref=e80] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/properties
+          - listitem [ref=e84]:
+            - link "Categories" [ref=e85] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/categories
+          - listitem [ref=e89]:
+            - link "Features" [ref=e90] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/features
+          - listitem [ref=e94]:
+            - link "Cities" [ref=e95] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/cities
+          - listitem [ref=e100]:
+            - link "Currencies" [ref=e101] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/currencies
+          - listitem [ref=e105]:
+            - link "Testimonials" [ref=e106] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/testimonials
+          - listitem [ref=e110]:
+            - link "Agents" [ref=e111] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/agents
+          - listitem [ref=e116]:
+            - link "Blog" [ref=e117] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/posts
+          - listitem [ref=e121]:
+            - link "Pages" [ref=e122] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/pages
+          - listitem [ref=e126]:
+            - link "Comments" [ref=e127] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/comments
+          - listitem [ref=e131]:
+            - link "Roles" [ref=e132] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/roles-permissions
+  - generic [ref=e136]:
+    - banner [ref=e137]:
+      - generic [ref=e138]:
+        - generic [ref=e139]:
+          - button [ref=e140] [cursor=pointer]
+          - generic [ref=e145]:
+            - textbox "Search or type command..." [ref=e149]
+            - button "⌘ K" [ref=e150] [cursor=pointer]:
+              - generic [ref=e151]: ⌘
+              - generic [ref=e152]: K
+        - generic [ref=e153]:
+          - generic [ref=e154]:
+            - button [ref=e155] [cursor=pointer]
+            - button [ref=e159] [cursor=pointer]
+            - button [ref=e163] [cursor=pointer]
+          - link "User Admin User" [ref=e169] [cursor=pointer]:
+            - /url: "#"
+            - img "User" [ref=e171]
+            - generic [ref=e172]: Admin User
+    - main [ref=e175]:
+      - generic [ref=e176]:
+        - generic [ref=e177]:
+          - generic [ref=e178]:
+            - heading "Good morning, Admin! 👋" [level=1] [ref=e179]
+            - paragraph [ref=e180]: Here's what's happening with your business today.
+          - button "Jul 21 – Jul 27, 2026" [ref=e182] [cursor=pointer]
+        - generic [ref=e188]:
+          - generic [ref=e189]:
+            - generic [ref=e192]:
+              - generic [ref=e193]: Total Leads
+              - generic [ref=e194]: "3"
+            - generic [ref=e196]:
+              - generic [ref=e197]: 18.7%
+              - generic [ref=e200]: vs last 7 days
+          - generic [ref=e203]:
+            - generic [ref=e206]:
+              - generic [ref=e207]: Site Visits
+              - generic [ref=e208]: "1"
+            - generic [ref=e210]:
+              - generic [ref=e211]: 12.4%
+              - generic [ref=e214]: vs last 7 days
+          - generic [ref=e217]:
+            - generic [ref=e220]:
+              - generic [ref=e221]: Deals in Pipeline
+              - generic [ref=e222]: "3"
+            - generic [ref=e224]:
+              - generic [ref=e225]: 15.3%
+              - generic [ref=e228]: vs last 7 days
+          - generic [ref=e231]:
+            - generic [ref=e234]:
+              - generic [ref=e235]: Bookings (This Month)
+              - generic [ref=e236]: "1"
+            - generic [ref=e238]:
+              - generic [ref=e239]: 21.6%
+              - generic [ref=e242]: vs last 7 days
+          - generic [ref=e245]:
+            - generic [ref=e248]:
+              - generic [ref=e249]: Revenue (This Month)
+              - generic [ref=e250]: ₹0.19 Cr
+            - generic [ref=e252]:
+              - generic [ref=e253]: 26.8%
+              - generic [ref=e256]: vs last 7 days
+        - generic [ref=e259]:
+          - generic [ref=e260]:
+            - generic [ref=e261]:
+              - generic [ref=e262]:
+                - heading "Recent Leads" [level=2] [ref=e263]
+                - link "View All" [ref=e264] [cursor=pointer]:
+                  - /url: http://localhost:8000/admin/enquiries
+              - generic [ref=e265]:
+                - generic [ref=e266]:
+                  - generic [ref=e267]:
+                    - generic [ref=e268]: T5
+                    - generic [ref=e269]:
+                      - generic [ref=e270]: test 5
+                      - generic [ref=e271]: 3 BHK Apartment - Greater Noida
+                  - generic [ref=e272]:
+                    - generic [ref=e273]: new
+                    - generic [ref=e274]: 2 days ago
+                - generic [ref=e275]:
+                  - generic [ref=e276]:
+                    - generic [ref=e277]: RV
+                    - generic [ref=e278]:
+                      - generic [ref=e279]: Rohit Verma
+                      - generic [ref=e280]: 3 BHK Apartment - Noida
+                  - generic [ref=e281]:
+                    - generic [ref=e282]: contacted
+                    - generic [ref=e283]: 5 days ago
+                - generic [ref=e284]:
+                  - generic [ref=e285]:
+                    - generic [ref=e286]: AS
+                    - generic [ref=e287]:
+                      - generic [ref=e288]: Ananya Sen
+                      - generic [ref=e289]: 3 BHK Apartment - Gurgaon
+                  - generic [ref=e290]:
+                    - generic [ref=e291]: new
+                    - generic [ref=e292]: 5 days ago
+                - generic [ref=e293]:
+                  - generic [ref=e294]:
+                    - generic [ref=e295]: RS
+                    - generic [ref=e296]:
+                      - generic [ref=e297]: Rahul Singh
+                      - generic [ref=e298]: Luxury Apartment - Gurgaon
+                  - generic [ref=e299]:
+                    - generic [ref=e300]: new
+                    - generic [ref=e301]: 2m ago
+                - generic [ref=e302]:
+                  - generic [ref=e303]:
+                    - generic [ref=e304]: NP
+                    - generic [ref=e305]:
+                      - generic [ref=e306]: Neha Patel
+                      - generic [ref=e307]: 3 BHK Villa - Noida
+                  - generic [ref=e308]:
+                    - generic [ref=e309]: contacted
+                    - generic [ref=e310]: 15m ago
+            - link "View All Leads" [ref=e312] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/enquiries
+          - generic [ref=e313]:
+            - generic [ref=e315]:
+              - heading "Deals Pipeline" [level=2] [ref=e316]
+              - combobox [ref=e317] [cursor=pointer]:
+                - option "This Month" [selected]
+                - option "This Quarter"
+                - option "This Year"
+            - generic [ref=e320]:
+              - generic [ref=e321]:
+                - generic [ref=e322]: Conversion Rate
+                - text: 5.8%
+              - generic [ref=e323]:
+                - generic [ref=e324]: Avg. Deal Value
+                - text: ₹87.5 L
+          - generic [ref=e326]:
+            - generic [ref=e327]:
+              - heading "Revenue Overview" [level=2] [ref=e328]
+              - combobox [ref=e329] [cursor=pointer]:
+                - option "This Month" [selected]
+                - option "This Quarter"
+                - option "This Year"
+            - generic [ref=e330]:
+              - generic [ref=e331]: ₹2.45 Cr
+              - generic [ref=e332]:
+                - text: 26.8%
+                - generic [ref=e335]: vs last month
+        - generic [ref=e338]:
+          - generic [ref=e339]:
+            - heading "Properties by Type" [level=2] [ref=e342]
+            - link "View All Properties" [ref=e346] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/properties
+          - generic [ref=e347]:
+            - generic [ref=e348]:
+              - generic [ref=e349]:
+                - heading "Top Performing Locations" [level=2] [ref=e350]
+                - combobox [ref=e351] [cursor=pointer]:
+                  - option "This Month" [selected]
+                  - option "This Quarter"
+                  - option "This Year"
+              - generic [ref=e352]:
+                - generic [ref=e354]:
+                  - generic [ref=e355]: Gurugram
+                  - generic [ref=e360]: ₹78.4 Cr
+                - generic [ref=e364]:
+                  - generic [ref=e365]: Noida
+                  - generic [ref=e370]: ₹46.8 Cr
+                - generic [ref=e374]:
+                  - generic [ref=e375]: Greater Noida
+                  - generic [ref=e380]: ₹28.7 Cr
+                - generic [ref=e384]:
+                  - generic [ref=e385]: Sohna Road
+                  - generic [ref=e390]: ₹18.3 Cr
+                - generic [ref=e394]:
+                  - generic [ref=e395]: Dwarka Expressway
+                  - generic [ref=e400]: ₹12.1 Cr
+            - link "View Full Report" [ref=e404] [cursor=pointer]:
+              - /url: "#"
+          - generic [ref=e405]:
+            - generic [ref=e406]:
+              - generic [ref=e407]:
+                - heading "Upcoming Activities" [level=2] [ref=e408]
+                - link "View Calendar" [ref=e409] [cursor=pointer]:
+                  - /url: http://localhost:8000/admin/enquiries
+              - generic [ref=e410]:
+                - generic [ref=e411]:
+                  - generic [ref=e416]:
+                    - generic [ref=e417]: Site Visit with Rahul Singh
+                    - generic [ref=e418]: DLF Camellias, Gurugram
+                  - generic [ref=e419]:
+                    - generic [ref=e420]: Today
+                    - generic [ref=e421]: 11:00 AM
+                - generic [ref=e422]:
+                  - generic [ref=e427]:
+                    - generic [ref=e428]: Follow Up Call
+                    - generic [ref=e429]: Neha Patel
+                  - generic [ref=e430]:
+                    - generic [ref=e431]: Today
+                    - generic [ref=e432]: 2:00 PM
+                - generic [ref=e433]:
+                  - generic [ref=e438]:
+                    - generic [ref=e439]: Meeting with Investor
+                    - generic [ref=e440]: Anita Verma
+                  - generic [ref=e441]:
+                    - generic [ref=e442]: Tomorrow
+                    - generic [ref=e443]: 10:30 AM
+                - generic [ref=e444]:
+                  - generic [ref=e449]:
+                    - generic [ref=e450]: Proposal Submission
+                    - generic [ref=e451]: Commercial Space, Noida
+                  - generic [ref=e452]:
+                    - generic [ref=e453]: Tomorrow
+                    - generic [ref=e454]: 4:00 PM
+            - link "View All Activities" [ref=e456] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/enquiries
+        - generic [ref=e457]:
+          - generic [ref=e462]:
+            - heading "Great job! You've closed 28 deals this month." [level=3] [ref=e463]
+            - paragraph [ref=e464]: You are 40% ahead of your monthly target.
+          - button "View Goals" [ref=e465] [cursor=pointer]

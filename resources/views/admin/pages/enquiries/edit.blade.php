@@ -60,6 +60,22 @@
               @enderror
             </div>
 
+            <!-- Associated Property Field -->
+            <div>
+              <label for="property_id" class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Associated Property</label>
+              <select name="property_id" id="property_id" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white">
+                <option value="">-- No Specific Property (N/A) --</option>
+                @foreach ($properties as $prop)
+                  <option value="{{ $prop->id }}" {{ old('property_id', $enquiry->property_id) == $prop->id ? 'selected' : '' }}>
+                    {{ $prop->title }}
+                  </option>
+                @endforeach
+              </select>
+              @error('property_id')
+                <p class="mt-1.5 text-xs text-red-600">{{ $message }}</p>
+              @enderror
+            </div>
+
             <!-- Notes Field -->
             <div>
               <label for="note" class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Internal Follow-up Note</label>

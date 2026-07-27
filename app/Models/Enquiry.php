@@ -20,6 +20,7 @@ class Enquiry extends Model
         'tour_schedule_time',
         'tour_type',
         'property_id',
+        'property_name',
         'location',
         'budget',
         'budget_type',
@@ -52,6 +53,57 @@ class Enquiry extends Model
         'amenities' => 'array',
     ];
 
+    protected static function booted()
+    {
+        static::saving(function ($enquiry) {
+            $enquiry->syncPropertyData();
+        });
+    }
+
+    public function syncPropertyData(): void
+    {
+        if (!empty($this->property_id)) {
+            $prop = Property::find($this->property_id);
+            if ($prop) {
+                // Populate property title string
+                $this->property_name = $prop->title ?? $prop->name ?? 'N/A';
+
+                // Auto fill floor preference if empty
+                if (empty($this->floor_preference) && !empty($prop->floor)) {
+                    $this->floor_preference = (string) $prop->floor;
+                }
+                // Auto fill BHK if empty
+                if (empty($this->bhk)) {
+                    if (!empty($prop->rooms)) {
+                        $this->bhk = $prop->rooms . ' BHK';
+                    } elseif (!empty($prop->bedrooms)) {
+                        $this->bhk = $prop->bedrooms . ' BHK';
+                    }
+                }
+                // Auto fill carpet area/size if empty
+                if (empty($this->carpet_area) && !empty($prop->size)) {
+                    $this->carpet_area = (string) $prop->size;
+                }
+                // Auto fill budget/price if empty
+                if (empty($this->budget) && !empty($prop->price)) {
+                    $this->budget = (string) $prop->price;
+                }
+                // Auto fill preferred type if empty
+                if (empty($this->preferred_type)) {
+                    $this->preferred_type = $prop->structure_type ?? $prop->listing_type ?? $prop->property_purpose ?? null;
+                }
+                // Auto fill location if empty
+                if (empty($this->location)) {
+                    $this->location = $prop->locality ?? $prop->address_line ?? null;
+                }
+            }
+        } else {
+            if (empty($this->property_name)) {
+                $this->property_name = 'N/A';
+            }
+        }
+    }
+
     public function property()
     {
         return $this->belongsTo(Property::class);
@@ -75,6 +127,16 @@ class Enquiry extends Model
     public function siteVisits()
     {
         return $this->hasMany(SiteVisit::class);
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class)->orderBy('due_date', 'asc');
+    }
+
+    public function documents()
+    {
+        return $this->morphMany(Document::class, 'documentable');
     }
 
     public static function getNextRoundRobinAgentId(): ?int

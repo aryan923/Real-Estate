@@ -1,0 +1,210 @@
+- generic [ref=e2]:
+  - generic [ref=e4]:
+    - generic [ref=e5]: Internal Server Error
+    - button "Copy as Markdown" [ref=e11] [cursor=pointer]
+  - generic [ref=e19]:
+    - generic [ref=e20]:
+      - heading "Symfony\\Component\\Routing\\Exception\\RouteNotFoundException" [level=1] [ref=e21]
+      - generic [ref=e22]: vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:534
+      - paragraph [ref=e24]: Route [admin.properties.index] not defined.
+    - generic [ref=e25]:
+      - generic [ref=e26]:
+        - generic [ref=e27]:
+          - generic [ref=e28]: LARAVEL
+          - generic [ref=e29]: 12.62.0
+        - generic [ref=e30]:
+          - generic [ref=e31]: PHP
+          - generic [ref=e32]: 8.3.32
+      - generic [ref=e33]: UNHANDLED
+      - generic [ref=e38]: CODE 0
+    - generic [ref=e40]:
+      - generic [ref=e41]: "500"
+      - generic [ref=e46]: GET
+      - generic [ref=e50]: http://localhost:8000/admin/dashboard
+      - button [ref=e51] [cursor=pointer]
+  - generic [ref=e57]:
+    - generic [ref=e58]:
+      - heading "Exception trace" [level=3] [ref=e65]
+      - generic [ref=e66]:
+        - generic [ref=e68] [cursor=pointer]:
+          - generic [ref=e73]: 2 vendor frames
+          - button [ref=e74]
+        - generic [ref=e80]:
+          - generic [ref=e81] [cursor=pointer]:
+            - generic [ref=e84]:
+              - code [ref=e88]:
+                - generic [ref=e89]: route(string)
+              - generic [ref=e90]: resources/views/admin/pages/dashboard.blade.php:440
+            - button [ref=e93]
+          - code [ref=e103]:
+            - generic [ref=e104]: 435 </div>
+            - generic [ref=e105]: 436 </div>
+            - generic [ref=e106]: 437 </div>
+            - generic [ref=e107]: "438"
+            - generic [ref=e108]: 439 <div class="pt-3 border-t border-gray-100 dark:border-gray-800 text-center">
+            - generic [ref=e109]: "440 <a href=\"{{ route('admin.properties.index') }}\" class=\"text-xs font-semibold text-brand-500 hover:underline\">View All Properties</a>"
+            - generic [ref=e110]: 441 </div>
+            - generic [ref=e111]: 442 </div>
+            - generic [ref=e112]: "443"
+            - generic [ref=e113]: 444 <!-- 2. TOP PERFORMING LOCATIONS CARD -->
+            - generic [ref=e114]: 445 <div class="rounded-2xl border border-gray-200/80 bg-white p-5 shadow-2xs dark:border-gray-800 dark:bg-gray-900 flex flex-col justify-between space-y-4">
+            - generic [ref=e115]: 446 <div>
+            - generic [ref=e116]: 447 <div class="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-3 mb-3">
+            - generic [ref=e117]: 448 <h2 class="text-sm font-bold text-gray-900 dark:text-white">Top Performing Locations</h2>
+            - generic [ref=e118]: 449 <select class="rounded-lg border border-gray-200 bg-gray-50 px-2 py-1 text-[11px] font-medium text-gray-600 dark:border-gray-800 dark:bg-gray-800 dark:text-gray-300 outline-none">
+            - generic [ref=e119]: 450 <option>This Month</option>
+            - generic [ref=e120]: 451 <option>This Quarter</option>
+            - generic [ref=e121]: "452"
+        - generic [ref=e123] [cursor=pointer]:
+          - generic [ref=e128]: 59 vendor frames
+          - button [ref=e129]
+        - generic [ref=e136] [cursor=pointer]:
+          - generic [ref=e139]:
+            - code [ref=e143]:
+              - generic [ref=e144]: Illuminate\Foundation\Application->handleRequest(object(Illuminate\Http\Request))
+            - generic [ref=e145]: public/index.php:20
+          - button [ref=e148]
+    - generic [ref=e154]:
+      - generic [ref=e155]:
+        - heading "Queries" [level=3] [ref=e160]
+        - generic [ref=e161]: 1-10 of 100
+      - generic [ref=e165]:
+        - generic [ref=e166]:
+          - generic [ref=e167]:
+            - generic [ref=e168]: mysql
+            - code [ref=e175]:
+              - generic [ref=e176]: "select * from `sessions` where `id` = 'JjbJY72KqyGxsr4K7DPk0Ss6AsRE1xzwgBAdwKgM' limit 1"
+          - generic [ref=e177]: 3.8ms
+        - generic [ref=e178]:
+          - generic [ref=e179]:
+            - generic [ref=e180]: mysql
+            - code [ref=e187]:
+              - generic [ref=e188]: "select * from `users` where `id` = 1 and `users`.`deleted_at` is null limit 1"
+          - generic [ref=e189]: 0.5ms
+        - generic [ref=e190]:
+          - generic [ref=e191]:
+            - generic [ref=e192]: mysql
+            - code [ref=e199]:
+              - generic [ref=e200]: "select * from `cache` where `key` in ('laravel-cache-spatie.permission.cache')"
+          - generic [ref=e201]: 0.38ms
+        - generic [ref=e202]:
+          - generic [ref=e203]:
+            - generic [ref=e204]: mysql
+            - code [ref=e211]:
+              - generic [ref=e212]: "select `permissions`.*, `model_has_permissions`.`model_id` as `pivot_model_id`, `model_has_permissions`.`permission_id` as `pivot_permission_id`, `model_has_permissions`.`model_type` as `pivot_model_type` from `permissions` inner join `model_has_permissions` on `permissions`.`id` = `model_has_permissions`.`permission_id` where `model_has_permissions`.`model_id` in (1) and `model_has_permissions`.`model_type` = 'App\\Models\\User'"
+          - generic [ref=e213]: 0.82ms
+        - generic [ref=e214]:
+          - generic [ref=e215]:
+            - generic [ref=e216]: mysql
+            - code [ref=e223]:
+              - generic [ref=e224]: "select `roles`.*, `model_has_roles`.`model_id` as `pivot_model_id`, `model_has_roles`.`role_id` as `pivot_role_id`, `model_has_roles`.`model_type` as `pivot_model_type` from `roles` inner join `model_has_roles` on `roles`.`id` = `model_has_roles`.`role_id` where `model_has_roles`.`model_id` in (1) and `model_has_roles`.`model_type` = 'App\\Models\\User'"
+          - generic [ref=e225]: 0.56ms
+        - generic [ref=e226]:
+          - generic [ref=e227]:
+            - generic [ref=e228]: mysql
+            - code [ref=e235]:
+              - generic [ref=e236]: "select count(*) as aggregate from `enquiries` where `enquiries`.`deleted_at` is null"
+          - generic [ref=e237]: 0.45ms
+        - generic [ref=e238]:
+          - generic [ref=e239]:
+            - generic [ref=e240]: mysql
+            - code [ref=e247]:
+              - generic [ref=e248]: "select count(*) as aggregate from `site_visits`"
+          - generic [ref=e249]: 0.84ms
+        - generic [ref=e250]:
+          - generic [ref=e251]:
+            - generic [ref=e252]: mysql
+            - code [ref=e259]:
+              - generic [ref=e260]: "select count(*) as aggregate from `enquiries` where `status` in ('new', 'contacted', 'interested', 'site_visit', 'negotiation') and `enquiries`.`deleted_at` is null"
+          - generic [ref=e261]: 0.44ms
+        - generic [ref=e262]:
+          - generic [ref=e263]:
+            - generic [ref=e264]: mysql
+            - code [ref=e271]:
+              - generic [ref=e272]: "select count(*) as aggregate from `bookings`"
+          - generic [ref=e273]: 0.23ms
+        - generic [ref=e274]:
+          - generic [ref=e275]:
+            - generic [ref=e276]: mysql
+            - code [ref=e283]:
+              - generic [ref=e284]: "select sum(`amount_paid`) as aggregate from `payments` where `status` = 'paid'"
+          - generic [ref=e285]: 0.51ms
+      - generic [ref=e286]:
+        - button [disabled] [ref=e287]
+        - button [disabled] [ref=e291]
+        - button "1" [ref=e295] [cursor=pointer]
+        - button "2" [ref=e297] [cursor=pointer]
+        - button "3" [ref=e299] [cursor=pointer]
+        - button "4" [ref=e301] [cursor=pointer]
+        - button "5" [ref=e303] [cursor=pointer]
+        - generic [ref=e304]: ...
+        - button "10" [ref=e307] [cursor=pointer]
+        - button [ref=e308] [cursor=pointer]
+        - button [ref=e311] [cursor=pointer]
+  - generic [ref=e316]:
+    - generic [ref=e317]:
+      - heading "Headers" [level=2] [ref=e318]
+      - generic [ref=e319]:
+        - generic [ref=e320]:
+          - generic [ref=e321]: cookie
+          - generic [ref=e323]: XSRF-TOKEN=eyJpdiI6Imo4eUNzazc4RnZNRGlMSDhjZFVRT3c9PSIsInZhbHVlIjoiSEJ2aGpwR2VidFlyalVkTzA3blA4T0JvUGZUTUZXbmpNdFVOWmw5T2tsSk42Y3IwVEkvYUgzU0E4clR6WnZsbFJNb0QxMjV4WlFaUVpSbDlVTkZrZHZ1ZXh4SE5qRnlMODFyOXQvb1hZQ2VPUFVvY2lSbWFpN1JtUzFzU0Zib2UiLCJtYWMiOiIxMzMxNWM3YmZiMTE0YmUwN2ZkZTZkOTZhZGE0NmMxZWIzYmYwYTUyNGMzZDZlMGZlZjNiYTE0NjBmNWE5NjJiIiwidGFnIjoiIn0%3D; laravel-session=eyJpdiI6IllOUXhZSGhWUHk1UzVPeW50d1E0Unc9PSIsInZhbHVlIjoiUERRV0RDU0U2WHh6SFZKSVFycVZteDRlbEF5QlNnbFZEeWRuQWNvN3IraXlWWHBWRDZzbW1LRlllUXhlaGNBK0VzVjRuZERtYUY2QWRxeDUwc2s0T0hPNDFieUV4M3IzbmtOQ1FpZEhYZVpsbGRTMmpFVU56R05CNFd1Tm1OQ3YiLCJtYWMiOiJlNmE3NzZlYzNmNGY3YTY5MmQ0Njk3NTIzNzQ2OGFlOWNhMGFhYTg3YWMzNThkOGZjNmMyMGQ3YjExYWNhNmVlIiwidGFnIjoiIn0%3D
+        - generic [ref=e324]:
+          - generic [ref=e325]: accept-language
+          - generic [ref=e327]: en-GB,en-US;q=0.9,en;q=0.8
+        - generic [ref=e328]:
+          - generic [ref=e329]: accept-encoding
+          - generic [ref=e331]: gzip, deflate, br, zstd
+        - generic [ref=e332]:
+          - generic [ref=e333]: sec-fetch-dest
+          - generic [ref=e335]: document
+        - generic [ref=e336]:
+          - generic [ref=e337]: sec-fetch-user
+          - generic [ref=e339]: "?1"
+        - generic [ref=e340]:
+          - generic [ref=e341]: sec-fetch-mode
+          - generic [ref=e343]: navigate
+        - generic [ref=e344]:
+          - generic [ref=e345]: sec-fetch-site
+          - generic [ref=e347]: none
+        - generic [ref=e348]:
+          - generic [ref=e349]: accept
+          - generic [ref=e351]: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        - generic [ref=e352]:
+          - generic [ref=e353]: user-agent
+          - generic [ref=e355]: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+        - generic [ref=e356]:
+          - generic [ref=e357]: upgrade-insecure-requests
+          - generic [ref=e359]: "1"
+        - generic [ref=e360]:
+          - generic [ref=e361]: sec-ch-ua-platform
+          - generic [ref=e363]: "\"Linux\""
+        - generic [ref=e364]:
+          - generic [ref=e365]: sec-ch-ua-mobile
+          - generic [ref=e367]: "?0"
+        - generic [ref=e368]:
+          - generic [ref=e369]: sec-ch-ua
+          - generic [ref=e371]: "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\""
+        - generic [ref=e372]:
+          - generic [ref=e373]: connection
+          - generic [ref=e375]: keep-alive
+        - generic [ref=e376]:
+          - generic [ref=e377]: host
+          - generic [ref=e379]: localhost:8000
+    - generic [ref=e380]:
+      - heading "Body" [level=2] [ref=e381]
+      - generic [ref=e382]: // No request body
+    - generic [ref=e383]:
+      - heading "Routing" [level=2] [ref=e384]
+      - generic [ref=e385]:
+        - generic [ref=e386]:
+          - generic [ref=e387]: controller
+          - generic [ref=e389]: App\Http\Controllers\Admin\DashboardController@index
+        - generic [ref=e390]:
+          - generic [ref=e391]: route name
+          - generic [ref=e393]: admin.dashboard
+        - generic [ref=e394]:
+          - generic [ref=e395]: middleware
+          - generic [ref=e397]: web, auth, can:view_dashboard
+    - generic [ref=e398]:
+      - heading "Routing parameters" [level=2] [ref=e399]
+      - generic [ref=e400]: // No routing parameters

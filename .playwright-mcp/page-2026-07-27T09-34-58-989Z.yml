@@ -1,0 +1,23 @@
+- generic [ref=e5]:
+  - generic [ref=e6]:
+    - link "Back to dashboard" [ref=e8] [cursor=pointer]:
+      - /url: http://localhost:8000/admin/dashboard
+    - generic [ref=e12]:
+      - generic [ref=e13]:
+        - heading "Sign In" [level=1] [ref=e14]
+        - paragraph [ref=e15]: Enter your email and password to sign in!
+      - generic [ref=e18]:
+        - generic [ref=e19]:
+          - generic [ref=e20]: Email*
+          - textbox "info@gmail.com" [ref=e21]
+        - generic [ref=e22]:
+          - generic [ref=e23]: Password*
+          - textbox "Enter your password" [ref=e25]
+        - generic [ref=e29]:
+          - generic [ref=e31] [cursor=pointer]:
+            - checkbox "Keep me logged in" [ref=e33]
+            - text: Keep me logged in
+          - link "Forgot password?" [ref=e38] [cursor=pointer]:
+            - /url: http://localhost:8000/admin/forgot-password
+        - button "Sign In" [ref=e40] [cursor=pointer]
+  - button [ref=e42] [cursor=pointer]

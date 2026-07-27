@@ -113,7 +113,7 @@ class EnquiryController extends Controller
 
         return DataTables::eloquent($query)
             ->addColumn('property_title', function (Enquiry $enquiry) {
-                return $enquiry->property?->title ?: ($enquiry->type === 'tour' ? 'Schedule Tour' : ($enquiry->type === 'info' ? 'Request Info' : 'Property Lead'));
+                return ($enquiry->property_name && $enquiry->property_name !== 'N/A') ? $enquiry->property_name : ($enquiry->property?->title ?: ($enquiry->type === 'tour' ? 'Schedule Tour' : ($enquiry->type === 'info' ? 'Request Info' : 'Property Lead')));
             })
             ->addColumn('agent_name', function (Enquiry $enquiry) {
                 return $enquiry->agent?->name ?: 'Unassigned';
@@ -246,6 +246,8 @@ class EnquiryController extends Controller
             'siteVisits.assignedExecutive',
             'siteVisits.project',
             'siteVisits.property',
+            'tasks.assignedAgent',
+            'tasks.creator',
         ]);
 
         $agents = User::where('status', 'active')->orderBy('name')->get();
@@ -387,13 +389,14 @@ class EnquiryController extends Controller
 
         // Load linked customer and documents if existing
         $customer = null;
-        $documents = collect();
+        $documents = $enquiry->documents()->get();
         if ($enquiry->email || $enquiry->phone) {
-            $customer = \App\Models\Customer::where('email', $enquiry->email)
-                ->orWhere('phone', $enquiry->phone)
-                ->first();
+            $customer = \App\Models\Customer::where(function($q) use ($enquiry) {
+                if ($enquiry->email) $q->where('email', $enquiry->email);
+                if ($enquiry->phone) $q->orWhere('phone', $enquiry->phone);
+            })->first();
             if ($customer) {
-                $documents = $customer->documents()->get();
+                $documents = $documents->merge($customer->documents()->get())->unique('id');
             }
         }
 
@@ -416,6 +419,33 @@ class EnquiryController extends Controller
         ];
 
         return view('admin.pages.enquiries.show', compact('enquiry', 'agents', 'activityTimeline', 'graphTimeline', 'allNotes', 'customer', 'documents', 'leadScoreInfo'));
+    }
+
+    public function uploadDocument(Request $request, Enquiry $enquiry): RedirectResponse
+    {
+        $this->authorizeEnquiry($enquiry);
+
+        $validated = $request->validate([
+            'category' => 'required|string',
+            'file' => 'required|file|max:10240',
+        ]);
+
+        $file = $request->file('file');
+        $fileName = $file->getClientOriginalName();
+        $fileSize = $file->getSize();
+        $path = $file->store('documents', 'public');
+
+        \App\Models\Document::create([
+            'documentable_type' => \App\Models\Enquiry::class,
+            'documentable_id' => $enquiry->id,
+            'file_name' => $fileName,
+            'file_path' => $path,
+            'file_size' => $fileSize,
+            'category' => $validated['category'],
+        ]);
+
+        return redirect()->route('admin.enquiries.show', $enquiry->id)
+            ->with('success', 'Document uploaded successfully.');
     }
 
     public function convertToClient(Enquiry $enquiry): RedirectResponse
@@ -462,7 +492,8 @@ class EnquiryController extends Controller
         $this->authorizeEnquiry($enquiry);
 
         $agents = \App\Models\User::has('agentMeta')->where('status', 'active')->orderBy('name', 'asc')->get();
-        return view('admin.pages.enquiries.edit', compact('enquiry', 'agents'));
+        $properties = \App\Models\Property::orderBy('title', 'asc')->get();
+        return view('admin.pages.enquiries.edit', compact('enquiry', 'agents', 'properties'));
     }
 
     public function update(Request $request, Enquiry $enquiry)
@@ -490,6 +521,8 @@ class EnquiryController extends Controller
             'other_preferences' => 'nullable|string',
             'message' => 'nullable|string',
             'note' => 'nullable|string',
+            'property_id' => 'nullable|exists:properties,id',
+            'property' => 'nullable|string|max:255',
             'agent_id' => 'nullable|exists:users,id',
             'status' => 'nullable|in:draft,new,contacted,interested,follow_up,site_visit,negotiation,won,lost',
             'lead_score' => 'nullable|integer|min:0|max:100',
@@ -560,7 +593,19 @@ class EnquiryController extends Controller
             'lead_source' => 'nullable|string|max:100',
             'location' => 'nullable|string|max:100',
             'budget' => 'nullable|string|max:100',
+            'budget_type' => 'nullable|string|max:100',
+            'payment_mode' => 'nullable|string|max:100',
+            'loan_required' => 'nullable|boolean',
+            'loan_amount' => 'nullable|numeric',
+            'down_payment' => 'nullable|numeric',
+            'preferred_type' => 'nullable|string|max:100',
+            'bhk' => 'nullable|string|max:50',
+            'carpet_area' => 'nullable|string|max:100',
+            'floor_preference' => 'nullable|string|max:100',
+            'furnishing' => 'nullable|string|max:100',
+            'other_preferences' => 'nullable|string',
             'property_id' => 'nullable|exists:properties,id',
+            'property' => 'nullable|string|max:255',
             'agent_id' => 'nullable|exists:users,id',
             'status' => 'nullable|in:draft,new,contacted,interested,follow_up,site_visit,negotiation,won,lost',
         ]);

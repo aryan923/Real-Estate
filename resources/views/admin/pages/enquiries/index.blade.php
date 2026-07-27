@@ -278,61 +278,58 @@
     </div>
   </div>
 
-  <!-- Add New Lead Modal Popup (Compact 640px 2-Column Grid Layout with Generous Column Gap) -->
-  <div id="modal-add-lead" class="fixed inset-0 hidden flex items-center justify-center p-4" style="z-index: 999999; background-color: rgba(15, 23, 42, 0.75); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);">
-    <div class="w-full rounded-2xl bg-white p-6 shadow-2xl dark:bg-gray-900 dark:border dark:border-gray-800 max-h-[90vh] overflow-y-auto flex flex-col" style="max-width: 640px;">
+  <!-- Add New Lead Modal Popup (Ultra-Compact 3-Column Grid Layout) -->
+  <div id="modal-add-lead" class="fixed inset-0 hidden flex items-center justify-center p-2 sm:p-3" style="z-index: 999999; background-color: rgba(15, 23, 42, 0.75); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);">
+    <div class="w-full rounded-2xl bg-white p-4 sm:p-5 shadow-2xl dark:bg-gray-900 dark:border dark:border-gray-800 max-h-[94vh] overflow-y-auto flex flex-col" style="max-width: 820px;">
       
       <!-- Modal Header -->
-      <div class="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-3 mb-3">
+      <div class="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-2 mb-2">
         <div class="flex items-center gap-2">
           <div class="flex h-7 w-7 items-center justify-center rounded-lg bg-brand-50 text-brand-500 dark:bg-brand-500/10">
             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
           </div>
           <div>
             <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Add New Lead</h3>
-            <span class="text-[11px] text-gray-400 font-normal">Create lead profile & requirements</span>
+            <span class="text-xs text-gray-400 font-normal">Create lead profile &amp; requirements</span>
           </div>
         </div>
         <button type="button" id="btn-close-add-lead" class="text-gray-400 hover:text-gray-600 text-lg font-semibold cursor-pointer">&times;</button>
       </div>
 
-      <!-- Modal Body Form (Side-by-Side 2-Column Grid with 24px Gap) -->
-      <form id="form-add-lead" class="space-y-3">
+      <!-- Modal Body Form (Side-by-Side 3-Column Grid Layout) -->
+      <form id="form-add-lead" class="space-y-2">
         @csrf
         
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
-          <!-- 1. Full Name -->
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px 14px;">
+          <!-- Row 1 -->
           <div>
-            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name <span class="text-red-500">*</span></label>
-            <input type="text" name="name" required placeholder="e.g. Ananya Sen" class="w-full rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
+            <label style="font-size: 9.5px !important; font-weight: 600;" class="block text-gray-700 dark:text-gray-300 mb-0.5">Full Name <span class="text-red-500">*</span></label>
+            <input type="text" name="name" required placeholder="e.g. Ananya Sen" class="w-full rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
           </div>
 
-          <!-- 2. Email Address -->
           <div>
-            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Email Address <span class="text-red-500">*</span></label>
-            <input type="email" name="email" required placeholder="ananya@example.com" class="w-full rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
+            <label style="font-size: 9.5px !important; font-weight: 600;" class="block text-gray-700 dark:text-gray-300 mb-0.5">Email Address <span class="text-red-500">*</span></label>
+            <input type="email" name="email" required placeholder="ananya@example.com" class="w-full rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
           </div>
 
-          <!-- 3. Phone Number -->
           <div>
-            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Phone Number</label>
-            <input type="text" name="phone" placeholder="+91 99999 88888" class="w-full rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
+            <label style="font-size: 9.5px !important; font-weight: 600;" class="block text-gray-700 dark:text-gray-300 mb-0.5">Phone Number</label>
+            <input type="text" name="phone" placeholder="+91 99999 88888" class="w-full rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
           </div>
 
-          <!-- 4. Lead Source -->
+          <!-- Row 2 -->
           <div>
-            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Lead Source</label>
-            <select name="lead_source" class="w-full rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
+            <label style="font-size: 9.5px !important; font-weight: 600;" class="block text-gray-700 dark:text-gray-300 mb-0.5">Lead Source</label>
+            <select name="lead_source" class="w-full rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
               @foreach($sources as $src)
                 <option value="{{ $src }}">{{ $src }}</option>
               @endforeach
             </select>
           </div>
 
-          <!-- 5. Lifecycle Status -->
           <div>
-            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Lifecycle Status</label>
-            <select name="status" class="w-full rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
+            <label style="font-size: 9.5px !important; font-weight: 600;" class="block text-gray-700 dark:text-gray-300 mb-0.5">Lifecycle Status</label>
+            <select name="status" class="w-full rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
               <option value="new">New</option>
               <option value="contacted">Contacted</option>
               <option value="interested">Interested</option>
@@ -343,10 +340,9 @@
             </select>
           </div>
 
-          <!-- 6. Assigned Agent -->
           <div>
-            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Assigned Agent</label>
-            <select name="agent_id" class="w-full rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
+            <label style="font-size: 9.5px !important; font-weight: 600;" class="block text-gray-700 dark:text-gray-300 mb-0.5">Assigned Agent</label>
+            <select name="agent_id" class="w-full rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
               <option value="">Auto Assign (Round Robin)</option>
               @foreach($agents as $agt)
                 <option value="{{ $agt->id }}">{{ $agt->name }}</option>
@@ -354,31 +350,91 @@
             </select>
           </div>
 
-          <!-- 7. Location -->
+          <!-- Row 3 -->
           <div>
-            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Location / City</label>
-            <input type="text" name="location" placeholder="e.g. Gurgaon" class="w-full rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
+            <label style="font-size: 9.5px !important; font-weight: 600;" class="block text-gray-700 dark:text-gray-300 mb-0.5">Location / City</label>
+            <input type="text" name="location" placeholder="e.g. Gurgaon" class="w-full rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
           </div>
 
-          <!-- 8. Budget Specification -->
           <div>
-            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Budget Specification</label>
-            <input type="text" name="budget" placeholder="e.g. ₹1.2Cr" class="w-full rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
+            <label style="font-size: 9.5px !important; font-weight: 600;" class="block text-gray-700 dark:text-gray-300 mb-0.5">Property Type</label>
+            <input type="text" name="preferred_type" placeholder="e.g. Apartment, Villa" class="w-full rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
           </div>
 
-          <!-- 9. Requirement / Notes (Full 2-Column Span) -->
-          <div class="sm:col-span-2">
-            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Requirement / Notes</label>
-            <textarea name="message" rows="2" placeholder="Write lead requirement notes..." class="w-full rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white"></textarea>
+          <div>
+            <label style="font-size: 9.5px !important; font-weight: 600;" class="block text-gray-700 dark:text-gray-300 mb-0.5">BHK Configuration</label>
+            <input type="text" name="bhk" placeholder="e.g. 3 BHK" class="w-full rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
+          </div>
+
+          <!-- Row 4 -->
+          <div>
+            <label style="font-size: 9.5px !important; font-weight: 600;" class="block text-gray-700 dark:text-gray-300 mb-0.5">Carpet Area</label>
+            <input type="text" name="carpet_area" placeholder="e.g. 1400 - 1800 sq.ft." class="w-full rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
+          </div>
+
+          <div>
+            <label style="font-size: 9.5px !important; font-weight: 600;" class="block text-gray-700 dark:text-gray-300 mb-0.5">Floor Preference</label>
+            <input type="text" name="floor_preference" placeholder="e.g. High Floor" class="w-full rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
+          </div>
+
+          <div>
+            <label style="font-size: 9.5px !important; font-weight: 600;" class="block text-gray-700 dark:text-gray-300 mb-0.5">Furnishing</label>
+            <input type="text" name="furnishing" placeholder="e.g. Semi Furnished" class="w-full rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
+          </div>
+
+          <!-- Row 5 -->
+          <div>
+            <label style="font-size: 9.5px !important; font-weight: 600;" class="block text-gray-700 dark:text-gray-300 mb-0.5">Budget Amount (₹)</label>
+            <input type="number" step="any" name="budget" placeholder="e.g. 12000000 (1.2 Cr)" class="w-full rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
+          </div>
+
+          <div>
+            <label style="font-size: 9.5px !important; font-weight: 600;" class="block text-gray-700 dark:text-gray-300 mb-0.5">Budget Type</label>
+            <input type="text" name="budget_type" placeholder="e.g. Negotiable, Fixed" class="w-full rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
+          </div>
+
+          <div>
+            <label style="font-size: 9.5px !important; font-weight: 600;" class="block text-gray-700 dark:text-gray-300 mb-0.5">Payment Mode</label>
+            <input type="text" name="payment_mode" placeholder="e.g. Self, Loan + Self" class="w-full rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
+          </div>
+
+          <!-- Row 6 -->
+          <div>
+            <label style="font-size: 9.5px !important; font-weight: 600;" class="block text-gray-700 dark:text-gray-300 mb-0.5">Loan Required</label>
+            <select name="loan_required" class="w-full rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="font-size: 9.5px !important; font-weight: 600;" class="block text-gray-700 dark:text-gray-300 mb-0.5">Loan Amount (₹)</label>
+            <input type="number" step="any" name="loan_amount" placeholder="e.g. 8000000 (80 L)" class="w-full rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
+          </div>
+
+          <div>
+            <label style="font-size: 9.5px !important; font-weight: 600;" class="block text-gray-700 dark:text-gray-300 mb-0.5">Down Payment (₹)</label>
+            <input type="number" step="any" name="down_payment" placeholder="e.g. 4000000 (40 L)" class="w-full rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
+          </div>
+
+          <!-- Full 3-Column Span Fields -->
+          <div style="grid-column: 1 / -1;">
+            <label style="font-size: 9.5px !important; font-weight: 600;" class="block text-gray-700 dark:text-gray-300 mb-0.5">Preferred Areas / Other Preferences</label>
+            <input type="text" name="other_preferences" placeholder="e.g. Bandra West, Worli, High Rise, Sea View" class="w-full rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white">
+          </div>
+
+          <div style="grid-column: 1 / -1;">
+            <label style="font-size: 9.5px !important; font-weight: 600;" class="block text-gray-700 dark:text-gray-300 mb-0.5">Requirement / Notes</label>
+            <textarea name="message" rows="1.5" style="min-height: 38px;" placeholder="Write lead requirement notes..." class="w-full rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs outline-none focus:border-brand-500 dark:border-gray-800 dark:bg-gray-900 dark:text-white"></textarea>
           </div>
         </div>
 
         <!-- Modal Footer -->
-        <div class="flex justify-end gap-2 pt-3 border-t border-gray-100 dark:border-gray-800 mt-1">
-          <button type="button" id="btn-cancel-add-lead" class="rounded-lg border border-gray-200 bg-white px-3.5 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200 cursor-pointer">
+        <div class="flex justify-end gap-2 pt-2 border-t border-gray-100 dark:border-gray-800 mt-1">
+          <button type="button" id="btn-cancel-add-lead" class="rounded-lg border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200 cursor-pointer">
             Cancel
           </button>
-          <button type="submit" class="rounded-lg bg-brand-500 hover:bg-brand-600 px-4 py-1.5 text-xs font-semibold text-white cursor-pointer transition">
+          <button type="submit" class="rounded-lg bg-brand-500 hover:bg-brand-600 px-3.5 py-1 text-xs font-semibold text-white cursor-pointer transition">
             Save Lead
           </button>
         </div>
@@ -420,6 +476,30 @@
       function escapeHtml(str) {
         if (!str) return '';
         return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+
+      // Helper function to format Indian currency
+      function formatIndianCurrencyJS(value, prefix = '₹') {
+        if (value === null || value === undefined || value === '') return '';
+        let strVal = String(value).trim();
+        let clean = strVal.replace(/[^\d.]/g, '');
+        let num = parseFloat(clean);
+        if (isNaN(num) || num <= 0) return strVal;
+
+        if (num >= 10000000) {
+          let cr = num / 10000000;
+          let formatted = Number.isInteger(cr) ? cr : cr.toFixed(2).replace(/\.?0+$/, '');
+          return prefix + formatted + ' Cr';
+        } else if (num >= 100000) {
+          let lac = num / 100000;
+          let formatted = Number.isInteger(lac) ? lac : lac.toFixed(2).replace(/\.?0+$/, '');
+          return prefix + formatted + ' L';
+        } else if (num >= 1000) {
+          let k = num / 1000;
+          let formatted = Number.isInteger(k) ? k : k.toFixed(2).replace(/\.?0+$/, '');
+          return prefix + formatted + ' K';
+        }
+        return prefix + num.toLocaleString('en-IN');
       }
 
       // Initialize DataTables with pure Frontend View Formatters
@@ -489,7 +569,7 @@
             render: function (data, type, row) {
               const prop = escapeHtml(row.property_title || 'Property Lead');
               const loc = row.location || '';
-              const budget = row.budget || '';
+              const budget = row.budget ? formatIndianCurrencyJS(row.budget) : '';
 
               let line2 = [];
               if (loc) line2.push(loc);

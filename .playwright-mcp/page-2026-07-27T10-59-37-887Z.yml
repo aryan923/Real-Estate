@@ -1,0 +1,176 @@
+- generic [ref=f2e4]:
+  - complementary [ref=f2e5]:
+    - link "Logo Laravel" [ref=f2e7] [cursor=pointer]:
+      - /url: http://localhost:8000/admin/dashboard
+      - img "Logo" [ref=f2e8]
+      - generic [ref=f2e9]: Laravel
+    - navigation [ref=f2e11]:
+      - generic [ref=f2e12]:
+        - heading "MENU" [level=3] [ref=f2e13]
+        - list [ref=f2e14]:
+          - listitem [ref=f2e15]:
+            - link "Dashboard" [ref=f2e16] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/dashboard
+          - listitem [ref=f2e20]:
+            - link "Leads" [ref=f2e21] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/enquiries
+          - listitem [ref=f2e25]:
+            - link "Customers" [ref=f2e26] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/customers
+          - listitem [ref=f2e30]:
+            - link "Projects" [ref=f2e31] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/projects
+          - listitem [ref=f2e35]:
+            - link "Inventory" [ref=f2e36] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/inventory
+          - listitem [ref=f2e40]:
+            - link "Site Visits" [ref=f2e41] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/site-visits
+          - listitem [ref=f2e45]:
+            - link "Bookings" [ref=f2e46] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/bookings
+          - listitem [ref=f2e50]:
+            - link "Payments" [ref=f2e51] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/payments
+          - listitem [ref=f2e55]:
+            - link "Documents" [ref=f2e56] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/documents
+          - listitem [ref=f2e60]:
+            - link "Reports" [ref=f2e61] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/reports
+          - listitem [ref=f2e65]:
+            - link "Users" [ref=f2e66] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/user-management
+          - listitem [ref=f2e70]:
+            - link "Settings" [ref=f2e71] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/general-setting
+      - generic [ref=f2e76]:
+        - heading "CMS & MASTER" [level=3] [ref=f2e77]
+        - list [ref=f2e78]:
+          - listitem [ref=f2e79]:
+            - link "Properties" [ref=f2e80] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/properties
+          - listitem [ref=f2e84]:
+            - link "Categories" [ref=f2e85] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/categories
+          - listitem [ref=f2e89]:
+            - link "Features" [ref=f2e90] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/features
+          - listitem [ref=f2e94]:
+            - link "Cities" [ref=f2e95] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/cities
+          - listitem [ref=f2e100]:
+            - link "Currencies" [ref=f2e101] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/currencies
+          - listitem [ref=f2e105]:
+            - link "Testimonials" [ref=f2e106] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/testimonials
+          - listitem [ref=f2e110]:
+            - link "Agents" [ref=f2e111] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/agents
+          - listitem [ref=f2e116]:
+            - link "Blog" [ref=f2e117] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/posts
+          - listitem [ref=f2e121]:
+            - link "Pages" [ref=f2e122] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/pages
+          - listitem [ref=f2e126]:
+            - link "Comments" [ref=f2e127] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/comments
+          - listitem [ref=f2e131]:
+            - link "Roles" [ref=f2e132] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/roles-permissions
+  - generic [ref=f2e136]:
+    - banner [ref=f2e137]:
+      - generic [ref=f2e138]:
+        - generic [ref=f2e139]:
+          - button [ref=f2e140] [cursor=pointer]
+          - generic [ref=f2e145]:
+            - textbox "Search or type command..." [ref=f2e149]
+            - button "⌘ K" [ref=f2e150] [cursor=pointer]:
+              - generic [ref=f2e151]: ⌘
+              - generic [ref=f2e152]: K
+        - generic [ref=f2e153]:
+          - generic [ref=f2e154]:
+            - button [ref=f2e155] [cursor=pointer]
+            - button [ref=f2e159] [cursor=pointer]
+            - button [ref=f2e163] [cursor=pointer]
+          - link "User Admin User" [ref=f2e169] [cursor=pointer]:
+            - /url: "#"
+            - img "User" [ref=f2e171]
+            - generic [ref=f2e172]: Admin User
+    - main [ref=f2e175]:
+      - generic [ref=f2e177]:
+        - generic [ref=f2e178]:
+          - link "← Back to Lead Details" [ref=f2e180] [cursor=pointer]:
+            - /url: http://localhost:8000/admin/enquiries/1
+          - heading "Update Status & Follow-up Notes" [level=1] [ref=f2e181]
+          - paragraph [ref=f2e182]: "Update the lifecycle stage and add internal follow-up logs for Lead #1 (Ananya Sen)."
+        - generic [ref=f2e184]:
+          - generic [ref=f2e185]:
+            - generic [ref=f2e186]: Lifecycle Status
+            - combobox "Lifecycle Status" [ref=f2e187]:
+              - option "Draft"
+              - option "New" [selected]
+              - option "Contacted"
+              - option "Interested"
+              - option "Follow Up"
+              - option "Site Visit"
+              - option "Negotiation"
+              - option "Won (Closed Deal)"
+              - option "Lost"
+          - generic [ref=f2e188]:
+            - generic [ref=f2e189]: Assigned Agent
+            - combobox "Assigned Agent" [ref=f2e190]:
+              - option "-- Unassigned --" [selected]
+              - option "Amit Sharma"
+              - option "Anjali Rao"
+              - option "Priya Patel"
+              - option "Rajesh Kumar"
+              - option "Vikram Malhotra"
+          - generic [ref=f2e191]:
+            - generic [ref=f2e192]: Associated Property
+            - combobox "Associated Property" [ref=f2e193]:
+              - option "-- No Specific Property (N/A) --" [selected]
+              - option "3 BHK Luxury Apartment in Bandra West"
+              - option "Contemporary Bungalow in Juhu Scheme"
+              - option "Elegant 2 BHK Flat in Andheri East"
+              - option "Fully Furnished Office Space in Connaught Place"
+              - option "Green Heights Tower A Unit 101"
+              - option "Green Heights Tower A Unit 102"
+              - option "Green Heights Tower A Unit 103"
+              - option "Green Heights Tower A Unit 201"
+              - option "Green Heights Tower A Unit 202"
+              - option "Green Heights Tower A Unit 203"
+              - option "Green Heights Tower A Unit 301"
+              - option "Green Heights Tower A Unit 302"
+              - option "Green Heights Tower A Unit 303"
+              - option "Green Heights Tower B Unit 101"
+              - option "Green Heights Tower B Unit 102"
+              - option "Green Heights Tower B Unit 103"
+              - option "Green Heights Tower B Unit 201"
+              - option "Green Heights Tower B Unit 202"
+              - option "Green Heights Tower B Unit 203"
+              - option "Green Heights Tower B Unit 301"
+              - option "Green Heights Tower B Unit 302"
+              - option "Green Heights Tower B Unit 303"
+              - option "Modern Studio Apartment in DLF Phase 5"
+              - option "Premium Co-working Space in HSR Layout"
+              - option "Royal Residency Duplex Villa 101"
+              - option "Royal Residency Duplex Villa 101"
+              - option "Royal Residency Duplex Villa 102"
+              - option "Royal Residency Duplex Villa 102"
+              - option "Royal Residency Duplex Villa 201"
+              - option "Royal Residency Duplex Villa 201"
+              - option "Royal Residency Duplex Villa 202"
+              - option "Royal Residency Duplex Villa 202"
+              - option "Spacious 4 BHK Villa in Whitefield"
+              - option "Ultra Premium Penthouse in Koregaon Park"
+          - generic [ref=f2e194]:
+            - generic [ref=f2e195]: Internal Follow-up Note
+            - textbox "Internal Follow-up Note" [ref=f2e196]:
+              - /placeholder: Log details of the conversation, next steps, or specific client requirements here...
+          - generic [ref=f2e197]:
+            - button "Save Changes" [ref=f2e198] [cursor=pointer]
+            - link "Cancel" [ref=f2e199] [cursor=pointer]:
+              - /url: http://localhost:8000/admin/enquiries/1
