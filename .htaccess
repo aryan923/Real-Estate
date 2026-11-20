@@ -1,0 +1,16 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # 1. Block access to sensitive configuration and environment files
+    <FilesMatch "^(\.env|composer\.(json|lock)|package(-lock)?\.json|phpunit\.xml|vite\.config\.js|\.git)">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+
+    # 2. Prevent directory listing
+    Options -Indexes
+
+    # 3. Rewrite all traffic into the /public subfolder
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>

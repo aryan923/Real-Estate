@@ -104,6 +104,15 @@ class Enquiry extends Model
         }
     }
 
+    public function getPropertyAttribute($value)
+    {
+        if ($this->relationLoaded('property') || !empty($this->property_id)) {
+            return $this->getRelationValue('property');
+        }
+
+        return null;
+    }
+
     public function property()
     {
         return $this->belongsTo(Property::class);
