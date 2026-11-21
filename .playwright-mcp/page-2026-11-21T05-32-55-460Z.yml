@@ -1,0 +1,860 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - navigation "Sticky navigation":
+        - link "PropDesk":
+          - /url: https://relevant-orchid-wombat-62.hostingersite.com
+        - generic:
+          - link "Home":
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com
+          - link "About Us":
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/about-us
+          - link "Properties":
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/properties
+          - link "Agent":
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/agents
+          - link "Blog":
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/blog
+          - link "Contact Us":
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/contact-us
+          - link "List Your Property":
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/list-property
+  - banner [ref=e2]:
+    - img "Hero home" [ref=e3]
+    - generic [ref=e7]:
+      - link "contact@mail.com" [ref=e8] [cursor=pointer]:
+        - /url: mailto:contact@mail.com
+      - link "+1 408 167 1234" [ref=e11] [cursor=pointer]:
+        - /url: tel:+1 408 167 1234
+    - generic [ref=e14]:
+      - navigation [ref=e15]:
+        - link "RS PropDesk" [ref=e16] [cursor=pointer]:
+          - /url: https://relevant-orchid-wombat-62.hostingersite.com
+          - generic [ref=e17]: RS
+          - generic [ref=e18]: PropDesk
+        - generic [ref=e19]:
+          - link "Home" [ref=e20] [cursor=pointer]:
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com
+          - link "About Us" [ref=e21] [cursor=pointer]:
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/about-us
+          - link "Properties" [ref=e22] [cursor=pointer]:
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/properties
+          - link "Agent" [ref=e23] [cursor=pointer]:
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/agents
+          - link "Blog" [ref=e24] [cursor=pointer]:
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/blog
+          - link "Contact Us" [ref=e25] [cursor=pointer]:
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/contact-us
+          - link "List Your Property" [ref=e26] [cursor=pointer]:
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/list-property
+      - generic [ref=e27]:
+        - heading "Find Your Dream Home" [level=1] [ref=e28]
+        - paragraph [ref=e29]: We are recognized for exceeding client expectations and delivering great results through dedication, ease of process, and extraordinary services to our worldwide clients.
+    - generic [ref=e31]:
+      - generic [ref=e32]:
+        - button "Sale" [ref=e33] [cursor=pointer]
+        - button "Rent" [ref=e34] [cursor=pointer]
+        - button "Lease" [ref=e35] [cursor=pointer]
+      - generic [ref=e37]:
+        - generic [ref=e38]:
+          - generic [ref=e39]:
+            - generic [ref=e40]: Categories
+            - combobox [ref=e42] [cursor=pointer]:
+              - option "Categories" [selected]
+              - option "Apartment"
+              - option "Builder Projects"
+              - option "Commercial"
+              - option "Land Categories"
+              - option "Residential"
+              - option "Special Purpose"
+          - generic [ref=e43]:
+            - generic [ref=e44]: Cities
+            - combobox [ref=e46] [cursor=pointer]:
+              - option "Cities" [selected]
+              - option "Bangalore"
+              - option "Gurgaon"
+              - option "Mumbai"
+              - option "New Delhi"
+              - option "Pune"
+          - generic [ref=e47]:
+            - generic [ref=e48]: Areas
+            - combobox [ref=e50] [cursor=pointer]:
+              - option "Areas" [selected]
+              - option "Andheri East"
+              - option "Bandra West"
+              - option "Connaught Place"
+              - option "DLF Phase 5"
+              - option "HSR Layout"
+              - option "Juhu Scheme"
+              - option "Koregaon Park"
+              - option "Whitefield"
+          - generic [ref=e51]:
+            - generic [ref=e52]: Beds | Baths
+            - combobox [ref=e54] [cursor=pointer]:
+              - option "Beds | Baths" [selected]
+              - option "1+ Beds"
+              - option "2+ Beds"
+              - option "3+ Beds"
+              - option "4+ Beds"
+        - generic [ref=e55]:
+          - generic [ref=e56]:
+            - generic [ref=e57]: Property Status
+            - combobox [ref=e59] [cursor=pointer]:
+              - option "Property Status" [selected]
+              - option "Active"
+              - option "Pending"
+              - option "Sold"
+          - generic [ref=e60]:
+            - generic [ref=e61]: Stories
+            - combobox [ref=e63] [cursor=pointer]:
+              - option "Stories" [selected]
+              - option "1 Story"
+              - option "2 Stories"
+              - option "3 Stories"
+              - option "4+ Stories"
+          - generic [ref=e64]:
+            - generic [ref=e65]: Sale Price
+            - combobox [ref=e67] [cursor=pointer]:
+              - option "Sale Price" [selected]
+              - option "Under $100k"
+              - option "Under $250k"
+              - option "Under $500k"
+              - option "Under $750k"
+              - option "Under $1M"
+              - option "Under $2M"
+          - button "Search Properties" [ref=e69] [cursor=pointer]
+  - generic [ref=e71]:
+    - generic [ref=e72]:
+      - heading "Properties by Area" [level=2] [ref=e73]
+      - paragraph [ref=e74]: Highlight the best of your properties by using the List Category shortcode. You can list categories, types, cities, areas and states of your choice.
+    - generic [ref=e76]:
+      - link [ref=e77] [cursor=pointer]:
+        - /url: https://relevant-orchid-wombat-62.hostingersite.com/properties?city=133210
+        - img "New Delhi" [ref=e78]
+        - generic [ref=e79]:
+          - heading "New Delhi" [level=3] [ref=e80]
+          - paragraph [ref=e81]: 23 listings
+      - link [ref=e82] [cursor=pointer]:
+        - /url: https://relevant-orchid-wombat-62.hostingersite.com/properties?city=133024
+        - img "Mumbai" [ref=e83]
+        - generic [ref=e84]:
+          - heading "Mumbai" [level=3] [ref=e85]
+          - paragraph [ref=e86]: 3 listings
+      - link [ref=e87] [cursor=pointer]:
+        - /url: https://relevant-orchid-wombat-62.hostingersite.com/properties?city=153662
+        - img "Bangalore" [ref=e88]
+        - generic [ref=e89]:
+          - heading "Bangalore" [level=3] [ref=e90]
+          - paragraph [ref=e91]: 2 listings
+      - link [ref=e92] [cursor=pointer]:
+        - /url: https://relevant-orchid-wombat-62.hostingersite.com/properties?city=133504
+        - img "Pune" [ref=e93]
+        - generic [ref=e94]:
+          - heading "Pune" [level=3] [ref=e95]
+          - paragraph [ref=e96]: 1 listing
+      - link [ref=e97] [cursor=pointer]:
+        - /url: https://relevant-orchid-wombat-62.hostingersite.com/properties?city=132032
+        - img "Gurgaon" [ref=e98]
+        - generic [ref=e99]:
+          - heading "Gurgaon" [level=3] [ref=e100]
+          - paragraph [ref=e101]: 1 listing
+  - generic [ref=e103]:
+    - generic [ref=e104]:
+      - heading "Latest Properties" [level=2] [ref=e105]
+      - paragraph [ref=e106]: These are the latest properties in the sales category. You can create the list using the latest listing shortcode and show items by specific categories.
+    - generic [ref=e107]:
+      - button "All" [ref=e108]
+      - button "Sale" [ref=e109]
+      - button "Rent" [ref=e110]
+      - button "Lease" [ref=e111]
+    - generic [ref=e112]:
+      - article [ref=e113]:
+        - link [ref=e114] [cursor=pointer]:
+          - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-101
+          - img "Green Heights Tower B Unit 101" [ref=e115]
+        - generic [ref=e116]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Sale
+            - generic [ref=e120]: Active
+          - heading [level=3] [ref=e121]:
+            - link "Green Heights Tower B Unit 101" [ref=e122] [cursor=pointer]:
+              - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-101
+          - paragraph [ref=e123]: US$7,750,000
+          - paragraph [ref=e124]: Premium apartment unit 101 located in Tower B on floor 1.
+          - paragraph [ref=e125]: ", New Delhi"
+      - article [ref=e126]:
+        - link [ref=e127] [cursor=pointer]:
+          - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-102
+          - img "Green Heights Tower B Unit 102" [ref=e128]
+        - generic [ref=e129]:
+          - generic [ref=e131]:
+            - generic [ref=e132]: Sale
+            - generic [ref=e133]: Active
+          - heading [level=3] [ref=e134]:
+            - link "Green Heights Tower B Unit 102" [ref=e135] [cursor=pointer]:
+              - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-102
+          - paragraph [ref=e136]: US$7,750,000
+          - paragraph [ref=e137]: Premium apartment unit 102 located in Tower B on floor 1.
+          - paragraph [ref=e138]: ", New Delhi"
+      - article [ref=e139]:
+        - link [ref=e140] [cursor=pointer]:
+          - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-103
+          - img "Green Heights Tower B Unit 103" [ref=e141]
+        - generic [ref=e142]:
+          - generic [ref=e144]:
+            - generic [ref=e145]: Sale
+            - generic [ref=e146]: Active
+          - heading [level=3] [ref=e147]:
+            - link "Green Heights Tower B Unit 103" [ref=e148] [cursor=pointer]:
+              - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-103
+          - paragraph [ref=e149]: US$7,750,000
+          - paragraph [ref=e150]: Premium apartment unit 103 located in Tower B on floor 1.
+          - paragraph [ref=e151]: ", New Delhi"
+      - article [ref=e152]:
+        - link [ref=e153] [cursor=pointer]:
+          - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-201
+          - img "Green Heights Tower B Unit 201" [ref=e154]
+        - generic [ref=e155]:
+          - generic [ref=e157]:
+            - generic [ref=e158]: Sale
+            - generic [ref=e159]: Active
+          - heading [level=3] [ref=e160]:
+            - link "Green Heights Tower B Unit 201" [ref=e161] [cursor=pointer]:
+              - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-201
+          - paragraph [ref=e162]: US$8,000,000
+          - paragraph [ref=e163]: Premium apartment unit 201 located in Tower B on floor 2.
+          - paragraph [ref=e164]: ", New Delhi"
+      - article [ref=e165]:
+        - link [ref=e166] [cursor=pointer]:
+          - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-202
+          - img "Green Heights Tower B Unit 202" [ref=e167]
+        - generic [ref=e168]:
+          - generic [ref=e170]:
+            - generic [ref=e171]: Sale
+            - generic [ref=e172]: Active
+          - heading [level=3] [ref=e173]:
+            - link "Green Heights Tower B Unit 202" [ref=e174] [cursor=pointer]:
+              - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-202
+          - paragraph [ref=e175]: US$8,000,000
+          - paragraph [ref=e176]: Premium apartment unit 202 located in Tower B on floor 2.
+          - paragraph [ref=e177]: ", New Delhi"
+      - article [ref=e178]:
+        - link [ref=e179] [cursor=pointer]:
+          - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-203
+          - img "Green Heights Tower B Unit 203" [ref=e180]
+        - generic [ref=e181]:
+          - generic [ref=e183]:
+            - generic [ref=e184]: Sale
+            - generic [ref=e185]: Active
+          - heading [level=3] [ref=e186]:
+            - link "Green Heights Tower B Unit 203" [ref=e187] [cursor=pointer]:
+              - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-203
+          - paragraph [ref=e188]: US$8,000,000
+          - paragraph [ref=e189]: Premium apartment unit 203 located in Tower B on floor 2.
+          - paragraph [ref=e190]: ", New Delhi"
+    - link "View More Properties" [ref=e192] [cursor=pointer]:
+      - /url: https://relevant-orchid-wombat-62.hostingersite.com/properties
+  - generic [ref=e194]:
+    - generic [ref=e195]:
+      - heading "Properties by Category" [level=2] [ref=e196]
+      - paragraph [ref=e197]: Highlight the best of your properties by using the List Category shortcode. You can list specific properties categories, types, cities, areas.
+    - generic [ref=e198]:
+      - article [ref=e199]:
+        - link "Residential Residential 0 listings":
+          - /url: https://relevant-orchid-wombat-62.hostingersite.com/properties?category=1
+          - img "Residential" [ref=e200] [cursor=pointer]
+          - generic [ref=e201] [cursor=pointer]
+          - generic [ref=e202] [cursor=pointer]:
+            - heading "Residential" [level=3] [ref=e203]
+            - paragraph [ref=e204]: 0 listings
+      - article [ref=e205]:
+        - link "Commercial Commercial 0 listings":
+          - /url: https://relevant-orchid-wombat-62.hostingersite.com/properties?category=22
+          - img "Commercial" [ref=e206] [cursor=pointer]
+          - generic [ref=e207] [cursor=pointer]
+          - generic [ref=e208] [cursor=pointer]:
+            - heading "Commercial" [level=3] [ref=e209]
+            - paragraph [ref=e210]: 0 listings
+      - article [ref=e211]:
+        - link "Land Categories Land Categories 0 listings":
+          - /url: https://relevant-orchid-wombat-62.hostingersite.com/properties?category=45
+          - img "Land Categories" [ref=e212] [cursor=pointer]
+          - generic [ref=e213] [cursor=pointer]
+          - generic [ref=e214] [cursor=pointer]:
+            - heading "Land Categories" [level=3] [ref=e215]
+            - paragraph [ref=e216]: 0 listings
+      - article [ref=e217]:
+        - link "Builder Projects Builder Projects 0 listings":
+          - /url: https://relevant-orchid-wombat-62.hostingersite.com/properties?category=55
+          - img "Builder Projects" [ref=e218] [cursor=pointer]
+          - generic [ref=e219] [cursor=pointer]
+          - generic [ref=e220] [cursor=pointer]:
+            - heading "Builder Projects" [level=3] [ref=e221]
+            - paragraph [ref=e222]: 0 listings
+      - article [ref=e223]:
+        - link "Special Purpose Special Purpose 0 listings":
+          - /url: https://relevant-orchid-wombat-62.hostingersite.com/properties?category=61
+          - img "Special Purpose" [ref=e224] [cursor=pointer]
+          - generic [ref=e225] [cursor=pointer]
+          - generic [ref=e226] [cursor=pointer]:
+            - heading "Special Purpose" [level=3] [ref=e227]
+            - paragraph [ref=e228]: 0 listings
+  - generic [ref=e230]:
+    - generic [ref=e231]:
+      - heading "Properties for Rent" [level=2] [ref=e232]
+      - paragraph [ref=e233]: These are the latest properties in the sales category. You can create the list using the "latest listing shortcode" and show items by specific categories.
+    - button "Previous slide" [ref=e234]: ←
+    - button "Next slide" [ref=e235]: →
+    - generic [ref=e236]:
+      - article [ref=e237]:
+        - generic [ref=e238]:
+          - link [ref=e239] [cursor=pointer]:
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-101
+            - img "Green Heights Tower B Unit 101" [ref=e240]
+          - generic [ref=e241]:
+            - generic [ref=e242]: Rent
+            - generic [ref=e243]: Active
+          - paragraph [ref=e244]: ", New Delhi"
+        - generic [ref=e245]:
+          - heading [level=3] [ref=e246]:
+            - link "Green Heights Tower B Unit 101" [ref=e247] [cursor=pointer]:
+              - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-101
+          - paragraph [ref=e248]: US$7,750,000 / month
+          - paragraph [ref=e249]: Premium apartment unit 101 located in Tower B on floor 1.
+          - generic [ref=e250]:
+            - generic [ref=e251]:
+              - generic [ref=e252]: 0 Beds
+              - generic [ref=e253]: 0 Baths
+              - generic [ref=e254]: N/A
+            - generic [ref=e255]:
+              - paragraph [ref=e256]: Listing Agent
+              - generic [ref=e257]:
+                - generic [ref=e258]: +
+                - generic [ref=e259]: ♡
+      - article [ref=e260]:
+        - generic [ref=e261]:
+          - link [ref=e262] [cursor=pointer]:
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-102
+            - img "Green Heights Tower B Unit 102" [ref=e263]
+          - generic [ref=e264]:
+            - generic [ref=e265]: Rent
+            - generic [ref=e266]: Active
+          - paragraph [ref=e267]: ", New Delhi"
+        - generic [ref=e268]:
+          - heading [level=3] [ref=e269]:
+            - link "Green Heights Tower B Unit 102" [ref=e270] [cursor=pointer]:
+              - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-102
+          - paragraph [ref=e271]: US$7,750,000 / month
+          - paragraph [ref=e272]: Premium apartment unit 102 located in Tower B on floor 1.
+          - generic [ref=e273]:
+            - generic [ref=e274]:
+              - generic [ref=e275]: 0 Beds
+              - generic [ref=e276]: 0 Baths
+              - generic [ref=e277]: N/A
+            - generic [ref=e278]:
+              - paragraph [ref=e279]: Listing Agent
+              - generic [ref=e280]:
+                - generic [ref=e281]: +
+                - generic [ref=e282]: ♡
+      - article [ref=e283]:
+        - generic [ref=e284]:
+          - link [ref=e285] [cursor=pointer]:
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-103
+            - img "Green Heights Tower B Unit 103" [ref=e286]
+          - generic [ref=e287]:
+            - generic [ref=e288]: Rent
+            - generic [ref=e289]: Active
+          - paragraph [ref=e290]: ", New Delhi"
+        - generic [ref=e291]:
+          - heading [level=3] [ref=e292]:
+            - link "Green Heights Tower B Unit 103" [ref=e293] [cursor=pointer]:
+              - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-103
+          - paragraph [ref=e294]: US$7,750,000 / month
+          - paragraph [ref=e295]: Premium apartment unit 103 located in Tower B on floor 1.
+          - generic [ref=e296]:
+            - generic [ref=e297]:
+              - generic [ref=e298]: 0 Beds
+              - generic [ref=e299]: 0 Baths
+              - generic [ref=e300]: N/A
+            - generic [ref=e301]:
+              - paragraph [ref=e302]: Listing Agent
+              - generic [ref=e303]:
+                - generic [ref=e304]: +
+                - generic [ref=e305]: ♡
+      - article [ref=e306]:
+        - generic [ref=e307]:
+          - link [ref=e308] [cursor=pointer]:
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-201
+            - img "Green Heights Tower B Unit 201" [ref=e309]
+          - generic [ref=e310]:
+            - generic [ref=e311]: Rent
+            - generic [ref=e312]: Active
+          - paragraph [ref=e313]: ", New Delhi"
+        - generic [ref=e314]:
+          - heading [level=3] [ref=e315]:
+            - link "Green Heights Tower B Unit 201" [ref=e316] [cursor=pointer]:
+              - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-201
+          - paragraph [ref=e317]: US$8,000,000 / month
+          - paragraph [ref=e318]: Premium apartment unit 201 located in Tower B on floor 2.
+          - generic [ref=e319]:
+            - generic [ref=e320]:
+              - generic [ref=e321]: 0 Beds
+              - generic [ref=e322]: 0 Baths
+              - generic [ref=e323]: N/A
+            - generic [ref=e324]:
+              - paragraph [ref=e325]: Listing Agent
+              - generic [ref=e326]:
+                - generic [ref=e327]: +
+                - generic [ref=e328]: ♡
+      - article [ref=e329]:
+        - generic [ref=e330]:
+          - link [ref=e331] [cursor=pointer]:
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-202
+            - img "Green Heights Tower B Unit 202" [ref=e332]
+          - generic [ref=e333]:
+            - generic [ref=e334]: Rent
+            - generic [ref=e335]: Active
+          - paragraph [ref=e336]: ", New Delhi"
+        - generic [ref=e337]:
+          - heading [level=3] [ref=e338]:
+            - link "Green Heights Tower B Unit 202" [ref=e339] [cursor=pointer]:
+              - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-202
+          - paragraph [ref=e340]: US$8,000,000 / month
+          - paragraph [ref=e341]: Premium apartment unit 202 located in Tower B on floor 2.
+          - generic [ref=e342]:
+            - generic [ref=e343]:
+              - generic [ref=e344]: 0 Beds
+              - generic [ref=e345]: 0 Baths
+              - generic [ref=e346]: N/A
+            - generic [ref=e347]:
+              - paragraph [ref=e348]: Listing Agent
+              - generic [ref=e349]:
+                - generic [ref=e350]: +
+                - generic [ref=e351]: ♡
+      - article [ref=e352]:
+        - generic [ref=e353]:
+          - link [ref=e354] [cursor=pointer]:
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-203
+            - img "Green Heights Tower B Unit 203" [ref=e355]
+          - generic [ref=e356]:
+            - generic [ref=e357]: Rent
+            - generic [ref=e358]: Active
+          - paragraph [ref=e359]: ", New Delhi"
+        - generic [ref=e360]:
+          - heading [level=3] [ref=e361]:
+            - link "Green Heights Tower B Unit 203" [ref=e362] [cursor=pointer]:
+              - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-203
+          - paragraph [ref=e363]: US$8,000,000 / month
+          - paragraph [ref=e364]: Premium apartment unit 203 located in Tower B on floor 2.
+          - generic [ref=e365]:
+            - generic [ref=e366]:
+              - generic [ref=e367]: 0 Beds
+              - generic [ref=e368]: 0 Baths
+              - generic [ref=e369]: N/A
+            - generic [ref=e370]:
+              - paragraph [ref=e371]: Listing Agent
+              - generic [ref=e372]:
+                - generic [ref=e373]: +
+                - generic [ref=e374]: ♡
+      - article [ref=e375]:
+        - generic [ref=e376]:
+          - link [ref=e377] [cursor=pointer]:
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-301
+            - img "Green Heights Tower B Unit 301" [ref=e378]
+          - generic [ref=e379]:
+            - generic [ref=e380]: Rent
+            - generic [ref=e381]: Active
+          - paragraph [ref=e382]: ", New Delhi"
+        - generic [ref=e383]:
+          - heading [level=3] [ref=e384]:
+            - link "Green Heights Tower B Unit 301" [ref=e385] [cursor=pointer]:
+              - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-301
+          - paragraph [ref=e386]: US$8,250,000 / month
+          - paragraph [ref=e387]: Premium apartment unit 301 located in Tower B on floor 3.
+          - generic [ref=e388]:
+            - generic [ref=e389]:
+              - generic [ref=e390]: 0 Beds
+              - generic [ref=e391]: 0 Baths
+              - generic [ref=e392]: N/A
+            - generic [ref=e393]:
+              - paragraph [ref=e394]: Listing Agent
+              - generic [ref=e395]:
+                - generic [ref=e396]: +
+                - generic [ref=e397]: ♡
+      - article [ref=e398]:
+        - generic [ref=e399]:
+          - link [ref=e400] [cursor=pointer]:
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-302
+            - img "Green Heights Tower B Unit 302" [ref=e401]
+          - generic [ref=e402]:
+            - generic [ref=e403]: Rent
+            - generic [ref=e404]: Active
+          - paragraph [ref=e405]: ", New Delhi"
+        - generic [ref=e406]:
+          - heading [level=3] [ref=e407]:
+            - link "Green Heights Tower B Unit 302" [ref=e408] [cursor=pointer]:
+              - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-302
+          - paragraph [ref=e409]: US$8,250,000 / month
+          - paragraph [ref=e410]: Premium apartment unit 302 located in Tower B on floor 3.
+          - generic [ref=e411]:
+            - generic [ref=e412]:
+              - generic [ref=e413]: 0 Beds
+              - generic [ref=e414]: 0 Baths
+              - generic [ref=e415]: N/A
+            - generic [ref=e416]:
+              - paragraph [ref=e417]: Listing Agent
+              - generic [ref=e418]:
+                - generic [ref=e419]: +
+                - generic [ref=e420]: ♡
+      - article [ref=e421]:
+        - generic [ref=e422]:
+          - link [ref=e423] [cursor=pointer]:
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-303
+            - img "Green Heights Tower B Unit 303" [ref=e424]
+          - generic [ref=e425]:
+            - generic [ref=e426]: Rent
+            - generic [ref=e427]: Active
+          - paragraph [ref=e428]: ", New Delhi"
+        - generic [ref=e429]:
+          - heading [level=3] [ref=e430]:
+            - link "Green Heights Tower B Unit 303" [ref=e431] [cursor=pointer]:
+              - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-303
+          - paragraph [ref=e432]: US$8,250,000 / month
+          - paragraph [ref=e433]: Premium apartment unit 303 located in Tower B on floor 3.
+          - generic [ref=e434]:
+            - generic [ref=e435]:
+              - generic [ref=e436]: 0 Beds
+              - generic [ref=e437]: 0 Baths
+              - generic [ref=e438]: N/A
+            - generic [ref=e439]:
+              - paragraph [ref=e440]: Listing Agent
+              - generic [ref=e441]:
+                - generic [ref=e442]: +
+                - generic [ref=e443]: ♡
+      - article [ref=e444]:
+        - generic [ref=e445]:
+          - link [ref=e446] [cursor=pointer]:
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/royal-residency-villa-101
+            - img "Royal Residency Duplex Villa 101" [ref=e447]
+          - generic [ref=e448]:
+            - generic [ref=e449]: Rent
+            - generic [ref=e450]: Active
+          - paragraph [ref=e451]: ", New Delhi"
+        - generic [ref=e452]:
+          - heading [level=3] [ref=e453]:
+            - link "Royal Residency Duplex Villa 101" [ref=e454] [cursor=pointer]:
+              - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/royal-residency-villa-101
+          - paragraph [ref=e455]: US$18,000,000 / month
+          - paragraph [ref=e456]: Duplex luxury villa unit 101.
+          - generic [ref=e457]:
+            - generic [ref=e458]:
+              - generic [ref=e459]: 0 Beds
+              - generic [ref=e460]: 0 Baths
+              - generic [ref=e461]: N/A
+            - generic [ref=e462]:
+              - paragraph [ref=e463]: Listing Agent
+              - generic [ref=e464]:
+                - generic [ref=e465]: +
+                - generic [ref=e466]: ♡
+      - article [ref=e467]:
+        - generic [ref=e468]:
+          - link [ref=e469] [cursor=pointer]:
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/royal-residency-villa-102
+            - img "Royal Residency Duplex Villa 102" [ref=e470]
+          - generic [ref=e471]:
+            - generic [ref=e472]: Rent
+            - generic [ref=e473]: Active
+          - paragraph [ref=e474]: ", New Delhi"
+        - generic [ref=e475]:
+          - heading [level=3] [ref=e476]:
+            - link "Royal Residency Duplex Villa 102" [ref=e477] [cursor=pointer]:
+              - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/royal-residency-villa-102
+          - paragraph [ref=e478]: US$18,000,000 / month
+          - paragraph [ref=e479]: Duplex luxury villa unit 102.
+          - generic [ref=e480]:
+            - generic [ref=e481]:
+              - generic [ref=e482]: 0 Beds
+              - generic [ref=e483]: 0 Baths
+              - generic [ref=e484]: N/A
+            - generic [ref=e485]:
+              - paragraph [ref=e486]: Listing Agent
+              - generic [ref=e487]:
+                - generic [ref=e488]: +
+                - generic [ref=e489]: ♡
+      - article [ref=e490]:
+        - generic [ref=e491]:
+          - link [ref=e492] [cursor=pointer]:
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/royal-residency-villa-201
+            - img "Royal Residency Duplex Villa 201" [ref=e493]
+          - generic [ref=e494]:
+            - generic [ref=e495]: Rent
+            - generic [ref=e496]: Active
+          - paragraph [ref=e497]: ", New Delhi"
+        - generic [ref=e498]:
+          - heading [level=3] [ref=e499]:
+            - link "Royal Residency Duplex Villa 201" [ref=e500] [cursor=pointer]:
+              - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/royal-residency-villa-201
+          - paragraph [ref=e501]: US$18,000,000 / month
+          - paragraph [ref=e502]: Duplex luxury villa unit 201.
+          - generic [ref=e503]:
+            - generic [ref=e504]:
+              - generic [ref=e505]: 0 Beds
+              - generic [ref=e506]: 0 Baths
+              - generic [ref=e507]: N/A
+            - generic [ref=e508]:
+              - paragraph [ref=e509]: Listing Agent
+              - generic [ref=e510]:
+                - generic [ref=e511]: +
+                - generic [ref=e512]: ♡
+  - generic [ref=e514]:
+    - generic [ref=e515]:
+      - heading "Featured Properties" [level=2] [ref=e516]
+      - paragraph [ref=e517]: Here are two listings displayed with the featured property shortcode, which you can use when you have some special properties to present.
+    - generic [ref=e518]:
+      - article [ref=e519]:
+        - generic [ref=e520]:
+          - generic [ref=e521]:
+            - link [ref=e522] [cursor=pointer]:
+              - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/3-bhk-luxury-apartment-in-bandra-west
+              - img "3 BHK Luxury Apartment in Bandra West" [ref=e523]
+            - button "<" [ref=e524]
+            - button ">" [ref=e525]
+            - img "Agent" [ref=e526]
+          - generic [ref=e527]:
+            - heading [level=3] [ref=e528]:
+              - link "3 BHK Luxury Apartment in Bandra West" [ref=e529] [cursor=pointer]:
+                - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/3-bhk-luxury-apartment-in-bandra-west
+            - paragraph [ref=e530]: US$45,000,000
+            - paragraph [ref=e531]: Experience premium luxury living in the heart of Bandra West. This sea-facing apartment offers state...
+            - generic [ref=e532]:
+              - generic [ref=e533]: ⇄
+              - generic [ref=e534]: ♡
+            - generic [ref=e536]:
+              - generic [ref=e537]: 3 Beds
+              - generic [ref=e538]: 3 Baths
+              - generic [ref=e539]: 1850 ft²
+      - article [ref=e540]:
+        - generic [ref=e541]:
+          - generic [ref=e542]:
+            - link [ref=e543] [cursor=pointer]:
+              - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/spacious-4-bhk-villa-in-whitefield
+              - img "Spacious 4 BHK Villa in Whitefield" [ref=e544]
+            - button "<" [ref=e545]
+            - button ">" [ref=e546]
+            - img "Agent" [ref=e547]
+          - generic [ref=e548]:
+            - heading [level=3] [ref=e549]:
+              - link "Spacious 4 BHK Villa in Whitefield" [ref=e550] [cursor=pointer]:
+                - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/spacious-4-bhk-villa-in-whitefield
+            - paragraph [ref=e551]: US$62,000,000
+            - paragraph [ref=e552]: Luxurious independent 4 BHK villa located inside a gated community in Whitefield, Bangalore. Feature...
+            - generic [ref=e553]:
+              - generic [ref=e554]: ⇄
+              - generic [ref=e555]: ♡
+            - generic [ref=e557]:
+              - generic [ref=e558]: 4 Beds
+              - generic [ref=e559]: 4 Baths
+              - generic [ref=e560]: 3400 ft²
+  - generic [ref=e562]:
+    - article [ref=e563]:
+      - img "Green Heights Tower A Unit 302" [ref=e564]
+      - generic [ref=e565]:
+        - paragraph [ref=e566]: $8,250,000
+        - heading "Green Heights Tower A Unit 302" [level=3] [ref=e567]
+        - paragraph [ref=e568]: 0 BD · 0 BA · N/A
+        - paragraph [ref=e569]: Premium apartment unit 302 located in Tower A on floor 3.
+        - link "discover more ›" [ref=e570] [cursor=pointer]:
+          - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-a-unit-302
+          - text: discover more
+          - generic [ref=e571]: ›
+    - generic [ref=e572]:
+      - img "Interior gallery image" [ref=e573]
+      - img "Interior gallery image" [ref=e574]
+      - img "Interior gallery image" [ref=e575]
+      - img "Interior gallery image" [ref=e576]
+  - generic [ref=e578]:
+    - generic [ref=e579]:
+      - heading "Real Estate Agents" [level=2] [ref=e580]
+      - paragraph [ref=e581]: With the "list agents shortcode" you can show your agents in any page, alongside with their contact details and link to their agent profile.
+    - generic [ref=e582]:
+      - article [ref=e583]:
+        - generic [ref=e584]:
+          - link [ref=e585] [cursor=pointer]:
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/agents/rajesh-kumar
+            - img "Rajesh Kumar" [ref=e586]
+          - generic [ref=e587]: Featured
+        - generic [ref=e588]:
+          - heading [level=3] [ref=e589]:
+            - link "Rajesh Kumar" [ref=e590] [cursor=pointer]:
+              - /url: https://relevant-orchid-wombat-62.hostingersite.com/agents/rajesh-kumar
+          - paragraph [ref=e591]: Senior Luxury Consultant
+          - paragraph [ref=e592]: Rajesh is a seasoned real estate advisor with over 12 years of experience in Mumbai's luxury residential market, special...
+          - generic [ref=e593]:
+            - generic [ref=e594]:
+              - link "Facebook" [ref=e595] [cursor=pointer]:
+                - /url: https://facebook.com
+              - link "X" [ref=e598] [cursor=pointer]:
+                - /url: https://twitter.com
+              - link "LinkedIn" [ref=e601] [cursor=pointer]:
+                - /url: https://linkedin.com
+              - link "Instagram" [ref=e604] [cursor=pointer]:
+                - /url: https://instagram.com
+            - generic [ref=e608]:
+              - link "Call" [ref=e609] [cursor=pointer]:
+                - /url: tel:+91 98765 43210
+              - link "Email" [ref=e612] [cursor=pointer]:
+                - /url: mailto:rajesh@propdesk.in
+      - article [ref=e615]:
+        - generic [ref=e616]:
+          - link [ref=e617] [cursor=pointer]:
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/agents/amit-sharma
+            - img "Amit Sharma" [ref=e618]
+          - generic [ref=e619]: Featured
+        - generic [ref=e620]:
+          - heading [level=3] [ref=e621]:
+            - link "Amit Sharma" [ref=e622] [cursor=pointer]:
+              - /url: https://relevant-orchid-wombat-62.hostingersite.com/agents/amit-sharma
+          - paragraph [ref=e623]: Residential Property Advisor
+          - paragraph [ref=e624]: Amit helps families purchase premium apartments and villas in Pune and Gurgaon, bringing deep local insights and hassle-...
+          - generic [ref=e625]:
+            - generic [ref=e626]:
+              - link "Facebook" [ref=e627] [cursor=pointer]:
+                - /url: https://facebook.com
+              - link "X" [ref=e630] [cursor=pointer]:
+                - /url: https://twitter.com
+              - link "LinkedIn" [ref=e633] [cursor=pointer]:
+                - /url: https://linkedin.com
+              - link "Instagram" [ref=e636] [cursor=pointer]:
+                - /url: https://instagram.com
+            - generic [ref=e640]:
+              - link "Call" [ref=e641] [cursor=pointer]:
+                - /url: tel:+91 91234 56789
+              - link "Email" [ref=e644] [cursor=pointer]:
+                - /url: mailto:amit@propdesk.in
+      - article [ref=e647]:
+        - generic [ref=e648]:
+          - link [ref=e649] [cursor=pointer]:
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/agents/priya-patel
+            - img "Priya Patel" [ref=e650]
+          - generic [ref=e651]: Featured
+        - generic [ref=e652]:
+          - heading [level=3] [ref=e653]:
+            - link "Priya Patel" [ref=e654] [cursor=pointer]:
+              - /url: https://relevant-orchid-wombat-62.hostingersite.com/agents/priya-patel
+          - paragraph [ref=e655]: Commercial Leasing Specialist
+          - paragraph [ref=e656]: Priya specializes in commercial leasing and co-working space acquisitions in Bangalore's tech hubs including Whitefield,...
+          - generic [ref=e657]:
+            - generic [ref=e658]:
+              - link "Facebook" [ref=e659] [cursor=pointer]:
+                - /url: https://facebook.com
+              - link "X" [ref=e662] [cursor=pointer]:
+                - /url: https://twitter.com
+              - link "LinkedIn" [ref=e665] [cursor=pointer]:
+                - /url: https://linkedin.com
+              - link "Instagram" [ref=e668] [cursor=pointer]:
+                - /url: https://instagram.com
+            - generic [ref=e672]:
+              - link "Call" [ref=e673] [cursor=pointer]:
+                - /url: tel:+91 98123 45678
+              - link "Email" [ref=e676] [cursor=pointer]:
+                - /url: mailto:priya@propdesk.in
+    - link "View All Agents →" [ref=e680] [cursor=pointer]:
+      - /url: https://relevant-orchid-wombat-62.hostingersite.com/agents
+      - text: View All Agents
+      - generic [ref=e681]: →
+  - generic [ref=e684]:
+    - heading "Testimonials" [level=2] [ref=e685]
+    - paragraph [ref=e686]: Publish the best of your client testimonials and let the world know what a great agent or real estate agency you are. Testimonials build trust.
+  - generic [ref=e688]:
+    - heading "Contact us today if you'd like to know more about how we help buy, sell or rent your home" [level=2] [ref=e690]
+    - generic [ref=e691]:
+      - generic [ref=e692]:
+        - heading "Schedule a meeting with our team" [level=3] [ref=e693]
+        - paragraph [ref=e694]: Our experts and developers would love to contribute their expertise and insights to your real estate plans.
+      - generic [ref=e695]:
+        - generic [ref=e696]:
+          - textbox "Name" [ref=e698]
+          - textbox "Mobile" [ref=e700]
+        - generic [ref=e701]:
+          - textbox "Email" [ref=e703]
+          - combobox [ref=e705] [cursor=pointer]:
+            - option "Select Inquiry Type" [selected]
+            - option "Sale"
+            - option "Rent"
+            - option "Lease"
+        - textbox "Message" [ref=e707]
+        - button "Send Email" [ref=e708]
+  - contentinfo [ref=e710]:
+    - generic [ref=e711]:
+      - generic [ref=e712]:
+        - generic [ref=e713]:
+          - heading "Contact us" [level=3] [ref=e714]
+          - list [ref=e715]:
+            - listitem [ref=e716]: 3755 Commercial St SE Salem, Corner with Sunny Boulevard, 3755 Commercial OR 97302
+            - listitem [ref=e717]:
+              - link "(305) 555-4446" [ref=e718] [cursor=pointer]:
+                - /url: tel:3055554446
+            - listitem [ref=e719]:
+              - link "(305) 555-4555" [ref=e720] [cursor=pointer]:
+                - /url: tel:3055554555
+            - listitem [ref=e721]:
+              - link "youremail@gmail.com" [ref=e722] [cursor=pointer]:
+                - /url: mailto:youremail@gmail.com
+        - complementary [ref=e723]:
+          - heading "Lists by Category" [level=3] [ref=e724]
+          - list [ref=e725]:
+            - listitem [ref=e726]:
+              - link "Apartment (22)" [ref=e727] [cursor=pointer]:
+                - /url: https://relevant-orchid-wombat-62.hostingersite.com/properties?category=72
+            - listitem [ref=e728]:
+              - link "Apartment / Flat (3)" [ref=e729] [cursor=pointer]:
+                - /url: https://relevant-orchid-wombat-62.hostingersite.com/properties?category=2
+            - listitem [ref=e730]:
+              - link "Villa (1)" [ref=e731] [cursor=pointer]:
+                - /url: https://relevant-orchid-wombat-62.hostingersite.com/properties?category=5
+            - listitem [ref=e732]:
+              - link "Bungalow (1)" [ref=e733] [cursor=pointer]:
+                - /url: https://relevant-orchid-wombat-62.hostingersite.com/properties?category=6
+            - listitem [ref=e734]:
+              - link "Penthouse (1)" [ref=e735] [cursor=pointer]:
+                - /url: https://relevant-orchid-wombat-62.hostingersite.com/properties?category=9
+            - listitem [ref=e736]:
+              - link "Office Space (1)" [ref=e737] [cursor=pointer]:
+                - /url: https://relevant-orchid-wombat-62.hostingersite.com/properties?category=23
+            - listitem [ref=e738]:
+              - link "Co-working Space (1)" [ref=e739] [cursor=pointer]:
+                - /url: https://relevant-orchid-wombat-62.hostingersite.com/properties?category=25
+            - listitem [ref=e740]:
+              - link "Residential (0)" [ref=e741] [cursor=pointer]:
+                - /url: https://relevant-orchid-wombat-62.hostingersite.com/properties?category=1
+        - generic [ref=e742]:
+          - heading "Latest Properties" [level=3] [ref=e743]
+          - generic [ref=e744]:
+            - article [ref=e745]:
+              - link [ref=e746] [cursor=pointer]:
+                - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-101
+                - img "Green Heights Tower B Unit 101" [ref=e747]
+                - generic [ref=e748]:
+                  - paragraph [ref=e749]: Green Heights Tower B Unit 101
+                  - paragraph [ref=e750]: $7,750,000
+            - article [ref=e751]:
+              - link [ref=e752] [cursor=pointer]:
+                - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-102
+                - img "Green Heights Tower B Unit 102" [ref=e753]
+                - generic [ref=e754]:
+                  - paragraph [ref=e755]: Green Heights Tower B Unit 102
+                  - paragraph [ref=e756]: $7,750,000
+            - article [ref=e757]:
+              - link [ref=e758] [cursor=pointer]:
+                - /url: https://relevant-orchid-wombat-62.hostingersite.com/property-detail/green-heights-tower-b-unit-103
+                - img "Green Heights Tower B Unit 103" [ref=e759]
+                - generic [ref=e760]:
+                  - paragraph [ref=e761]: Green Heights Tower B Unit 103
+                  - paragraph [ref=e762]: $7,750,000
+      - generic [ref=e763]:
+        - paragraph [ref=e764]: Copyright . All Rights Reserved.
+        - generic [ref=e765]:
+          - link "Terms & Conditions" [ref=e766] [cursor=pointer]:
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/terms
+          - link "Privacy Policy" [ref=e767] [cursor=pointer]:
+            - /url: https://relevant-orchid-wombat-62.hostingersite.com/privacy
