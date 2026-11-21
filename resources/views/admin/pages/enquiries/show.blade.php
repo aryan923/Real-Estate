@@ -68,10 +68,10 @@
     }
   }" x-init="updatePreview()">
 
-    <div class="mx-auto max-w-(--breakpoint-2xl) space-y-3.5">
+    <div class="mx-auto max-w-[1300px] w-full space-y-3.5">
 
       <!-- Top Action Bar & Breadcrumb -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 w-[1150px]" style="width: 1150px;">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 w-full">
         <div class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 font-medium">
           <a href="{{ route('admin.enquiries.index') }}" class="hover:text-brand-500 flex items-center gap-1 transition">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
@@ -224,7 +224,7 @@
         ];
       @endphp
 
-      <div class="rounded-2xl border border-gray-200/80 bg-white pl-1.5 pr-3.5 py-4 sm:pl-2 sm:pr-4 sm:py-4.5 shadow-2xs dark:border-gray-800 dark:bg-gray-900 w-[1150px]" style="width: 1150px;">
+      <div class="rounded-2xl border border-gray-200/80 bg-white px-4 py-4 sm:px-5 sm:py-4.5 shadow-2xs dark:border-gray-800 dark:bg-gray-900 w-full">
         <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4 sm:gap-5">
           
           <!-- Left: Lead Avatar & Identity Info -->
@@ -277,8 +277,8 @@
             </div>
           </div>
 
-          <!-- Right: Key Meta Values (All 5 items in a single non-wrapping horizontal row, moved down & left) -->
-          <div class="pt-2.5 lg:pt-2 border-t lg:border-t-0 border-gray-100 dark:border-gray-800 shrink-0" style="display: flex; flex-wrap: nowrap; align-items: flex-start; column-gap: 18px; margin-right: 35px; margin-top: 14px;">
+          <!-- Right: Key Meta Values (All 5 items in a single non-wrapping horizontal row) -->
+          <div class="pt-2.5 lg:pt-2 border-t lg:border-t-0 border-gray-100 dark:border-gray-800 shrink-0" style="display: flex; flex-wrap: nowrap; align-items: flex-start; column-gap: 20px; margin-top: 10px;">
             <div>
               <span class="block text-xs font-normal text-gray-400 whitespace-nowrap">Lead ID</span>
               <span class="text-xs font-medium text-gray-700 dark:text-gray-300 mt-0.5 block whitespace-nowrap">#L-{{ sprintf('%04d', $enquiry->id) }}</span>
@@ -316,87 +316,87 @@
         </div>
       </div>
 
-      <!-- MAIN 2-COLUMN RESPONSIVE LAYOUT (Left Column 837px, Right Sidebar 297px side-by-side, Total 1150px) -->
-      <div class="flex flex-row flex-nowrap gap-4 items-start pb-4 w-[1150px]" style="width: 1150px; margin-top: 10.5px !important;">
+      <!-- MAIN 2-COLUMN RESPONSIVE LAYOUT (Left Column 946px, Right Sidebar 338px side-by-side, Total 1300px) -->
+      <div class="flex flex-row flex-nowrap gap-4 items-start pb-4 w-full" style="margin-top: 10.5px !important;">
         
-        <!-- LEFT COLUMN (837px width, reference layout) -->
-        <div class="shrink-0 space-y-4" style="width: 837px; min-width: 837px;">
+        <!-- LEFT COLUMN (946px width, reference layout) -->
+        <div class="shrink-0 space-y-4 w-[946px]" style="width: 946px; min-width: 946px;">
 
-          <!-- MULTIPLE INFO METRIC CARDS (Fixed w-[133px], gap-2 in a w-[837px] container, single horizontal line) -->
-          <div class="w-[837px] flex flex-nowrap items-center gap-2">
+          <!-- MULTIPLE INFO METRIC CARDS (Fixed w-[151px], gap-2 in a w-[946px] container, single horizontal line) -->
+          <div class="w-[946px] flex flex-nowrap items-center gap-2">
             <!-- 1. Requirement Card -->
-            <div class="rounded-xl border border-gray-200/80 bg-white shadow-2xs dark:border-gray-800 dark:bg-gray-900 w-[133px]" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 7px; width: 133px; min-width: 133px;">
-              <div class="rounded-lg bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400" style="display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; flex-shrink: 0;">
-                <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+            <div class="rounded-xl border border-gray-200/80 bg-white shadow-2xs dark:border-gray-800 dark:bg-gray-900 w-[151px]" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 8px; width: 151px; min-width: 151px;">
+              <div class="rounded-lg bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400" style="display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; flex-shrink: 0;">
+                <svg style="width: 15px; height: 15px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
               </div>
-              <div>
+              <div class="min-w-0">
                 <span class="block font-medium text-gray-400 uppercase tracking-wider whitespace-nowrap" style="font-size: 9.5px; line-height: 1;">Requirement</span>
-                <span class="font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap block truncate max-w-[95px]" style="font-size: 11.5px; line-height: 1.2; margin-top: 5px;" title="{{ $reqBhk }} {{ $reqType }}">
+                <span class="font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap block truncate max-w-[102px]" style="font-size: 11.5px; line-height: 1.2; margin-top: 5px;" title="{{ $reqBhk }} {{ $reqType }}">
                   {{ $reqBhk }} {{ $reqType }}
                 </span>
               </div>
             </div>
 
             <!-- 2. Budget Card -->
-            <div class="rounded-xl border border-gray-200/80 bg-white shadow-2xs dark:border-gray-800 dark:bg-gray-900 w-[133px]" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 7px; width: 133px; min-width: 133px;">
-              <div class="rounded-lg bg-purple-50 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400" style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0;">
-                <svg style="width: 13px; height: 13px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <div class="rounded-xl border border-gray-200/80 bg-white shadow-2xs dark:border-gray-800 dark:bg-gray-900 w-[151px]" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 8px; width: 151px; min-width: 151px;">
+              <div class="rounded-lg bg-purple-50 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400" style="display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; flex-shrink: 0;">
+                <svg style="width: 15px; height: 15px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
               </div>
-              <div>
-                <span class="block font-medium text-gray-400 uppercase tracking-wider whitespace-nowrap" style="font-size: 9px; line-height: 1;">Budget</span>
-                <span class="font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap block truncate max-w-[80px]" style="font-size: 11px; line-height: 1.2; margin-top: 4px;">
+              <div class="min-w-0">
+                <span class="block font-medium text-gray-400 uppercase tracking-wider whitespace-nowrap" style="font-size: 9.5px; line-height: 1;">Budget</span>
+                <span class="font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap block truncate max-w-[102px]" style="font-size: 11.5px; line-height: 1.2; margin-top: 5px;">
                   {{ formatIndianCurrency($enquiry->budget ?: 12000000) }}
                 </span>
               </div>
             </div>
 
             <!-- 3. Preferred Location Card -->
-            <div class="rounded-xl border border-gray-200/80 bg-white shadow-2xs dark:border-gray-800 dark:bg-gray-900 w-[133px]" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 7px; width: 133px; min-width: 133px;">
-              <div class="rounded-lg bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400" style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0;">
-                <svg style="width: 13px; height: 13px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <div class="rounded-xl border border-gray-200/80 bg-white shadow-2xs dark:border-gray-800 dark:bg-gray-900 w-[151px]" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 8px; width: 151px; min-width: 151px;">
+              <div class="rounded-lg bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400" style="display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; flex-shrink: 0;">
+                <svg style="width: 15px; height: 15px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
               </div>
-              <div>
-                <span class="block font-medium text-gray-400 uppercase tracking-wider whitespace-nowrap" style="font-size: 9px; line-height: 1;">Location</span>
-                <span class="font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap block truncate max-w-[80px]" style="font-size: 11px; line-height: 1.2; margin-top: 4px;" title="{{ $reqLoc }}">
+              <div class="min-w-0">
+                <span class="block font-medium text-gray-400 uppercase tracking-wider whitespace-nowrap" style="font-size: 9.5px; line-height: 1;">Location</span>
+                <span class="font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap block truncate max-w-[102px]" style="font-size: 11.5px; line-height: 1.2; margin-top: 5px;" title="{{ $reqLoc }}">
                   {{ $reqLoc }}
                 </span>
               </div>
             </div>
 
             <!-- 4. Possession Card -->
-            <div class="rounded-xl border border-gray-200/80 bg-white shadow-2xs dark:border-gray-800 dark:bg-gray-900 w-[133px]" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 7px; width: 133px; min-width: 133px;">
-              <div class="rounded-lg bg-amber-50 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400" style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0;">
-                <svg style="width: 13px; height: 13px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <div class="rounded-xl border border-gray-200/80 bg-white shadow-2xs dark:border-gray-800 dark:bg-gray-900 w-[151px]" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 8px; width: 151px; min-width: 151px;">
+              <div class="rounded-lg bg-amber-50 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400" style="display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; flex-shrink: 0;">
+                <svg style="width: 15px; height: 15px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
               </div>
-              <div>
-                <span class="block font-medium text-gray-400 uppercase tracking-wider whitespace-nowrap" style="font-size: 9px; line-height: 1;">Possession</span>
-                <span class="font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap block truncate max-w-[80px]" style="font-size: 11px; line-height: 1.2; margin-top: 4px;">
+              <div class="min-w-0">
+                <span class="block font-medium text-gray-400 uppercase tracking-wider whitespace-nowrap" style="font-size: 9.5px; line-height: 1;">Possession</span>
+                <span class="font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap block truncate max-w-[102px]" style="font-size: 11.5px; line-height: 1.2; margin-top: 5px;">
                   Within 6 Mos
                 </span>
               </div>
             </div>
 
             <!-- 5. Purpose Card -->
-            <div class="rounded-xl border border-gray-200/80 bg-white shadow-2xs dark:border-gray-800 dark:bg-gray-900 w-[133px]" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 7px; width: 133px; min-width: 133px;">
-              <div class="rounded-lg bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400" style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0;">
-                <svg style="width: 13px; height: 13px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            <div class="rounded-xl border border-gray-200/80 bg-white shadow-2xs dark:border-gray-800 dark:bg-gray-900 w-[151px]" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 8px; width: 151px; min-width: 151px;">
+              <div class="rounded-lg bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400" style="display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; flex-shrink: 0;">
+                <svg style="width: 15px; height: 15px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
               </div>
-              <div>
-                <span class="block font-medium text-gray-400 uppercase tracking-wider whitespace-nowrap" style="font-size: 9px; line-height: 1;">Purpose</span>
-                <span class="font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap block truncate max-w-[80px]" style="font-size: 11px; line-height: 1.2; margin-top: 4px;">
+              <div class="min-w-0">
+                <span class="block font-medium text-gray-400 uppercase tracking-wider whitespace-nowrap" style="font-size: 9.5px; line-height: 1;">Purpose</span>
+                <span class="font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap block truncate max-w-[102px]" style="font-size: 11.5px; line-height: 1.2; margin-top: 5px;">
                   {{ $enquiry->enq_for ? ucfirst($enquiry->enq_for) : 'Self Use' }}
                 </span>
               </div>
             </div>
 
             <!-- 6. Status Card -->
-            <div class="rounded-xl border border-gray-200/80 bg-white shadow-2xs dark:border-gray-800 dark:bg-gray-900 w-[133px]" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 7px; width: 133px; min-width: 133px;">
-              <div class="rounded-lg bg-cyan-50 text-cyan-600 dark:bg-cyan-900/30 dark:text-cyan-400" style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0;">
-                <svg style="width: 13px; height: 13px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"/></svg>
+            <div class="rounded-xl border border-gray-200/80 bg-white shadow-2xs dark:border-gray-800 dark:bg-gray-900 w-[151px]" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 8px; width: 151px; min-width: 151px;">
+              <div class="rounded-lg bg-cyan-50 text-cyan-600 dark:bg-cyan-900/30 dark:text-cyan-400" style="display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; flex-shrink: 0;">
+                <svg style="width: 15px; height: 15px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"/></svg>
               </div>
-              <div>
-                <span class="block font-medium text-gray-400 uppercase tracking-wider whitespace-nowrap" style="font-size: 9px; line-height: 1;">Status</span>
-                <span class="font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap block truncate max-w-[80px]" style="font-size: 11px; line-height: 1.2; margin-top: 4px;">
+              <div class="min-w-0">
+                <span class="block font-medium text-gray-400 uppercase tracking-wider whitespace-nowrap" style="font-size: 9.5px; line-height: 1;">Status</span>
+                <span class="font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap block truncate max-w-[102px]" style="font-size: 11.5px; line-height: 1.2; margin-top: 5px;">
                   {{ ucfirst(str_replace('_', ' ', $enquiry->status)) }}
                 </span>
               </div>
@@ -404,7 +404,7 @@
           </div>
 
           <!-- TAB NAVIGATION BAR (Clean Title Case, aligned with cards below) -->
-          <div class="border-b border-gray-200/80 dark:border-gray-800 pb-0.5 mb-4 w-[837px]">
+          <div class="border-b border-gray-200/80 dark:border-gray-800 pb-0.5 mb-4 w-[946px]">
             <div class="flex overflow-x-auto no-scrollbar gap-2 sm:gap-3 items-center">
               
               <button type="button" @click="activeTab = 'overview'" :class="activeTab === 'overview' ? 'border-brand-500 text-brand-600 dark:text-brand-400 font-bold' : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 font-medium'" class="border-b-2 transition whitespace-nowrap cursor-pointer text-xs py-1.5 px-2.5">
@@ -441,11 +441,11 @@
               <!-- 1. OVERVIEW TAB -->
               <div x-show="activeTab === 'overview'" class="space-y-3">
                 
-                <!-- Overview Cards Stack (Horizontal side-by-side compact 275px cards with gap-2 between cards, total 837px) -->
-                <div class="flex flex-nowrap items-start gap-2 w-[837px]">
+                <!-- Overview Cards Stack (Horizontal side-by-side compact 310px cards with gap-2 between cards, total 946px) -->
+                <div class="flex flex-nowrap items-start gap-2 w-[946px]">
                   
                   <!-- Lead Information Card -->
-                  <div class="rounded-xl border border-gray-200/80 bg-white p-3.5 dark:border-gray-800 dark:bg-gray-900 space-y-3 shadow-2xs w-[275px]" style="width: 275px; min-width: 275px;">
+                  <div class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-3 shadow-2xs w-[310px]" style="width: 310px; min-width: 310px;">
                     <div class="border-b border-gray-100 pb-2 dark:border-gray-800 flex items-center justify-between">
                       <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-200">Lead Information</h3>
                       <button type="button" @click="openEditLeadModal = true" class="text-gray-400 hover:text-brand-500 transition cursor-pointer" title="Edit Lead Details">
@@ -516,7 +516,7 @@
                   </div>
 
                   <!-- Requirement Details Card -->
-                  <div class="rounded-xl border border-gray-200/80 bg-white p-3.5 dark:border-gray-800 dark:bg-gray-900 space-y-3 shadow-2xs w-[275px]" style="width: 275px; min-width: 275px;">
+                  <div class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-3 shadow-2xs w-[310px]" style="width: 310px; min-width: 310px;">
                     <div class="border-b border-gray-100 pb-2 dark:border-gray-800">
                       <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-200">Requirement Details</h3>
                     </div>
@@ -556,7 +556,7 @@
                   </div>
 
                   <!-- Budget & Financial Card -->
-                  <div class="rounded-xl border border-gray-200/80 bg-white p-3.5 dark:border-gray-800 dark:bg-gray-900 space-y-3 shadow-2xs w-[275px]" style="width: 275px; min-width: 275px;">
+                  <div class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-3 shadow-2xs w-[310px]" style="width: 310px; min-width: 310px;">
                     <div class="border-b border-gray-100 pb-2 dark:border-gray-800">
                       <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-200">Budget & Financial</h3>
                     </div>
@@ -597,8 +597,8 @@
 
                 </div>
 
-                <!-- Communication History Table (Resized to 837px matching Overview reference width) -->
-                <div class="rounded-xl border border-gray-200/80 bg-white p-4 shadow-2xs dark:border-gray-800 dark:bg-gray-900 w-[837px] space-y-3" style="width: 837px; min-width: 837px;">
+                <!-- Communication History Table (Resized to 946px matching Overview reference width) -->
+                <div class="rounded-xl border border-gray-200/80 bg-white p-4 shadow-2xs dark:border-gray-800 dark:bg-gray-900 w-[946px] space-y-3" style="width: 946px; min-width: 946px;">
                   <div class="flex items-center justify-between border-b border-gray-100 pb-2.5 dark:border-gray-800">
                     <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">Communication History</h3>
                     <button type="button" @click="activeTab = 'activities'" class="text-xs font-semibold text-brand-500 hover:underline">View Timeline</button>
@@ -651,7 +651,7 @@
               </div>
 
               <!-- 2. ACTIVITIES TAB -->
-              <div x-show="activeTab === 'activities'" class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-4 shadow-2xs w-[837px]" style="width: 837px; min-width: 837px;">
+              <div x-show="activeTab === 'activities'" class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-4 shadow-2xs w-[946px]" style="width: 946px; min-width: 946px;">
                 <div class="border-b border-gray-100 pb-2.5 dark:border-gray-800">
                   <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">All Activity Log History</h3>
                 </div>
@@ -682,7 +682,7 @@
               </div>
 
               <!-- 3. NOTES TAB -->
-              <div x-show="activeTab === 'notes'" class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-4 shadow-2xs w-[837px]" style="width: 837px; min-width: 837px;">
+              <div x-show="activeTab === 'notes'" class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-4 shadow-2xs w-[946px]" style="width: 946px; min-width: 946px;">
                 <div class="flex items-center justify-between border-b border-gray-100 pb-2.5 dark:border-gray-800">
                   <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">Internal Discussion Notes</h3>
                   <button type="button" @click="openNotesModal = true" class="text-xs font-semibold text-brand-500 hover:underline cursor-pointer">+ Add New Note</button>
@@ -711,7 +711,7 @@
               </div>
 
               <!-- 4. TASKS TAB -->
-              <div x-show="activeTab === 'tasks'" class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-4 shadow-2xs w-[837px]" style="width: 837px; min-width: 837px;">
+              <div x-show="activeTab === 'tasks'" class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-4 shadow-2xs w-[946px]" style="width: 946px; min-width: 946px;">
                 <div class="flex items-center justify-between border-b border-gray-100 pb-2.5 dark:border-gray-800">
                   <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">Assigned Lead Tasks ({{ $enquiry->tasks->count() }})</h3>
                   <button type="button" @click="openCreateTaskModal = true" class="inline-flex items-center gap-1 text-xs font-semibold text-brand-500 hover:underline cursor-pointer">
@@ -802,7 +802,7 @@
               </div>
 
               <!-- 5. FOLLOW UPS TAB -->
-              <div x-show="activeTab === 'follow_ups'" class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-4 shadow-2xs w-[837px]" style="width: 837px; min-width: 837px;">
+              <div x-show="activeTab === 'follow_ups'" class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-4 shadow-2xs w-[946px]" style="width: 946px; min-width: 946px;">
                 <div class="flex items-center justify-between border-b border-gray-100 pb-2.5 dark:border-gray-800">
                   <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">Follow-up History</h3>
                   <button type="button" @click="openCreateFollowUpModal = true" class="text-xs font-semibold text-brand-500 hover:underline cursor-pointer">+ Schedule Follow-up</button>
@@ -854,7 +854,7 @@
               </div>
 
               <!-- 6. SITE VISITS TAB -->
-              <div x-show="activeTab === 'site_visits'" class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-4 shadow-2xs w-[837px]" style="width: 837px; min-width: 837px;">
+              <div x-show="activeTab === 'site_visits'" class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-4 shadow-2xs w-[946px]" style="width: 946px; min-width: 946px;">
                 <div class="flex items-center justify-between border-b border-gray-100 pb-2.5 dark:border-gray-800">
                   <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">Scheduled Site Visits</h3>
                 </div>
@@ -894,7 +894,7 @@
               </div>
 
               <!-- 7. BUDGET & FINANCIAL TAB -->
-              <div x-show="activeTab === 'financial'" class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-4 shadow-2xs w-[837px]" style="width: 837px; min-width: 837px;">
+              <div x-show="activeTab === 'financial'" class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-4 shadow-2xs w-[946px]" style="width: 946px; min-width: 946px;">
                 <div class="border-b border-gray-100 pb-2.5 dark:border-gray-800">
                   <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-200">Budget & Financial Breakdown</h3>
                 </div>
@@ -929,7 +929,7 @@
               </div>
 
               <!-- 8. REQUIREMENT DETAILS TAB -->
-              <div x-show="activeTab === 'requirement'" class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-4 shadow-2xs w-[837px]" style="width: 837px; min-width: 837px;">
+              <div x-show="activeTab === 'requirement'" class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-4 shadow-2xs w-[946px]" style="width: 946px; min-width: 946px;">
                 <div class="border-b border-gray-100 pb-2.5 dark:border-gray-800">
                   <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-200">Full Client Requirement Specifications</h3>
                 </div>
@@ -968,7 +968,7 @@
               </div>
 
               <!-- 9. DOCUMENTS TAB -->
-              <div x-show="activeTab === 'documents'" class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-4 shadow-2xs w-[837px]" style="width: 837px; min-width: 837px;">
+              <div x-show="activeTab === 'documents'" class="rounded-xl border border-gray-200/80 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 space-y-4 shadow-2xs w-[946px]" style="width: 946px; min-width: 946px;">
                 <div class="flex items-center justify-between border-b border-gray-100 pb-2.5 dark:border-gray-800">
                   <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">Customer Documents</h3>
                   <button type="button" @click="openUploadDocumentModal = true" class="text-xs font-semibold text-brand-500 hover:underline cursor-pointer">+ Upload Document</button>
@@ -999,8 +999,8 @@
 
         </div>
 
-        <!-- RIGHT SIDEBAR COLUMN (297px width, sits right next to Budget & Financial card, perfectly aligning right edge with Name Card) -->
-        <div class="shrink-0 flex flex-col w-[297px]" style="width: 297px; min-width: 297px; gap: 10.5px !important;">
+        <!-- RIGHT SIDEBAR COLUMN (338px width, sits right next to Budget & Financial card, perfectly aligning right edge with Name Card) -->
+        <div class="shrink-0 flex flex-col w-[338px]" style="width: 338px; min-width: 338px; gap: 10.5px !important;">
 
           <!-- LEAD SCORE SUMMARY CARD -->
           <div class="rounded-2xl border border-gray-200/80 bg-white p-3.5 shadow-xs dark:border-gray-800 dark:bg-gray-900 space-y-2.5 cursor-pointer hover:border-emerald-500 transition" @click="openTimelineModal = true" title="Click to view score details">
